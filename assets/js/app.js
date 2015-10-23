@@ -14,20 +14,29 @@
     cellDivider: 'arithmepad-cell-divider'
   }
   
+  var div = {};
+  for (var cls in classes) {
+    (function(cls) {
+      div[cls] = function() {
+        return $('<div>').attr('class', classes[cls]);
+      };
+    })(cls);
+  }
+  
   var setResultForCell = function(editor, result) {
     $(editor.container).parent().find('.' + classes.output).text(result);
   };
 
   var add = function(editor, code, result) {
     var oldEl = $(editor.container).parent();
-    var pad = $('<div>').attr('class', classes.cellDivider);
+    var pad = div.cellDivider();
     pad.insertAfter(oldEl);
 
-    var el = $('<div>').attr('class', classes.codeCell);
+    var el = div.codeCell();
     el.insertAfter(pad);
-    var input = $('<div>').attr('class', classes.input);
+    var input = div.input();
     el.append(input);
-    el.append($('<div>').text('---').attr('class', classes.output))
+    el.append(div.output().text('---'));
 
     editor = ace.edit(input[0]);
     editor.setOptions(editorOptions);
@@ -87,9 +96,9 @@
     var cellsNode = $('#arithmepad-cells');
     cellsNode.empty();
     for (var i=0; i<json.cells.length; i++) {
-      var cellNode = $('<div>').attr('class', classes.input).text(json.cells[i].content);
-      cellsNode.append($('<div>').attr('class', classes.codeCell).append(cellNode).append($('<div>').text('---').attr('class', classes.output)));
-      cellsNode.append($('<div>').attr('class', classes.cellDivider));
+      var cellNode = div.input().text(json.cells[i].content);
+      cellsNode.append(div.codeCell().append(cellNode).append(div.output().text('---')));
+      cellsNode.append(div.cellDivider());
       var editor = ace.edit(cellNode[0]);
       editor.setOptions(editorOptions);
       registerCommands(editor);
@@ -98,7 +107,7 @@
   }
   
   var loadFromDom = function() {
-    $('#arithmepad-cells .arithmepad-code-cell').each(function() {
+    $('#arithmepad-cells .' + classes.codeCell).each(function() {
       var editor = ace.edit($(this).find('.' + classes.input)[0]);
       //editor.setTheme("ace/theme/twilight");
       editor.setOptions(editorOptions);
