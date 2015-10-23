@@ -13,6 +13,10 @@
     codeCell: 'arithmepad-code-cell',
     cellDivider: 'arithmepad-cell-divider'
   }
+  
+  var setResultForCell = function(editor, result) {
+    $(editor.container).parent().find('.' + classes.output).text(result);
+  };
 
   var add = function(editor, code, result) {
     var oldEl = $(editor.container).parent();
@@ -33,7 +37,7 @@
     if (typeof code !== 'undefined')
       editor.setValue(code, 1);
     if (typeof result !== 'undefined')
-      $(editor.container).parent().find('.' + classes.output).text(result);
+      setResultForCell(editor, result);
   };
   
   var evaluate = function(editor) {
@@ -45,7 +49,7 @@
     }    
     if (typeof res === 'undefined')
       res = '---';
-    $(editor.container).parent().find('.' + classes.output).text(res);
+    setResultForCell(editor, res);
     updatePermalink();
   };
 
