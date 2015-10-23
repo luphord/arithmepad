@@ -1,9 +1,9 @@
 .heading {
-  border: 1px solid lightgray;
+  background: rgb(240,240,240);
   margin: auto;
   width: 100%;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 10px;
 }
 
@@ -40,10 +40,30 @@
   padding: 20px;
 }
 
+.arithmepad-code-cell {
+  margin: auto;
+  width: 100%;
+  padding: 5px;
+}
+
+.arithmepad-input {
+  margin: auto;
+  width: 90%;
+}
+
 .arithmepad-output {
   border: 1px solid lightgray;
   margin: auto;
-  width: 100%;
+  width: 90%;
   margin-top: 10px;
   padding: 5px;
+}
+
+.arithmepad-selection {
+  border: 1px solid lightgray;
+}
+
+.arithmepad-edit-selection {
+  border: 1px solid lightgreen;
+  padding: 4px;
 }

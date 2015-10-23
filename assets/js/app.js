@@ -11,7 +11,8 @@
     input: 'arithmepad-input',
     output: 'arithmepad-output',
     codeCell: 'arithmepad-code-cell',
-    cellDivider: 'arithmepad-cell-divider'
+    cellDivider: 'arithmepad-cell-divider',
+    editSelection: 'arithmepad-edit-selection'
   }
   
   var div = {};
@@ -38,7 +39,7 @@
 
     editor = ace.edit(input[0]);
     editor.setOptions(editorOptions);
-    registerCommands(editor);
+    setupEditor(editor);
     editor.focus();
     
     if (typeof code !== 'undefined')
@@ -61,7 +62,7 @@
   };
 
   var count = 1;
-  var registerCommands = function(editor) {
+  var setupEditor = function(editor) {
     editor.commands.addCommand({
       name: "execute",
       bindKey: {win: "Ctrl-Enter", mac: "Cmd-Enter"},
@@ -74,6 +75,12 @@
         evaluate(editor);
         add(editor, "// cell number: " + count++ + "\n", 'result for cell ' + count);
       }
+    });
+    editor.on('blur', function() {
+      $(editor.container).parent().removeClass(classes.editSelection);
+    });
+    editor.on('focus', function() {
+      $(editor.container).parent().addClass(classes.editSelection);
     });
   };
   
@@ -99,7 +106,7 @@
       cellsNode.append(div.cellDivider());
       var editor = ace.edit(cellNode[0]);
       editor.setOptions(editorOptions);
-      registerCommands(editor);
+      setupEditor(editor);
     }
   }
   
@@ -108,7 +115,7 @@
       var editor = ace.edit($(this).find('.' + classes.input)[0]);
       //editor.setTheme("ace/theme/twilight");
       editor.setOptions(editorOptions);
-      registerCommands(editor);
+      setupEditor(editor);
       editor.focus();
     });
   };
