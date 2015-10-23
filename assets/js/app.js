@@ -30,7 +30,12 @@
   };
   
   var evaluate = function(editor) {
-    var res = eval(editor.getValue());
+    try {
+      var res = eval(editor.getValue());
+    }
+    catch(e) {
+      res = e;
+    }    
     if (typeof res === 'undefined')
       res = '---';
     $(editor.container).parent().find('.arithmepad-output').text(res);
