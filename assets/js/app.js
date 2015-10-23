@@ -34,6 +34,7 @@
     if (typeof res === 'undefined')
       res = '---';
     $(editor.container).parent().find('.arithmepad-output').text(res);
+    updatePermalink();
   };
 
   var count = 1;
@@ -53,12 +54,16 @@
     });
   };
   
-  readJSONFromDom = function() {
+  var readJSONFromDom = function() {
     var cells = []
     $('#arithmepad-cells .arithmepad-code-cell').each(function() {
       cells.push({type: 'code', content: ace.edit($(this).find('.arithmepad-input')[0]).getValue()});
     })
     return {cells: cells};
+  };
+  
+  var updatePermalink = function() {
+    $('#arithmepad-permalink').attr('href', '#' + base64.encode(JSON.stringify(readJSONFromDom())));
   };
   
   var loadFromHash = function() {
