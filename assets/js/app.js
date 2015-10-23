@@ -15,13 +15,11 @@
   }
   
   var div = {};
-  for (var cls in classes) {
-    (function(cls) {
-      div[cls] = function() {
-        return $('<div>').attr('class', classes[cls]);
-      };
-    })(cls);
-  }
+  _(classes).each(function(cls, clsName) {
+    div[clsName] = function() {
+      return $('<div>').attr('class', cls);
+    };
+  });
   
   var setResultForCell = function(editor, result) {
     $(editor.container).parent().find('.' + classes.output).text(result);
@@ -102,8 +100,7 @@
       var editor = ace.edit(cellNode[0]);
       editor.setOptions(editorOptions);
       registerCommands(editor);
-    }  
-    console.log(json);
+    }
   }
   
   var loadFromDom = function() {
