@@ -62,7 +62,7 @@
 <script>
 $(document).ready(function() {
   if (window.location.hash.length > 1)
-    arithmepad.loadFromHash();
+    arithmepad.loadFromBase64(window.location.hash.slice(1));
   arithmepad.loadFromDom();
 })
 </script>

@@ -151,8 +151,8 @@ var arithmepad = (function(ace, $) {
     $('#arithmepad-permalink').attr('href', '#' + base64.encode(JSON.stringify(readJSONFromDom())));
   };
   
-  var loadFromHash = function() {
-    json = JSON.parse(base64.decode(window.location.hash.slice(1)));
+  var loadFromBase64 = function(base64string) {
+    json = JSON.parse(base64.decode(base64string));
     var cellsNode = $('#arithmepad-cells');
     cellsNode.empty();
     for (var i=0; i<json.cells.length; i++) {
@@ -177,6 +177,6 @@ var arithmepad = (function(ace, $) {
   
   return {
     loadFromDom: loadFromDom,
-    loadFromHash: loadFromHash
+    loadFromBase64: loadFromBase64
   }
 })(ace, jQuery);
