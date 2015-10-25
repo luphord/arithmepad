@@ -76,5 +76,26 @@ QUnit.test("navigate using arrow keys in edit mode", function(assert) {
     firstEditor.execCommand('arrowKeyUp');
   assert.equal(firstEditor.getCursorPosition().row, 0, 'cursor should be on the first line (counting 1-based) of the first editor');
   
-  hidePage();  
+  hidePage();
+});
+
+QUnit.test("Ctrl/Shift + Enter", function(assert) {
+  showPage(); // apparently, we need to have the page visible for the focus events to work properly
+  arithmepad.clearPad();
+  $('#arithmepad-cells').html('<div class="arithmepad-code-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
+  arithmepad.loadFromDom();
+  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
+  var firstEditor = ace.edit($('.ace_editor')[0]);
+  firstEditor.setValue('2+3');
+  firstEditor.execCommand('evaluate');
+  assert.equal($('.' + arithmepad.__.classes.output).length, 1, 'there should be exactly one cell output');
+  assert.equal($('.' + arithmepad.__.classes.output).text(), '5', 'result should equal 5');
+  firstEditor.setValue('2+4');
+  firstEditor.execCommand('evaluateCreateNew');
+  assert.equal($('.' + arithmepad.__.classes.output).length, 2, 'there should now be two cell outputs');
+  assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), '6', 'result should now equal 6');
+  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
+  assert.ok(isEditSelection(secondEditor), 'the second editor should now be the edit selection');
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
+  hidePage();
 });

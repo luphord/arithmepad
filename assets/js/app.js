@@ -89,12 +89,12 @@ var arithmepad = (function(ace, $) {
   var count = 1;
   var setupEditor = function(editor) {
     editor.commands.addCommand({
-      name: "execute",
+      name: "evaluate",
       bindKey: {win: "Ctrl-Enter", mac: "Cmd-Enter"},
       exec: evaluate
     });
     editor.commands.addCommand({
-      name: "executeCreateNew",
+      name: "evaluateCreateNew",
       bindKey: {win: "Shift-Enter", mac: "Shift-Enter"},
       exec: function(editor) {
         evaluate(editor);
