@@ -1,11 +1,4 @@
 (function(ace, $) {
-
-  var editorOptions = {
-    mode: "ace/mode/javascript",
-    tabSize: 2,
-    //theme: theme,
-    autoScrollEditorIntoView: true
-  };
   
   var classes = {
     input: 'arithmepad-input',
@@ -22,9 +15,42 @@
     };
   });
   
+  // ace editor related functionality
+
+  var editorOptions = {
+    mode: "ace/mode/javascript",
+    tabSize: 2,
+    //theme: theme,
+    autoScrollEditorIntoView: true
+  };
+  
   var setResultForCell = function(editor, result) {
     $(editor.container).parent().find('.' + classes.output).text(result);
   };
+  
+  var getCell = function(editor) {
+    return $(editor.container).parent();
+  };
+  
+  var getPreviousEditor = function(editor) {
+    var previous = getCell(editor).prevAll('.' + classes.codeCell);
+    if (previous.length > 0) {
+      var input = $(previous[0]).find('.' + classes.input);
+      if (input.length > 0)
+        return ace.edit(input[0]);
+    }
+  };
+  
+  var getNextEditor = function(editor) {
+    var next = getCell(editor).nextAll('.' + classes.codeCell);
+    if (next.length > 0) {
+      var input = $(next[0]).find('.' + classes.input);
+      if (input.length > 0)
+        return ace.edit(input[0]);
+    }
+  };
+  
+  // end of ace editor related functionality
 
   var add = function(editor, code, result) {
     var oldEl = $(editor.container).parent();
@@ -87,11 +113,10 @@
       bindKey: {win: "Down"},
       exec: function(editor) {
         if (editor.getCursorPosition().row + 1 == editor.getSession().getDocument().getLength()) {
-          var cell = $(editor.container).parent();
-          var following = cell.nextAll('.' + classes.codeCell);
-          if (following.length > 0) {
-            ace.edit($(following[0]).find('.' + classes.input)[0]).focus();
-          } 
+          var next = getNextEditor(editor);
+          if (typeof next !== 'undefined') {
+            next.focus();
+          }
         } else {
           editor.navigateDown();
         }
@@ -102,10 +127,9 @@
       bindKey: {win: "Up"},
       exec: function(editor) {
         if (editor.getCursorPosition().row == 0) {
-          var cell = $(editor.container).parent();
-          var previous = cell.prevAll('.' + classes.codeCell);
-          if (previous.length > 0) {
-            ace.edit($(previous[0]).find('.' + classes.input)[0]).focus();
+          var previous = getPreviousEditor(editor);
+          if (typeof previous !== 'undefined') {
+            previous.focus();
           } 
         } else {
           editor.navigateUp();
