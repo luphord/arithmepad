@@ -182,6 +182,10 @@ var arithmepad = (function(ace, $) {
   return {
     loadFromDom: loadFromDom,
     loadFromBase64: loadFromBase64,
-    clearPad: clearPad
+    clearPad: clearPad,
+    __: {
+      getCell: getCell,
+      classes: classes
+    }
   }
 })(ace, jQuery);
