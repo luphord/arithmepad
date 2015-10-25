@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>arithmepad tests</title>
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/app.css" rel="stylesheet">
+  <link href="qunit-1.19.0.css" rel="stylesheet">
+</head>
+<body>
+<div id="arithmepad-page">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">arithmepad</a>
+      </div>
+      <div id="navbar-collapse" class="collapse navbar-collapse">
+        <p class="navbar-text navbar-right"><a id="arithmepad-permalink" href="#" class="navbar-link">permalink</a></p>
+      </div>
+    </div>
+  </nav>
+  <div id="arithmepad-content" class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-12">
+        <h1 class="heading">pad title goes here...</h1>
+        <div id="arithmepad-cells"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/ace/ace.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/base64.js"></script>
+<script src="../assets/js/underscore-min.js"></script>
+<script src="../assets/js/app.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('#arithmepad-page').hide();
+});
+</script>
+
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script src="qunit-1.19.0.js"></script>
+<script src="tests.js"></script>
+
+</body>
+</html>
