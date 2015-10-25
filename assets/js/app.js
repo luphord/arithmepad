@@ -24,12 +24,12 @@
     autoScrollEditorIntoView: true
   };
   
-  var setResultForCell = function(editor, result) {
-    $(editor.container).parent().find('.' + classes.output).text(result);
-  };
-  
   var getCell = function(editor) {
     return $(editor.container).parent();
+  };
+  
+  var setResultForCell = function(editor, result) {
+    getCell(editor).find('.' + classes.output).text(result);
   };
   
   var getPreviousEditor = function(editor) {
@@ -53,9 +53,8 @@
   // end of ace editor related functionality
 
   var add = function(editor, code, result) {
-    var oldEl = $(editor.container).parent();
     var pad = div.cellDivider();
-    pad.insertAfter(oldEl);
+    pad.insertAfter(getCell(editor));
 
     var el = div.codeCell();
     el.insertAfter(pad);
@@ -103,10 +102,10 @@
       }
     });
     editor.on('blur', function() {
-      $(editor.container).parent().removeClass(classes.editSelection);
+      getCell(editor).removeClass(classes.editSelection);
     });
     editor.on('focus', function() {
-      $(editor.container).parent().addClass(classes.editSelection);
+      getCell(editor).addClass(classes.editSelection);
     });
     editor.commands.addCommand({
       name: "arrowKeyDown",
