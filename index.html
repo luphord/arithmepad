@@ -59,5 +59,13 @@
 <!--<script src="assets/js/ace/ext-themelist.js"></script>-->
 <script src="assets/js/app.js"></script>
 
+<script>
+$(document).ready(function() {
+  if (window.location.hash.length > 1)
+    arithmepad.loadFromHash();
+  arithmepad.loadFromDom();
+})
+</script>
+
 </body>
 </html>

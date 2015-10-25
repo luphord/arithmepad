@@ -1,4 +1,4 @@
-(function(ace, $) {
+var arithmepad = (function(ace, $) {
   
   var classes = {
     input: 'arithmepad-input',
@@ -174,7 +174,9 @@
       editor.focus();
     });
   };
-  if (window.location.hash.length > 1)
-    loadFromHash();
-  loadFromDom();
+  
+  return {
+    loadFromDom: loadFromDom,
+    loadFromHash: loadFromHash
+  }
 })(ace, jQuery);
