@@ -82,6 +82,38 @@
     editor.on('focus', function() {
       $(editor.container).parent().addClass(classes.editSelection);
     });
+    editor.commands.addCommand({
+      name: "arrowKeyDown",
+      bindKey: {win: "Down"},
+      exec: function(editor) {
+        if (editor.getCursorPosition().row + 1 == editor.getSession().getDocument().getLength()) {
+          var cell = $(editor.container).parent();
+          var following = cell.nextAll('.' + classes.codeCell);
+          if (following.length > 0) {
+            ace.edit($(following[0]).find('.' + classes.input)[0]).focus();
+          } 
+        } else {
+          editor.navigateDown();
+        }
+      }
+    });
+    editor.commands.addCommand({
+      name: "arrowKeyUp",
+      bindKey: {win: "Up"},
+      exec: function(editor) {
+        if (editor.getCursorPosition().row == 0) {
+          var cell = $(editor.container).parent();
+          var previous = cell.prevAll('.' + classes.codeCell);
+          if (previous.length > 0) {
+            ace.edit($(previous[0]).find('.' + classes.input)[0]).focus();
+          } 
+        } else {
+          editor.navigateUp();
+        }
+      }
+    });
+    // disable warning
+    editor.$blockScrolling = Infinity;
   };
   
   var readJSONFromDom = function() {
