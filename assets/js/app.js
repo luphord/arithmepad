@@ -175,8 +175,13 @@ var arithmepad = (function(ace, $) {
     });
   };
   
+  var clearPad = function() {
+    $('#arithmepad-cells').empty();
+  };
+  
   return {
     loadFromDom: loadFromDom,
-    loadFromBase64: loadFromBase64
+    loadFromBase64: loadFromBase64,
+    clearPad: clearPad
   }
 })(ace, jQuery);
