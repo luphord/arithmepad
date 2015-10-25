@@ -71,6 +71,7 @@ var arithmepad = (function(ace, $) {
       editor.setValue(code, 1);
     if (typeof result !== 'undefined')
       setResultForCell(editor, result);
+    getCell(editor)[0].scrollIntoView(false);
   };
   
   var evaluate = function(editor) {
@@ -115,6 +116,7 @@ var arithmepad = (function(ace, $) {
           var next = getNextEditor(editor);
           if (typeof next !== 'undefined') {
             next.focus();
+            getCell(next)[0].scrollIntoView(false);
           }
         } else {
           editor.navigateDown();
@@ -129,6 +131,8 @@ var arithmepad = (function(ace, $) {
           var previous = getPreviousEditor(editor);
           if (typeof previous !== 'undefined') {
             previous.focus();
+            getCell(previous)[0].scrollIntoView(true);
+            window.scrollBy(0, -60);
           } 
         } else {
           editor.navigateUp();
