@@ -4,7 +4,12 @@ var showPage = function() {
 
 var hidePage = function() {
   $('#arithmepad-page').hide();
-}
+};
+
+var isEditSelection = function(editor) {
+  return $(arithmepad.__.getCell(editor)).hasClass(arithmepad.__.classes.editSelection);
+};
+
 QUnit.test( "arithmepad available", function(assert) {
   assert.ok( typeof arithmepad === typeof {}, "arithmepad object should be available" );
   assert.ok( typeof _.map === typeof function(){}, "underscore map function should be available" );
@@ -29,9 +34,6 @@ QUnit.test("navigate using arrow keys in edit mode", function(assert) {
   arithmepad.loadFromBase64('eyJjZWxscyI6W3sidHlwZSI6ImNvZGUiLCJjb250ZW50IjoiZiA9IGZ1bmN0aW9uKHgpIHtcbiAgdmFyIHkgPSB4ICsgMTtcbiAgdmFyIHogPSB5IC8geDtcbiAgcmV0dXJuIE1hdGguZXhwKHopO1xufVxuXG5mKDEpOyJ9LHsidHlwZSI6ImNvZGUiLCJjb250ZW50IjoiLy8gYSBzZWNvbmQgZG9tIG5vZGUgZm9yIGEgY2VsbFxuXG4vLyB0aGlyZCBsaW5lIn0seyJ0eXBlIjoiY29kZSIsImNvbnRlbnQiOiIvLyBhIHRoaXJkIGNlbGxcbiJ9XX0=');
   assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
   var firstEditor = ace.edit($('.ace_editor')[0]);
-  var isEditSelection = function(editor) {
-    return $(arithmepad.__.getCell(editor)).hasClass(arithmepad.__.classes.editSelection);
-  };
   assert.equal(firstEditor.getSession().getDocument().getLength(), 7, 'there should be 7 code lines in the first editor');
   
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
@@ -48,7 +50,7 @@ QUnit.test("navigate using arrow keys in edit mode", function(assert) {
   assert.equal(firstEditor.getCursorPosition().row, 6, 'cursor should be on the 7th line (counting 1-based) of the first editor');
   firstEditor.execCommand('arrowKeyDown');
   
-  var secondEditor = ace.edit($('.ace_editor')[1]);
+  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
   assert.equal(secondEditor.getSession().getDocument().getLength(), 3, 'there should be 3 code lines in the second editor');
   assert.ok(isEditSelection(secondEditor), 'the second editor should now be the edit selection');
   assert.equal(secondEditor.getCursorPosition().row, 0, 'cursor should be on the first line (counting 1-based) of the second editor');
@@ -57,7 +59,7 @@ QUnit.test("navigate using arrow keys in edit mode", function(assert) {
   assert.equal(secondEditor.getCursorPosition().row, 2, 'cursor should be on the third line (counting 1-based) of the second editor');
   
   secondEditor.execCommand('arrowKeyDown');
-  var thirdEditor = ace.edit($('.ace_editor')[2]);
+  var thirdEditor = arithmepad.__.getNextEditor(secondEditor);
   assert.equal(thirdEditor.getSession().getDocument().getLength(), 2, 'there should be 2 code lines in the third editor');
   assert.ok(isEditSelection(thirdEditor), 'the third editor should now be the edit selection');
   thirdEditor.execCommand('arrowKeyDown');

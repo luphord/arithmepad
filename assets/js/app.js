@@ -185,6 +185,7 @@ var arithmepad = (function(ace, $) {
     clearPad: clearPad,
     __: {
       getCell: getCell,
+      getNextEditor: getNextEditor,
       classes: classes
     }
   }
