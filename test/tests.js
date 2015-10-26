@@ -10,6 +10,10 @@ var isEditSelection = function(editor) {
   return $(arithmepad.__.getCell(editor)).hasClass(arithmepad.__.classes.editSelection);
 };
 
+var isCommandSelection = function(editor) {
+  return $(arithmepad.__.getCell(editor)).hasClass(arithmepad.__.classes.commandSelection);
+};
+
 QUnit.test('arithmepad available', function(assert) {
   assert.ok( typeof arithmepad === typeof {}, "arithmepad object should be available" );
   assert.ok( typeof _.map === typeof function(){}, "underscore map function should be available" );
@@ -110,8 +114,22 @@ QUnit.test('command mode', function(assert) {
   firstEditor.focus();
   assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
-  firstEditor.execCommand('commandMode');
+  firstEditor.execCommand('evaluateCreateNew');
+  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
+  secondEditor.execCommand('commandMode');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no more edit selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
+  assert.ok(isCommandSelection(secondEditor), 'the second editor should be the command selection');
+  var arrowKeyUp = $.Event('keydown');
+  arrowKeyUp.which = 38;
+  $('#arithmepad-cells').trigger(arrowKeyUp);
+  assert.ok(isCommandSelection(firstEditor), 'the first editor should now be the command selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
+  var arrowKeyDown = $.Event('keydown');
+  arrowKeyDown.which = 40;
+  $('#arithmepad-cells').trigger(arrowKeyDown);
+  assert.ok(isCommandSelection(secondEditor), 'the second editor should now be the command selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
   var enterKey = $.Event('keydown');
   enterKey.which = 13;

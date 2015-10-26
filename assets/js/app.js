@@ -51,6 +51,14 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  var getNextCell = function(cell) {
+    return $(cell).nextAll('.' + classes.codeCell);
+  };
+  
+  var getPreviousCell = function(cell) {
+    return $(cell).prevAll('.' + classes.codeCell);
+  };
+  
   // end of ace editor related functionality
 
   var add = function(editor, code, result) {
@@ -202,12 +210,33 @@ var arithmepad = (function(ace, $) {
           evt.preventDefault();
         }
         cmdSel.removeClass(classes.commandSelection);
+      },
+    38: /* arrow up */function(evt) {
+        cmdSel = $('.' + classes.commandSelection);
+        if (cmdSel.length > 0) {
+          var prevCell = getPreviousCell(cmdSel[0]);
+          if (prevCell.length > 0) {
+            cmdSel.removeClass(classes.commandSelection);
+            prevCell.addClass(classes.commandSelection);
+          }
+          evt.preventDefault();
+        }
+      },
+    40: /* arrow down */function(evt) {
+        cmdSel = $('.' + classes.commandSelection);
+        if (cmdSel.length > 0) {
+          var nextCell = getNextCell(cmdSel[0]);
+          if (nextCell.length > 0) {
+            cmdSel.removeClass(classes.commandSelection);
+            nextCell.addClass(classes.commandSelection);
+          }
+          evt.preventDefault();
+        }
       }
   };
   
   // initialize DOM
   $('body').keydown(function(evt) {
-    console.log(evt);
     if (evt.which in keyHandlers) {
       keyHandlers[evt.which](evt);
     } 
