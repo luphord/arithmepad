@@ -113,5 +113,10 @@ QUnit.test('command mode', function(assert) {
   firstEditor.execCommand('commandMode');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no more edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
+  var enterKey = $.Event('keydown');
+  enterKey.which = 13;
+  $('#arithmepad-cells').trigger(enterKey);
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no more command selection');
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should now be exactly one edit selection');
   hidePage();
 });

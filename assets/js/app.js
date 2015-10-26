@@ -7,7 +7,7 @@ var arithmepad = (function(ace, $) {
     cellDivider: 'arithmepad-cell-divider',
     editSelection: 'arithmepad-edit-selection',
     commandSelection: 'arithmepad-command-selection'
-  }
+  };
   
   var div = {};
   _(classes).each(function(cls, clsName) {
@@ -192,6 +192,26 @@ var arithmepad = (function(ace, $) {
   var clearPad = function() {
     $('#arithmepad-cells').empty();
   };
+  
+  var keyHandlers = {
+    13: /* enter */ function(evt) {
+        cmdSel = $('.' + classes.commandSelection);
+        if (cmdSel.length > 0) {
+          var editor = ace.edit($(cmdSel[0]).find('.' + classes.input)[0]);
+          editor.focus();
+          evt.preventDefault();
+        }
+        cmdSel.removeClass(classes.commandSelection);
+      }
+  };
+  
+  // initialize DOM
+  $('body').keydown(function(evt) {
+    console.log(evt);
+    if (evt.which in keyHandlers) {
+      keyHandlers[evt.which](evt);
+    } 
+  });
   
   return {
     loadFromDom: loadFromDom,
