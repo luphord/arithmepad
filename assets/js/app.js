@@ -5,7 +5,8 @@ var arithmepad = (function(ace, $) {
     output: 'arithmepad-output',
     codeCell: 'arithmepad-code-cell',
     cellDivider: 'arithmepad-cell-divider',
-    editSelection: 'arithmepad-edit-selection'
+    editSelection: 'arithmepad-edit-selection',
+    commandSelection: 'arithmepad-command-selection'
   }
   
   var div = {};
@@ -90,13 +91,13 @@ var arithmepad = (function(ace, $) {
   var count = 1;
   var setupEditor = function(editor) {
     editor.commands.addCommand({
-      name: "evaluate",
-      bindKey: {win: "Ctrl-Enter", mac: "Cmd-Enter"},
+      name: 'evaluate',
+      bindKey: {win: 'Ctrl-Enter', mac: 'Cmd-Enter'},
       exec: evaluate
     });
     editor.commands.addCommand({
-      name: "evaluateCreateNew",
-      bindKey: {win: "Shift-Enter", mac: "Shift-Enter"},
+      name: 'evaluateCreateNew',
+      bindKey: {win: 'Shift-Enter'},
       exec: function(editor) {
         evaluate(editor);
         add(editor, "// cell number: " + count++ + "\n", 'result for cell ' + count);
@@ -107,10 +108,11 @@ var arithmepad = (function(ace, $) {
     });
     editor.on('focus', function() {
       getCell(editor).addClass(classes.editSelection);
+      $('.' + classes.commandSelection).removeClass(classes.commandSelection);
     });
     editor.commands.addCommand({
-      name: "arrowKeyDown",
-      bindKey: {win: "Down"},
+      name: 'arrowKeyDown',
+      bindKey: {win: 'Down'},
       exec: function(editor) {
         if (editor.getCursorPosition().row + 1 == editor.getSession().getDocument().getLength()) {
           var next = getNextEditor(editor);
@@ -124,8 +126,8 @@ var arithmepad = (function(ace, $) {
       }
     });
     editor.commands.addCommand({
-      name: "arrowKeyUp",
-      bindKey: {win: "Up"},
+      name: 'arrowKeyUp',
+      bindKey: {win: 'Up'},
       exec: function(editor) {
         if (editor.getCursorPosition().row == 0) {
           var previous = getPreviousEditor(editor);
@@ -137,6 +139,14 @@ var arithmepad = (function(ace, $) {
         } else {
           editor.navigateUp();
         }
+      }
+    });
+    editor.commands.addCommand({
+      name: 'commandMode',
+      bindKey: {win: 'Esc'},
+      exec: function(editor) {
+        editor.blur();
+        getCell(editor).addClass(classes.commandSelection);
       }
     });
     // disable warning

@@ -59,8 +59,9 @@
   padding: 5px;
 }
 
-.arithmepad-selection {
+.arithmepad-command-selection {
   border: 1px solid lightgray;
+  padding: 4px;
 }
 
 .arithmepad-edit-selection {
