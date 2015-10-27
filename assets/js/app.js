@@ -235,6 +235,8 @@ var arithmepad = (function(ace, $) {
           if (typeof prevCell !== 'undefined') {
             cmdSel.removeClass(classes.commandSelection);
             $(prevCell).addClass(classes.commandSelection);
+            prevCell.scrollIntoView(true);
+            window.scrollBy(0, -60);
           }
           evt.preventDefault();
         }
@@ -246,6 +248,7 @@ var arithmepad = (function(ace, $) {
           if (typeof nextCell !== 'undefined') {
             cmdSel.removeClass(classes.commandSelection);
             $(nextCell).addClass(classes.commandSelection);
+            nextCell.scrollIntoView(false);
           }
           evt.preventDefault();
         }
