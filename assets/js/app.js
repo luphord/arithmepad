@@ -29,6 +29,14 @@ var arithmepad = (function(ace, $) {
     return $(editor.container).parent();
   };
   
+  var getEditor = function(cell) {
+    if (typeof cell !== 'undefined' && $(cell).length > 0) {
+      var sel = $($(cell)[0]).find('.' + classes.input);
+      if (sel.length > 0)
+        return sel[0];
+    }
+  };
+  
   var setResultForCell = function(editor, result) {
     getCell(editor).find('.' + classes.output).text(result);
   };
@@ -36,18 +44,20 @@ var arithmepad = (function(ace, $) {
   var getPreviousEditor = function(editor) {
     var previous = getCell(editor).prevAll('.' + classes.codeCell);
     if (previous.length > 0) {
-      var input = $(previous[0]).find('.' + classes.input);
-      if (input.length > 0)
-        return ace.edit(input[0]);
+      var input = getEditor(previous);
+      if (typeof input !== 'undefined') {
+        return ace.edit(input);
+      }
     }
   };
   
   var getNextEditor = function(editor) {
     var next = getCell(editor).nextAll('.' + classes.codeCell);
     if (next.length > 0) {
-      var input = $(next[0]).find('.' + classes.input);
-      if (input.length > 0)
-        return ace.edit(input[0]);
+      var input = getEditor(next);
+      if (typeof input !== 'undefined') {
+        return ace.edit(input);
+      }
     }
   };
   
@@ -90,8 +100,9 @@ var arithmepad = (function(ace, $) {
     catch(e) {
       res = e;
     }    
-    if (typeof res === 'undefined')
+    if (typeof res === 'undefined') {
       res = '---';
+    }
     setResultForCell(editor, res);
     updatePermalink();
   };
@@ -164,7 +175,7 @@ var arithmepad = (function(ace, $) {
   var readJSONFromDom = function() {
     var cells = []
     $('#arithmepad-cells .' + classes.codeCell).each(function() {
-      cells.push({type: 'code', content: ace.edit($(this).find('.arithmepad-input')[0]).getValue()});
+      cells.push({type: 'code', content: ace.edit(getEditor(this)).getValue()});
     })
     return {cells: cells};
   };
@@ -189,7 +200,7 @@ var arithmepad = (function(ace, $) {
   
   var loadFromDom = function() {
     $('#arithmepad-cells .' + classes.codeCell).each(function() {
-      var editor = ace.edit($(this).find('.' + classes.input)[0]);
+      var editor = ace.edit(getEditor(this));
       //editor.setTheme("ace/theme/twilight");
       editor.setOptions(editorOptions);
       setupEditor(editor);
@@ -205,7 +216,7 @@ var arithmepad = (function(ace, $) {
     13: /* enter */ function(evt) {
         cmdSel = $('.' + classes.commandSelection);
         if (cmdSel.length > 0) {
-          var editor = ace.edit($(cmdSel[0]).find('.' + classes.input)[0]);
+          var editor = ace.edit(getEditor(cmdSel));
           editor.focus();
           evt.preventDefault();
         }
