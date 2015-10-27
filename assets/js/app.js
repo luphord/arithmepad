@@ -61,12 +61,18 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  var firstOrUndefined = function(selection) {
+    if ($(selection).length > 0) {
+      return $(selection)[0];
+    }
+  }
+  
   var getNextCell = function(cell) {
-    return $(cell).nextAll('.' + classes.codeCell);
+    return firstOrUndefined($(cell).nextAll('.' + classes.codeCell));
   };
   
   var getPreviousCell = function(cell) {
-    return $(cell).prevAll('.' + classes.codeCell);
+    return firstOrUndefined($(cell).prevAll('.' + classes.codeCell));
   };
   
   // end of ace editor related functionality
@@ -226,9 +232,9 @@ var arithmepad = (function(ace, $) {
         cmdSel = $('.' + classes.commandSelection);
         if (cmdSel.length > 0) {
           var prevCell = getPreviousCell(cmdSel[0]);
-          if (prevCell.length > 0) {
+          if (typeof prevCell !== 'undefined') {
             cmdSel.removeClass(classes.commandSelection);
-            prevCell.addClass(classes.commandSelection);
+            $(prevCell).addClass(classes.commandSelection);
           }
           evt.preventDefault();
         }
@@ -237,9 +243,9 @@ var arithmepad = (function(ace, $) {
         cmdSel = $('.' + classes.commandSelection);
         if (cmdSel.length > 0) {
           var nextCell = getNextCell(cmdSel[0]);
-          if (nextCell.length > 0) {
+          if (typeof nextCell !== 'undefined') {
             cmdSel.removeClass(classes.commandSelection);
-            nextCell.addClass(classes.commandSelection);
+            $(nextCell).addClass(classes.commandSelection);
           }
           evt.preventDefault();
         }
