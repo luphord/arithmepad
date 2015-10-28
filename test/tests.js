@@ -150,3 +150,31 @@ QUnit.test('command mode', function(assert) {
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should now be exactly one edit selection');
   hidePage();
 });
+
+QUnit.test('delete cells', function(assert) {
+  showPage(); // apparently, we need to have the page visible for the focus events to work properly
+  arithmepad.clearPad();
+  $('#arithmepad-cells').html('<div class="arithmepad-code-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
+  arithmepad.loadFromDom();
+  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
+  var firstEditor = ace.edit($('.ace_editor')[0]);
+  firstEditor.focus();
+  assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
+  firstEditor.execCommand('evaluateCreateNew');
+  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
+  secondEditor.execCommand('evaluateCreateNew');
+  var thirdEditor = arithmepad.__.getNextEditor(secondEditor);
+  thirdEditor.execCommand('commandMode');
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no more edit selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
+  var dKey = $.Event('keydown');
+  dKey.which = 68;
+  $('#arithmepad-cells').trigger(dKey);
+  $('#arithmepad-cells').trigger(dKey);
+  $('#arithmepad-cells').trigger(dKey);
+  assert.ok(isCommandSelection(firstEditor), 'the first editor should now be the command selection');
+  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
+  hidePage();
+});

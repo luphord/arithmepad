@@ -269,12 +269,33 @@ var arithmepad = (function(ace, $) {
         }
       }
   };
+  keyHandlers[[68, 68] /*[d, d]*/] = function(evt) {
+    cmdSel = $('.' + classes.commandSelection);
+    if (cmdSel.length > 0) {
+      var nextCell = getNextCell(cmdSel[0]);
+      if (typeof nextCell !== 'undefined') {
+        selectInCommandMode(nextCell);
+        scrollDownTo(nextCell);
+      } else {
+        var prevCell = getPreviousCell(cmdSel[0]);
+        if (typeof prevCell !== 'undefined') {
+          selectInCommandMode(prevCell);
+          scrollUpTo(prevCell);
+        }
+      }
+      $(cmdSel[0]).remove();
+    }
+  }
   
   // initialize DOM
+  var lastKey = null;
   $('body').keydown(function(evt) {
     if (evt.which in keyHandlers) {
       keyHandlers[evt.which](evt);
-    } 
+    } else if ([lastKey, evt.which] in keyHandlers) {
+      keyHandlers[[lastKey, evt.which]](evt);
+    }
+    lastKey = evt.which;
   });
   
   return {
