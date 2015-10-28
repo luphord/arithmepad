@@ -169,10 +169,18 @@ QUnit.test('delete cells', function(assert) {
   thirdEditor.execCommand('commandMode');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no more edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  var arrowKeyUp = $.Event('keydown');
+  arrowKeyUp.which = 38;
+  $('#arithmepad-cells').trigger(arrowKeyUp);
+  assert.ok(isCommandSelection(secondEditor), 'the second editor should be the command selection');
   var dKey = $.Event('keydown');
   dKey.which = 68;
   $('#arithmepad-cells').trigger(dKey);
   $('#arithmepad-cells').trigger(dKey);
+  assert.ok(isCommandSelection(thirdEditor), 'the third editor should be the command selection');
+  $('#arithmepad-cells').trigger(dKey);
+  assert.ok(isCommandSelection(thirdEditor), 'the third editor should still be the command selection');
   $('#arithmepad-cells').trigger(dKey);
   assert.ok(isCommandSelection(firstEditor), 'the first editor should now be the command selection');
   assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');

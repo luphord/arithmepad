@@ -292,10 +292,13 @@ var arithmepad = (function(ace, $) {
   $('body').keydown(function(evt) {
     if (evt.which in keyHandlers) {
       keyHandlers[evt.which](evt);
+      lastKey = evt.which;
     } else if ([lastKey, evt.which] in keyHandlers) {
       keyHandlers[[lastKey, evt.which]](evt);
+      lastKey = null;
+    } else {
+      lastKey = evt.which;
     }
-    lastKey = evt.which;
   });
   
   return {
