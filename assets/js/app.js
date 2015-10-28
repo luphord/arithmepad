@@ -84,6 +84,16 @@ var arithmepad = (function(ace, $) {
     cell.scrollIntoView(false);
   };
   
+  var emptyEditAndCommandSelection = function() {
+    $('.' + classes.editSelection).removeClass(classes.editSelection);
+    $('.' + classes.commandSelection).removeClass(classes.commandSelection);
+  };
+  
+  var selectInCommandMode = function(cell) {
+    emptyEditAndCommandSelection();
+    $(cell).addClass(classes.commandSelection);
+  };
+  
   // end of ace editor related functionality
 
   var add = function(editor, code, result) {
@@ -179,7 +189,7 @@ var arithmepad = (function(ace, $) {
       bindKey: {win: 'Esc'},
       exec: function(editor) {
         editor.blur();
-        getCell(editor).addClass(classes.commandSelection);
+        selectInCommandMode(getCell(editor));
       }
     });
     // disable warning
@@ -241,8 +251,7 @@ var arithmepad = (function(ace, $) {
         if (cmdSel.length > 0) {
           var prevCell = getPreviousCell(cmdSel[0]);
           if (typeof prevCell !== 'undefined') {
-            cmdSel.removeClass(classes.commandSelection);
-            $(prevCell).addClass(classes.commandSelection);
+            selectInCommandMode(prevCell);
             scrollUpTo(prevCell);
           }
           evt.preventDefault();
@@ -253,8 +262,7 @@ var arithmepad = (function(ace, $) {
         if (cmdSel.length > 0) {
           var nextCell = getNextCell(cmdSel[0]);
           if (typeof nextCell !== 'undefined') {
-            cmdSel.removeClass(classes.commandSelection);
-            $(nextCell).addClass(classes.commandSelection);
+            selectInCommandMode(nextCell);
             scrollDownTo(nextCell);
           }
           evt.preventDefault();
