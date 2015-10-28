@@ -75,6 +75,15 @@ var arithmepad = (function(ace, $) {
     return firstOrUndefined($(cell).prevAll('.' + classes.codeCell));
   };
   
+  var scrollUpTo = function(cell) {
+    cell.scrollIntoView(true);
+    window.scrollBy(0, -60);
+  };
+  
+  var scrollDownTo = function(cell) {
+    cell.scrollIntoView(false);
+  };
+  
   // end of ace editor related functionality
 
   var add = function(editor, code, result) {
@@ -143,7 +152,7 @@ var arithmepad = (function(ace, $) {
           var next = getNextEditor(editor);
           if (typeof next !== 'undefined') {
             next.focus();
-            getCell(next)[0].scrollIntoView(false);
+            scrollDownTo(getCell(next)[0]);
           }
         } else {
           editor.navigateDown();
@@ -158,8 +167,7 @@ var arithmepad = (function(ace, $) {
           var previous = getPreviousEditor(editor);
           if (typeof previous !== 'undefined') {
             previous.focus();
-            getCell(previous)[0].scrollIntoView(true);
-            window.scrollBy(0, -60);
+            scrollUpTo(getCell(previous)[0]);
           } 
         } else {
           editor.navigateUp();
@@ -235,8 +243,7 @@ var arithmepad = (function(ace, $) {
           if (typeof prevCell !== 'undefined') {
             cmdSel.removeClass(classes.commandSelection);
             $(prevCell).addClass(classes.commandSelection);
-            prevCell.scrollIntoView(true);
-            window.scrollBy(0, -60);
+            scrollUpTo(prevCell);
           }
           evt.preventDefault();
         }
@@ -248,7 +255,7 @@ var arithmepad = (function(ace, $) {
           if (typeof nextCell !== 'undefined') {
             cmdSel.removeClass(classes.commandSelection);
             $(nextCell).addClass(classes.commandSelection);
-            nextCell.scrollIntoView(false);
+            scrollDownTo(nextCell);
           }
           evt.preventDefault();
         }
