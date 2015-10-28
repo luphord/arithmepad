@@ -122,6 +122,12 @@ var arithmepad = (function(ace, $) {
     getCell(editor)[0].scrollIntoView(false);
   };
   
+  var appendCodeCell = function(code, result) {
+    var cell = div.codeCell();
+    cell.appendTo($('#arithmepad-cells'));
+    insertEditorAndOutputInto(cell, code, result);
+  };
+  
   var evaluate = function(editor) {
     try {
       var res = eval(editor.getValue());
@@ -308,6 +314,7 @@ var arithmepad = (function(ace, $) {
   return {
     loadFromDom: loadFromDom,
     loadFromBase64: loadFromBase64,
+    appendCodeCell: appendCodeCell,
     clearPad: clearPad,
     __: {
       getCell: getCell,

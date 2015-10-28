@@ -33,6 +33,18 @@ QUnit.test('load cells from base64 encoded string', function(assert) {
   assert.equal($('.ace_editor').length, 5, 'five ace editor instances should be available');
 });
 
+QUnit.test('insert cells', function(assert) {
+  arithmepad.clearPad();
+  var code = '//test';
+  var res = 'res';
+  arithmepad.appendCodeCell(code, res);
+  arithmepad.appendCodeCell();
+  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
+  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal(firstEditor.getValue(), code, 'code of first editor should equal "' + code + '"');
+  assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), res, 'res of first editor should equal "' + res + '"');
+});
+
 QUnit.test('navigate using arrow keys in edit mode', function(assert) {
   arithmepad.clearPad();
   arithmepad.loadFromBase64('eyJjZWxscyI6W3sidHlwZSI6ImNvZGUiLCJjb250ZW50IjoiZiA9IGZ1bmN0aW9uKHgpIHtcbiAgdmFyIHkgPSB4ICsgMTtcbiAgdmFyIHogPSB5IC8geDtcbiAgcmV0dXJuIE1hdGguZXhwKHopO1xufVxuXG5mKDEpOyJ9LHsidHlwZSI6ImNvZGUiLCJjb250ZW50IjoiLy8gYSBzZWNvbmQgZG9tIG5vZGUgZm9yIGEgY2VsbFxuXG4vLyB0aGlyZCBsaW5lIn0seyJ0eXBlIjoiY29kZSIsImNvbnRlbnQiOiIvLyBhIHRoaXJkIGNlbGxcbiJ9XX0=');
