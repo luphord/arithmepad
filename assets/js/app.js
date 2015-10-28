@@ -102,9 +102,13 @@ var arithmepad = (function(ace, $) {
 
     var el = div.codeCell();
     el.insertAfter(pad);
+    insertEditorAndOutputInto(el, code, result);
+  };
+  
+  var insertEditorAndOutputInto = function(cell, code, result) {
     var input = div.input();
-    el.append(input);
-    el.append(div.output().text('---'));
+    cell.append(input);
+    cell.append(div.output().text('---'));
 
     editor = ace.edit(input[0]);
     editor.setOptions(editorOptions);
