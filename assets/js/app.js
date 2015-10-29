@@ -79,7 +79,7 @@ var arithmepad = (function(ace, $) {
   
   var scrollUpTo = function(cell) {
     cell.scrollIntoView(true);
-    window.scrollBy(0, -60);
+    window.scrollBy(0, -75);
   };
   
   var scrollDownTo = function(cell) {
