@@ -1,14 +1,15 @@
-.heading {
-  background: rgb(240,240,240);
-  margin: auto;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 10px;
-}
-
 #arithmepad-content {
   padding-top: 60px;
+}
+
+body {
+  background: #eee;
+}
+
+#arithmepad-cells {
+  background: #fff;
+  padding: 15px;
+  box-shadow: 1px 1px 5px 5px #ddd;
 }
 
 .ace_editor {
