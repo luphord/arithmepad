@@ -22,6 +22,7 @@ var arithmepad = (function(ace, $) {
     mode: "ace/mode/javascript",
     tabSize: 2,
     //theme: theme,
+    maxLines: 30,
     autoScrollEditorIntoView: true
   };
   
