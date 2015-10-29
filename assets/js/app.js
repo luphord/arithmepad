@@ -22,6 +22,7 @@ var arithmepad = (function(ace, $) {
     mode: "ace/mode/javascript",
     tabSize: 2,
     //theme: theme,
+    showGutter: false,
     maxLines: 30,
     autoScrollEditorIntoView: true
   };
@@ -277,6 +278,13 @@ var arithmepad = (function(ace, $) {
             scrollDownTo(nextCell);
           }
           evt.preventDefault();
+        }
+      },
+    76: /* l */ function(evt) {
+        cmdSel = $('.' + classes.commandSelection);
+        if (cmdSel.length > 0) {
+          var editor = ace.edit(getEditor(cmdSel));
+          editor.renderer.setShowGutter(!editor.renderer.getShowGutter());
         }
       }
   };
