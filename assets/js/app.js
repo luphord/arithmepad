@@ -325,6 +325,8 @@ var arithmepad = (function(ace, $) {
       lastKey = evt.which;
     }
   });
+  // setup buttons in navbar
+  $('#arithmepad-run-all-button').click(evaluateAllCells);
   
   return {
     loadFromDom: loadFromDom,
