@@ -143,6 +143,12 @@ var arithmepad = (function(ace, $) {
     setResultForCell(editor, res);
     updatePermalink();
   };
+  
+  var evaluateAllCells = function() {
+    $('.ace_editor').each(function() {
+      evaluate(ace.edit(this));
+    })
+  };
 
   var count = 1;
   var setupEditor = function(editor) {
@@ -325,6 +331,7 @@ var arithmepad = (function(ace, $) {
     loadFromBase64: loadFromBase64,
     appendCodeCell: appendCodeCell,
     clearPad: clearPad,
+    evaluateAllCells: evaluateAllCells,
     __: {
       getCell: getCell,
       getNextEditor: getNextEditor,

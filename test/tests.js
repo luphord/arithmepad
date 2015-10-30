@@ -198,3 +198,13 @@ QUnit.test('delete cells', function(assert) {
   assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
   hidePage();
 });
+
+QUnit.test('run all cells', function(assert) {
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('a=2;');
+  arithmepad.appendCodeCell('b=3;');
+  arithmepad.appendCodeCell('a+b;');
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  arithmepad.evaluateAllCells();
+  assert.equal($($('.' + arithmepad.__.classes.output)[2]).text(), '5', 'result of third editor should equal "5"');
+});
