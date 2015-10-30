@@ -62,19 +62,25 @@
     <div class="col-xs-12 col-md-12">
       <div id="arithmepad-cells">
         <div class="arithmepad-code-cell">
-          <div class="arithmepad-input">var foo =function(items) {
-      var i;
-      for (i = 0; i &lt; items.length; i++) {
-          alert("Ace Rocks " + items[i]);
-      }
-    };
-          </div>
-          <div class="arithmepad-output">123</div>
+<div class="arithmepad-input">// a simple continuous discount curve
+r = t => 0.01 + 0.002 * t;
+// discount factor from rates
+df = t => Math.exp(-r(t)*t);
+// helper function
+sum = function(values) {
+  return _(values).reduce((x, y) => x + y, 0);
+};
+// expecting any cashflow element of the form {t: <time-in-years>, v: <value-in-currency>}
+npv = function(cashflow) {
+  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));
+};
+</div>
+          <div class="arithmepad-output"></div>
         </div>
         <div class="arithmepad-cell-divider"></div>
         <div class="arithmepad-code-cell">
-          <div class="arithmepad-input">// a second dom node for a cell</div>
-          <div class="arithmepad-output">123</div>
+          <div class="arithmepad-input">npv([{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}])</div>
+          <div class="arithmepad-output"></div>
         </div>
       </div>
     </div>
