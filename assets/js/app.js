@@ -250,6 +250,34 @@ var arithmepad = (function(ace, $) {
     });
   };
   
+  var loadFromJSFile = function(code) {
+    var lines = code.split('\n'); //todo: support \r\n
+    var currentCell = [];
+    _(lines).each(function(line) {
+      var cmd = line.trimLeft().slice(2).trimLeft();
+      console.log(cmd);
+      if (line.trimLeft().startsWith('//') && cmd.startsWith('!arithmepad-cell')) {
+        if (currentCell.length > 0) {
+          appendCodeCell(currentCell.join('\n'));
+        }
+        currentCell = [];
+      } else {
+        currentCell.push(line);
+      }
+    });
+    if (currentCell.length > 0) {
+      appendCodeCell(currentCell.join('\n'));
+    }
+  };
+  
+  var saveToJSFile = function() {
+    var code = [];
+    $('#arithmepad-cells .' + classes.codeCell).each(function() {
+      code.push('// !arithmepad-cell\n' + ace.edit(getEditor(this)).getValue());
+    });
+    return code.join('\n');
+  };
+  
   var clearPad = function() {
     $('#arithmepad-cells').empty();
   };
@@ -333,6 +361,8 @@ var arithmepad = (function(ace, $) {
     loadFromBase64: loadFromBase64,
     appendCodeCell: appendCodeCell,
     clearPad: clearPad,
+    loadFromJSFile: loadFromJSFile,
+    saveToJSFile: saveToJSFile,
     evaluateAllCells: evaluateAllCells,
     __: {
       getCell: getCell,

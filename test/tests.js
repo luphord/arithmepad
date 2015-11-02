@@ -33,6 +33,20 @@ QUnit.test('load cells from base64 encoded string', function(assert) {
   assert.equal($('.ace_editor').length, 5, 'five ace editor instances should be available');
 });
 
+QUnit.test('load/save cells from/to JavaScript file', function(assert) {
+  arithmepad.clearPad();
+  var s = '// !arithmepad-cell\n// a simple continuous discount curve\nr = t => 0.01 + 0.002 * t;\n// discount factor from rates\ndf = t => Math.exp(-r(t)*t);\n// helper function\nsum = function(values) {\n  return _(values).reduce((x, y) => x + y, 0);\n};\n// expecting any cashflow element of the form {t: , v: }\nnpv = function(cashflow) {\n  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));\n};\n\n// !arithmepad-cell\nnpv([{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}])';
+  arithmepad.loadFromJSFile(s);
+  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
+  var f = arithmepad.saveToJSFile();
+  arithmepad.clearPad();
+  assert.equal($('.ace_editor').length, 0, 'no ace editor instances should be available');
+  arithmepad.loadFromJSFile(f);
+  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
+  arithmepad.evaluateAllCells();
+  assert.equal(Math.round(Number($($('.' + arithmepad.__.classes.output)[1]).text())), 10117, 'result of third editor should equal 10117');
+});
+
 QUnit.test('insert cells', function(assert) {
   arithmepad.clearPad();
   var code = '//test';
