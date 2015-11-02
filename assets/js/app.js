@@ -255,7 +255,6 @@ var arithmepad = (function(ace, $) {
     var currentCell = [];
     _(lines).each(function(line) {
       var cmd = line.trimLeft().slice(2).trimLeft();
-      console.log(cmd);
       if (line.trimLeft().startsWith('//') && cmd.startsWith('!arithmepad-cell')) {
         if (currentCell.length > 0) {
           appendCodeCell(currentCell.join('\n'));
@@ -355,6 +354,11 @@ var arithmepad = (function(ace, $) {
   });
   // setup buttons in navbar
   $('#arithmepad-run-all-button').click(evaluateAllCells);
+  $('#arithmepad-download-js').click(function() {
+    var d = (new Date()).toISOString().replace(':', '-', 'g');
+    $(this).attr('href', 'data:application/javascript;charset=utf-8,' + encodeURIComponent(saveToJSFile()));
+    $(this).attr('download', 'My Pad ' + d + '.js');
+  });
   
   return {
     loadFromDom: loadFromDom,
