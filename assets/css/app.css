@@ -1,16 +1,20 @@
 #arithmepad-content {
-  padding-top: 60px;
+  padding-top: 70px;
 }
 
 body {
-  background: #f8f8f8;
+  background: #f0f0f0;
 }
 
 #arithmepad-cells {
   background: #fff;
   padding: 15px;
   margin-bottom: 15px;
-  box-shadow: 1px 1px 5px 5px #eee;
+  box-shadow: 1px 1px 5px 5px rgba(87, 87, 87, 0.2);
+}
+
+.navbar {
+  box-shadow: 1px 1px 5px 5px rgba(87, 87, 87, 0.2);
 }
 
 .ace_editor {
