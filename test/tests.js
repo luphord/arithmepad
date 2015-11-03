@@ -39,8 +39,6 @@ QUnit.test('load/save cells from/to JavaScript file', function(assert) {
   arithmepad.loadFromJSFile(s);
   assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
   var f = arithmepad.saveToJSFile();
-  arithmepad.clearPad();
-  assert.equal($('.ace_editor').length, 0, 'no ace editor instances should be available');
   arithmepad.loadFromJSFile(f);
   assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
   arithmepad.evaluateAllCells();

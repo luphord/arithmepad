@@ -251,6 +251,7 @@ var arithmepad = (function(ace, $) {
   };
   
   var loadFromJSFile = function(code) {
+    clearPad();
     var lines = code.split('\n'); //todo: support \r\n
     var currentCell = [];
     _(lines).each(function(line) {
@@ -358,6 +359,23 @@ var arithmepad = (function(ace, $) {
     var d = (new Date()).toISOString().replace(':', '-', 'g');
     $(this).attr('href', 'data:application/javascript;charset=utf-8,' + encodeURIComponent(saveToJSFile()));
     $(this).attr('download', 'My Pad ' + d + '.js');
+  });
+  
+  $('#arithmepad-open-js-file-button').on('change', function(evt) {
+    var f = evt.target.files[0];
+    try {
+      var r = new FileReader();
+      r.onload = function(l){
+        loadFromJSFile(l.target.result);
+      };
+      r.readAsText(f);
+    } catch (e) {
+      alert('Could not open file: ' + e);
+    }
+  });
+  $('#arithmepad-open-js').click(function(e) {
+    $('#arithmepad-open-js-file-button').click();
+    e.preventDefault();
   });
   
   return {
