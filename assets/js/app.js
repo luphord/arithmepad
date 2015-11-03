@@ -351,7 +351,10 @@ var arithmepad = (function(ace, $) {
     }
   });
   // setup buttons in navbar
-  $('#arithmepad-run-all-button').click(evaluateAllCells);
+  $('#arithmepad-run-all-button').click(function(e) {
+    evaluateAllCells();
+    e.preventDefault();
+  });
   $('#arithmepad-download-js').click(function() {
     var d = (new Date()).toISOString().replace(':', '-', 'g');
     $(this).attr('href', 'data:application/javascript;charset=utf-8,' + encodeURIComponent(saveToJSFile()));
