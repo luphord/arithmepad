@@ -4,7 +4,6 @@ var arithmepad = (function(ace, $) {
     input: 'arithmepad-input',
     output: 'arithmepad-output',
     codeCell: 'arithmepad-code-cell',
-    cellDivider: 'arithmepad-cell-divider',
     editSelection: 'arithmepad-edit-selection',
     commandSelection: 'arithmepad-command-selection'
   };
@@ -99,11 +98,8 @@ var arithmepad = (function(ace, $) {
   // end of ace editor related functionality
 
   var add = function(editor, code, result) {
-    var pad = div.cellDivider();
-    pad.insertAfter(getCell(editor));
-
     var el = div.codeCell();
-    el.insertAfter(pad);
+    el.insertAfter(getCell(editor));
     insertEditorAndOutputInto(el, code, result);
   };
   
@@ -233,7 +229,6 @@ var arithmepad = (function(ace, $) {
     for (var i=0; i<json.cells.length; i++) {
       var cellNode = div.input().text(json.cells[i].content);
       cellsNode.append(div.codeCell().append(cellNode).append(div.output().text('---')));
-      cellsNode.append(div.cellDivider());
       var editor = ace.edit(cellNode[0]);
       editor.setOptions(editorOptions);
       setupEditor(editor);

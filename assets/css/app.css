@@ -40,12 +40,9 @@ body {
   overflow: hidden
 }
 
-.arithmepad-cell-divider {
-  padding: 20px;
-}
-
 .arithmepad-code-cell {
   margin: auto;
+  margin-bottom: 30px;
   width: 100%;
   padding: 5px;
 }
