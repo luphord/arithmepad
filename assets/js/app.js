@@ -129,9 +129,11 @@ var arithmepad = (function(ace, $) {
   var evaluate = function(editor) {
     try {
       var res = eval(editor.getValue());
+      getCell(editor).find('.' + classes.output).removeClass('text-danger');
     }
     catch(e) {
       res = e;
+      getCell(editor).find('.' + classes.output).addClass('text-danger');
     }    
     if (typeof res === 'undefined') {
       res = '---';
