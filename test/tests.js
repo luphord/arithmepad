@@ -241,3 +241,27 @@ QUnit.test('blurring editors causes cells to be command selection', function(ass
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no edit selection');
   hidePage();
 });
+
+QUnit.test('switch between javascript and markdown', function(assert) {
+  showPage(); // apparently, we need to have the page visible for the focus events to work properly
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('// 1');
+  assert.equal($('.ace_editor').length, 1, 'one ace editor instance should be available');
+  var firstEditor = ace.edit($('.ace_editor')[0]);
+  firstEditor.focus();
+  firstEditor.blur();
+  assert.ok(isCommandSelection(firstEditor), 'the first editor should be the command selection');
+  var mKey = $.Event('keydown');
+  mKey.which = 77;
+  var yKey = $.Event('keydown');
+  yKey.which = 89;
+  assert.ok(!arithmepad.__.getCell(firstEditor).hasClass(arithmepad.__.classes.markdown), 'editor does not have class markdown');
+  assert.equal(firstEditor.getOption('mode'), 'ace/mode/javascript');
+  $('#arithmepad-cells').trigger(mKey);
+  assert.ok(arithmepad.__.getCell(firstEditor).hasClass(arithmepad.__.classes.markdown), 'editor has class markdown');
+  assert.equal(firstEditor.getOption('mode'), 'ace/mode/markdown');
+  $('#arithmepad-cells').trigger(yKey);
+  assert.ok(!arithmepad.__.getCell(firstEditor).hasClass(arithmepad.__.classes.markdown), 'editor does not have class markdown');
+  assert.equal(firstEditor.getOption('mode'), 'ace/mode/javascript');
+  hidePage();
+});

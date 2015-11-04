@@ -345,6 +345,22 @@ var arithmepad = (function(ace, $) {
           var editor = ace.edit(getEditor(cmdSel));
           editor.renderer.setShowGutter(!editor.renderer.getShowGutter());
         }
+      },
+    77: /* m */function(evt) {
+        cmdSel = $('.' + classes.commandSelection);
+        if (cmdSel.length > 0) {
+          var editor = ace.edit(getEditor(cmdSel));
+          editor.setOption('mode', 'ace/mode/markdown');
+          cmdSel.addClass(classes.markdown);
+        }
+      },
+    89: /* y */function(evt) {
+        cmdSel = $('.' + classes.commandSelection);
+        if (cmdSel.length > 0) {
+          var editor = ace.edit(getEditor(cmdSel));
+          editor.setOption('mode', 'ace/mode/javascript');
+          cmdSel.removeClass(classes.markdown);
+        }
       }
   };
   keyHandlers[[68, 68] /*[d, d]*/] = function(evt) {
