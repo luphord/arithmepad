@@ -165,6 +165,7 @@ var arithmepad = (function(ace, $) {
     });
     editor.on('blur', function() {
       getCell(editor).removeClass(classes.editSelection);
+      getCell(editor).addClass(classes.commandSelection);
     });
     editor.on('focus', function() {
       getCell(editor).addClass(classes.editSelection);

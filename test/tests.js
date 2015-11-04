@@ -224,3 +224,20 @@ QUnit.test('run all cells', function(assert) {
     assert.equal($($('.' + arithmepad.__.classes.output)[2]).text(), '5', 'result of third editor should equal "5"');
   }
 });
+
+QUnit.test('blurring editors causes cells to be command selection', function(assert) {
+  showPage(); // apparently, we need to have the page visible for the focus events to work properly
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('// 1');
+  arithmepad.appendCodeCell('// 2');
+  arithmepad.appendCodeCell('// 3');
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  var firstEditor = ace.edit($('.ace_editor')[0]);
+  firstEditor.focus();
+  assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
+  firstEditor.blur();
+  assert.ok(isCommandSelection(firstEditor), 'the first editor should be the command selection');
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no edit selection');
+  hidePage();
+});
