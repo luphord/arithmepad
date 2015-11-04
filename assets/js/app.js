@@ -150,22 +150,26 @@ var arithmepad = (function(ace, $) {
   var evaluate = function(editor) {
     try {
       var isMarkdownCell = editor.getOption('mode') == 'ace/mode/markdown';
-      var res = ''
+      var res = '';
+      var resultDiv = getCell(editor).find('.' + classes.output);
       if (isMarkdownCell) {
         res = marked(editor.getValue());
+        $(editor.container).hide();
+        editor.blur();
       } else {
         res = eval(editor.getValue());
       }
-      getCell(editor).find('.' + classes.output).removeClass('text-danger');
+      resultDiv.removeClass('text-danger');
     }
     catch(e) {
       res = e;
-      getCell(editor).find('.' + classes.output).addClass('text-danger');
-    }    
+      resultDiv.addClass('text-danger');
+    }
     if (typeof res === 'undefined') {
       res = '---';
     }
     setResultForCell(editor, res, isMarkdownCell);
+    resultDiv.show();
     updatePermalink();
   };
   
@@ -197,6 +201,9 @@ var arithmepad = (function(ace, $) {
     editor.on('focus', function() {
       getCell(editor).addClass(classes.editSelection);
       $('.' + classes.commandSelection).removeClass(classes.commandSelection);
+      if (editor.getOption('mode') == 'ace/mode/markdown') {
+        getCell(editor).find('.' + classes.output).hide();
+      }
     });
     editor.commands.addCommand({
       name: 'arrowKeyDown',
@@ -205,6 +212,7 @@ var arithmepad = (function(ace, $) {
         if (editor.getCursorPosition().row + 1 == editor.getSession().getDocument().getLength()) {
           var next = getNextEditor(editor);
           if (typeof next !== 'undefined') {
+            $(next.container).show();
             next.focus();
             scrollDownTo(getCell(next)[0]);
           }
@@ -220,6 +228,7 @@ var arithmepad = (function(ace, $) {
         if (editor.getCursorPosition().row == 0) {
           var previous = getPreviousEditor(editor);
           if (typeof previous !== 'undefined') {
+            $(previous.container).show();
             previous.focus();
             scrollUpTo(getCell(previous)[0]);
           } 
@@ -312,6 +321,7 @@ var arithmepad = (function(ace, $) {
         cmdSel = $('.' + classes.commandSelection);
         if (cmdSel.length > 0) {
           var editor = ace.edit(getEditor(cmdSel));
+          $(editor.container).show();
           editor.focus();
           evt.preventDefault();
         }
