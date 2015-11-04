@@ -212,11 +212,15 @@ QUnit.test('delete cells', function(assert) {
 });
 
 QUnit.test('run all cells', function(assert) {
-  arithmepad.clearPad();
-  arithmepad.appendCodeCell('a=2;');
-  arithmepad.appendCodeCell('b=3;');
-  arithmepad.appendCodeCell('a+b;');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
-  arithmepad.evaluateAllCells();
-  assert.equal($($('.' + arithmepad.__.classes.output)[2]).text(), '5', 'result of third editor should equal "5"');
+  assert.equal($('#arithmepad-run-all-button').length, 1, 'the "Run All Cells" button should be available');
+  calls = [arithmepad.evaluateAllCells, _.bind($('#arithmepad-run-all-button').click, $('#arithmepad-run-all-button'))];
+  for (var i = 0; i < calls.length; i++) {
+    arithmepad.clearPad();
+    arithmepad.appendCodeCell('a=2;');
+    arithmepad.appendCodeCell('b=3;');
+    arithmepad.appendCodeCell('a+b;');
+    assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+    calls[i]();
+    assert.equal($($('.' + arithmepad.__.classes.output)[2]).text(), '5', 'result of third editor should equal "5"');
+  }
 });
