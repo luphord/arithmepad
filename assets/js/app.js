@@ -4,6 +4,7 @@ var arithmepad = (function(ace, $) {
     input: 'arithmepad-input',
     output: 'arithmepad-output',
     cell: 'arithmepad-cell',
+    markdown: 'arithmepad-markdown',
     editSelection: 'arithmepad-edit-selection',
     commandSelection: 'arithmepad-command-selection'
   };
@@ -26,6 +27,14 @@ var arithmepad = (function(ace, $) {
     autoScrollEditorIntoView: true
   };
   
+  var getOptionsForCell = function(cell) {
+    var options = _.clone(editorOptions);
+    if ($(cell).hasClass(classes.markdown)) {
+      options.mode = 'ace/mode/markdown';
+    }
+    return options;
+  };
+  
   var getCell = function(editor) {
     return $(editor.container).parent();
   };
@@ -38,8 +47,13 @@ var arithmepad = (function(ace, $) {
     }
   };
   
-  var setResultForCell = function(editor, result) {
-    getCell(editor).find('.' + classes.output).text(result);
+  var setResultForCell = function(editor, result, setHtml) {
+    var output = getCell(editor).find('.' + classes.output);
+    if (setHtml) {
+      output.html(result);
+    } else {
+      output.text(result);
+    }
   };
   
   var getPreviousEditor = function(editor) {
@@ -109,7 +123,7 @@ var arithmepad = (function(ace, $) {
     cell.append(div.output().text('---'));
 
     editor = ace.edit(input[0]);
-    editor.setOptions(editorOptions);
+    editor.setOptions(getOptionsForCell(cell));
     setupEditor(editor);
     editor.focus();
     
@@ -126,9 +140,22 @@ var arithmepad = (function(ace, $) {
     insertEditorAndOutputInto(cell, code, result);
   };
   
+  var appendMarkdownCell = function(code, result) {
+    var cell = div.cell();
+    cell.addClass(classes.markdown);
+    cell.appendTo($('#arithmepad-cells'));
+    insertEditorAndOutputInto(cell, code, result);
+  };
+  
   var evaluate = function(editor) {
     try {
-      var res = eval(editor.getValue());
+      var isMarkdownCell = editor.getOption('mode') == 'ace/mode/markdown';
+      var res = ''
+      if (isMarkdownCell) {
+        res = marked(editor.getValue());
+      } else {
+        res = eval(editor.getValue());
+      }
       getCell(editor).find('.' + classes.output).removeClass('text-danger');
     }
     catch(e) {
@@ -138,7 +165,7 @@ var arithmepad = (function(ace, $) {
     if (typeof res === 'undefined') {
       res = '---';
     }
-    setResultForCell(editor, res);
+    setResultForCell(editor, res, isMarkdownCell);
     updatePermalink();
   };
   
@@ -242,7 +269,7 @@ var arithmepad = (function(ace, $) {
     $('#arithmepad-cells .' + classes.cell).each(function() {
       var editor = ace.edit(getEditor(this));
       //editor.setTheme("ace/theme/twilight");
-      editor.setOptions(editorOptions);
+      editor.setOptions(getOptionsForCell(this));
       setupEditor(editor);
       editor.focus();
     });
@@ -383,6 +410,7 @@ var arithmepad = (function(ace, $) {
     loadFromDom: loadFromDom,
     loadFromBase64: loadFromBase64,
     appendCodeCell: appendCodeCell,
+    appendMarkdownCell: appendMarkdownCell,
     clearPad: clearPad,
     loadFromJSFile: loadFromJSFile,
     saveToJSFile: saveToJSFile,
