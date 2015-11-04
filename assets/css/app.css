@@ -40,7 +40,7 @@ body {
   overflow: hidden
 }
 
-.arithmepad-code-cell {
+.arithmepad-cell {
   margin: auto;
   margin-bottom: 30px;
   width: 100%;

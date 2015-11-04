@@ -22,7 +22,7 @@ QUnit.test('arithmepad available', function(assert) {
 
 QUnit.test('load cells from DOM', function(assert) {
   arithmepad.clearPad();
-  $('#arithmepad-cells').html('<div class="arithmepad-code-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell-divider"></div><div class="arithmepad-code-cell"><div class="arithmepad-input">// a second dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell-divider"></div><div class="arithmepad-code-cell"><div class="arithmepad-input">// a third dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell-divider"></div><div class="arithmepad-code-cell"><div class="arithmepad-input">// a fourth dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell-divider"></div><div class="arithmepad-code-cell"><div class="arithmepad-input">// a fifth dom node for a cell</div><div class="arithmepad-output">123</div></div>');
+  $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a second dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a third dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a fourth dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a fifth dom node for a cell</div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
   assert.equal($('.ace_editor').length, 5, 'five ace editor instances should be available');
 });
@@ -110,7 +110,7 @@ QUnit.test('navigate using arrow keys in edit mode', function(assert) {
 QUnit.test('Ctrl/Shift + Enter', function(assert) {
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
   arithmepad.clearPad();
-  $('#arithmepad-cells').html('<div class="arithmepad-code-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
+  $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
   assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
   var firstEditor = ace.edit($('.ace_editor')[0]);
@@ -131,7 +131,7 @@ QUnit.test('Ctrl/Shift + Enter', function(assert) {
 QUnit.test('command mode', function(assert) {
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
   arithmepad.clearPad();
-  $('#arithmepad-cells').html('<div class="arithmepad-code-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
+  $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
   assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
   var firstEditor = ace.edit($('.ace_editor')[0]);
@@ -178,7 +178,7 @@ QUnit.test('command mode', function(assert) {
 QUnit.test('delete cells', function(assert) {
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
   arithmepad.clearPad();
-  $('#arithmepad-cells').html('<div class="arithmepad-code-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
+  $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
   assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
   var firstEditor = ace.edit($('.ace_editor')[0]);
