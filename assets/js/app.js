@@ -26,18 +26,26 @@ var arithmepad = (function(ace, $) {
     if (this.$node.length != 1) {
       throw 'Cannot create cell: domNode has a length of ' + this.$node.length;
     }
-  }
+  };
   
   Cell.prototype.getEditor = function() {
     var sel = this.$node.find('.' + classes.input);
     if (sel.length > 0) {
       return sel[0];
     }
-  }
+  };
+  
+  Cell.prototype.getAceOptions = function() {
+    var options = _.clone(editorOptions);
+    if (this.$node.hasClass(classes.markdown)) {
+      options.mode = 'ace/mode/markdown';
+    }
+    return options;
+  };
   
   Cell.fromEditor = function(editor) {
     return new Cell($(editor.container).parent());
-  }
+  };
   
   // ace editor related functionality
 
@@ -48,14 +56,6 @@ var arithmepad = (function(ace, $) {
     showGutter: false,
     maxLines: 30,
     autoScrollEditorIntoView: true
-  };
-  
-  var getOptionsForCell = function(cell) {
-    var options = _.clone(editorOptions);
-    if ($(cell).hasClass(classes.markdown)) {
-      options.mode = 'ace/mode/markdown';
-    }
-    return options;
   };
   
   var setResultForCell = function(editor, result, setHtml) {
@@ -134,7 +134,7 @@ var arithmepad = (function(ace, $) {
     cell.append(div.output().text('---'));
 
     editor = ace.edit(input[0]);
-    editor.setOptions(getOptionsForCell(cell));
+    editor.setOptions((new Cell(cell)).getAceOptions());
     setupEditor(editor);
     editor.focus();
     
@@ -289,7 +289,7 @@ var arithmepad = (function(ace, $) {
     $('#arithmepad-cells .' + classes.cell).each(function() {
       var editor = ace.edit((new Cell(this)).getEditor());
       //editor.setTheme("ace/theme/twilight");
-      editor.setOptions(getOptionsForCell(this));
+      editor.setOptions((new Cell(this)).getAceOptions());
       setupEditor(editor);
       editor.focus();
     });
