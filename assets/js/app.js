@@ -43,6 +43,15 @@ var arithmepad = (function(ace, $) {
     return options;
   };
   
+  Cell.prototype.setResult = function(result, setHtml) {
+    var output = this.$node.find('.' + classes.output);
+    if (setHtml) {
+      output.html(result);
+    } else {
+      output.text(result);
+    }
+  };
+  
   Cell.fromEditor = function(editor) {
     return new Cell($(editor.container).parent());
   };
@@ -56,15 +65,6 @@ var arithmepad = (function(ace, $) {
     showGutter: false,
     maxLines: 30,
     autoScrollEditorIntoView: true
-  };
-  
-  var setResultForCell = function(editor, result, setHtml) {
-    var output = Cell.fromEditor(editor).$node.find('.' + classes.output);
-    if (setHtml) {
-      output.html(result);
-    } else {
-      output.text(result);
-    }
   };
   
   var getPreviousEditor = function(editor) {
@@ -141,7 +141,7 @@ var arithmepad = (function(ace, $) {
     if (typeof code !== 'undefined')
       editor.setValue(code, 1);
     if (typeof result !== 'undefined')
-      setResultForCell(editor, result);
+      Cell.fromEditor(editor).setResult(result);
     Cell.fromEditor(editor).$node[0].scrollIntoView(false);
   };
   
@@ -179,7 +179,7 @@ var arithmepad = (function(ace, $) {
     if (typeof res === 'undefined') {
       res = '---';
     }
-    setResultForCell(editor, res, isMarkdownCell);
+    Cell.fromEditor(editor).setResult(res, isMarkdownCell);
     resultDiv.show();
     updatePermalink();
   };
