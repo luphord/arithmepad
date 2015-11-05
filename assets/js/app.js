@@ -52,7 +52,14 @@ var arithmepad = (function(ace, $) {
     if (previous.length > 0) {
       return new Cell(previous[0]);
     }
-  }
+  };
+  
+  Cell.prototype.getNext = function() {
+    var next = this.$node.nextAll('.' + classes.cell);
+    if (next.length > 0) {
+      return new Cell(next[0]);
+    }
+  };
   
   Cell.prototype.setResult = function(result, setHtml) {
     var output = this.$node.find('.' + classes.output);
@@ -76,13 +83,6 @@ var arithmepad = (function(ace, $) {
     showGutter: false,
     maxLines: 30,
     autoScrollEditorIntoView: true
-  };
-  
-  var getNextEditor = function(editor) {
-    var next = Cell.fromEditor(editor).$node.nextAll('.' + classes.cell);
-    if (next.length > 0) {
-      return new Cell(next[0]).getEditor();
-    }
   };
   
   var firstOrUndefined = function(selection) {
@@ -219,11 +219,11 @@ var arithmepad = (function(ace, $) {
       bindKey: {win: 'Down'},
       exec: function(editor) {
         if (editor.getCursorPosition().row + 1 == editor.getSession().getDocument().getLength()) {
-          var next = getNextEditor(editor);
-          if (typeof next !== 'undefined') {
-            $(next.container).show();
-            next.focus();
-            scrollDownTo(Cell.fromEditor(next).$node[0]);
+          var nextCell = Cell.fromEditor(editor).getNext();
+          if (typeof nextCell !== 'undefined') {
+            nextCell.getInput().show();
+            nextCell.getEditor().focus();
+            scrollDownTo(nextCell.$node[0]);
           }
         } else {
           editor.navigateDown();
@@ -453,7 +453,6 @@ var arithmepad = (function(ace, $) {
     evaluateAllCells: evaluateAllCells,
     __: {
       getCell: function(editor){return Cell.fromEditor(editor).$node;},
-      getNextEditor: getNextEditor,
       classes: classes
     }
   }

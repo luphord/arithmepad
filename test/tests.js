@@ -13,6 +13,13 @@ var isEditSelection = function(editor) {
 var isCommandSelection = function(editor) {
   return $(arithmepad.__.getCell(editor)).hasClass(arithmepad.__.classes.commandSelection);
 };
+  
+var getNextEditor = function(editor) {
+  var next = arithmepad.Cell.fromEditor(editor).$node.nextAll('.' + arithmepad.__.classes.cell);
+  if (next.length > 0) {
+    return new arithmepad.Cell(next[0]).getEditor();
+  }
+};
 
 QUnit.test('arithmepad available', function(assert) {
   assert.ok( typeof arithmepad === typeof {}, "arithmepad object should be available" );
@@ -78,7 +85,7 @@ QUnit.test('navigate using arrow keys in edit mode', function(assert) {
   assert.equal(firstEditor.getCursorPosition().row, 6, 'cursor should be on the 7th line (counting 1-based) of the first editor');
   firstEditor.execCommand('arrowKeyDown');
   
-  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
+  var secondEditor = getNextEditor(firstEditor);
   assert.equal(secondEditor.getSession().getDocument().getLength(), 3, 'there should be 3 code lines in the second editor');
   assert.ok(isEditSelection(secondEditor), 'the second editor should now be the edit selection');
   assert.equal(secondEditor.getCursorPosition().row, 0, 'cursor should be on the first line (counting 1-based) of the second editor');
@@ -87,7 +94,7 @@ QUnit.test('navigate using arrow keys in edit mode', function(assert) {
   assert.equal(secondEditor.getCursorPosition().row, 2, 'cursor should be on the third line (counting 1-based) of the second editor');
   
   secondEditor.execCommand('arrowKeyDown');
-  var thirdEditor = arithmepad.__.getNextEditor(secondEditor);
+  var thirdEditor = getNextEditor(secondEditor);
   assert.equal(thirdEditor.getSession().getDocument().getLength(), 2, 'there should be 2 code lines in the third editor');
   assert.ok(isEditSelection(thirdEditor), 'the third editor should now be the edit selection');
   thirdEditor.execCommand('arrowKeyDown');
@@ -122,7 +129,7 @@ QUnit.test('Ctrl/Shift + Enter', function(assert) {
   firstEditor.execCommand('evaluateCreateNew');
   assert.equal($('.' + arithmepad.__.classes.output).length, 2, 'there should now be two cell outputs');
   assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), '6', 'result should now equal 6');
-  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
+  var secondEditor = getNextEditor(firstEditor);
   assert.ok(isEditSelection(secondEditor), 'the second editor should now be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
   hidePage();
@@ -139,10 +146,10 @@ QUnit.test('command mode', function(assert) {
   assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
   firstEditor.execCommand('evaluateCreateNew');
-  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
+  var secondEditor = getNextEditor(firstEditor);
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
   secondEditor.execCommand('evaluateCreateNew');
-  var thirdEditor = arithmepad.__.getNextEditor(secondEditor);
+  var thirdEditor = getNextEditor(secondEditor);
   thirdEditor.execCommand('commandMode');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no more edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
@@ -186,10 +193,10 @@ QUnit.test('delete cells', function(assert) {
   assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
   firstEditor.execCommand('evaluateCreateNew');
-  var secondEditor = arithmepad.__.getNextEditor(firstEditor);
+  var secondEditor = getNextEditor(firstEditor);
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
   secondEditor.execCommand('evaluateCreateNew');
-  var thirdEditor = arithmepad.__.getNextEditor(secondEditor);
+  var thirdEditor = getNextEditor(secondEditor);
   thirdEditor.execCommand('commandMode');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no more edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
