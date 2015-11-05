@@ -28,6 +28,10 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  Cell.prototype.getInput = function() {
+    return this.$node.find('.' + classes.input);
+  };
+  
   Cell.prototype.getEditor = function() {
     var sel = this.$node.find('.' + classes.input);
     if (sel.length > 0) {
@@ -42,6 +46,13 @@ var arithmepad = (function(ace, $) {
     }
     return options;
   };
+  
+  Cell.prototype.getPrevious = function() {
+    var previous = this.$node.prevAll('.' + classes.cell);
+    if (previous.length > 0) {
+      return new Cell(previous[0]);
+    }
+  }
   
   Cell.prototype.setResult = function(result, setHtml) {
     var output = this.$node.find('.' + classes.output);
@@ -65,16 +76,6 @@ var arithmepad = (function(ace, $) {
     showGutter: false,
     maxLines: 30,
     autoScrollEditorIntoView: true
-  };
-  
-  var getPreviousEditor = function(editor) {
-    var previous = Cell.fromEditor(editor).$node.prevAll('.' + classes.cell);
-    if (previous.length > 0) {
-      var input = (new Cell(previous[0])).getEditor();
-      if (typeof input !== 'undefined') {
-        return ace.edit(input);
-      }
-    }
   };
   
   var getNextEditor = function(editor) {
@@ -237,12 +238,12 @@ var arithmepad = (function(ace, $) {
       bindKey: {win: 'Up'},
       exec: function(editor) {
         if (editor.getCursorPosition().row == 0) {
-          var previous = getPreviousEditor(editor);
-          if (typeof previous !== 'undefined') {
-            $(previous.container).show();
-            previous.focus();
-            scrollUpTo(Cell.fromEditor(previous).$node[0]);
-          } 
+          var previousCell = Cell.fromEditor(editor).getPrevious();
+          if (typeof previousCell !== 'undefined') {
+            previousCell.getInput().show();
+            ace.edit(previousCell.getEditor()).focus();
+            scrollUpTo(previousCell.$node[0]);
+          }
         } else {
           editor.navigateUp();
         }
@@ -446,6 +447,7 @@ var arithmepad = (function(ace, $) {
   return {
     loadFromDom: loadFromDom,
     loadFromBase64: loadFromBase64,
+    Cell: Cell,
     appendCodeCell: appendCodeCell,
     appendMarkdownCell: appendMarkdownCell,
     clearPad: clearPad,
