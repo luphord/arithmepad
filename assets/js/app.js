@@ -112,12 +112,6 @@ var arithmepad = (function(ace, $) {
     autoScrollEditorIntoView: true
   };
   
-  var firstOrUndefined = function(selection) {
-    if ($(selection).length > 0) {
-      return $(selection)[0];
-    }
-  };
-  
   // end of ace editor related functionality
 
   var add = function(editor, code, result) {
