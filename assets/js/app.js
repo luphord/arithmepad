@@ -91,10 +91,6 @@ var arithmepad = (function(ace, $) {
     }
   };
   
-  var getPreviousCell = function(cell) {
-    return firstOrUndefined($(cell).prevAll('.' + classes.cell));
-  };
-  
   var scrollUpTo = function(cell) {
     cell.scrollIntoView(true);
     window.scrollBy(0, -90);
@@ -335,10 +331,10 @@ var arithmepad = (function(ace, $) {
     38: /* arrow up */function(evt) {
         cmdSel = $('.' + classes.commandSelection);
         if (cmdSel.length > 0) {
-          var prevCell = getPreviousCell(cmdSel[0]);
+          var prevCell = new Cell(cmdSel[0]).getPrevious();
           if (typeof prevCell !== 'undefined') {
-            selectInCommandMode(prevCell);
-            scrollUpTo(prevCell);
+            selectInCommandMode(prevCell.$node[0]);
+            scrollUpTo(prevCell.$node[0]);
           }
           evt.preventDefault();
         }
@@ -386,10 +382,10 @@ var arithmepad = (function(ace, $) {
         selectInCommandMode(nextCell.$node[0]);
         scrollDownTo(nextCell.$node[0]);
       } else {
-        var prevCell = getPreviousCell(cmdSel[0]);
+        var prevCell = new Cell(cmdSel[0]).getPrevious();
         if (typeof prevCell !== 'undefined') {
-          selectInCommandMode(prevCell);
-          scrollUpTo(prevCell);
+          selectInCommandMode(prevCell.$node[0]);
+          scrollUpTo(prevCell.$node[0]);
         }
       }
       $(cmdSel[0]).remove();
