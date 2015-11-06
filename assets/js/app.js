@@ -101,7 +101,7 @@ var arithmepad = (function(ace, $) {
     this.$node.addClass(classes.commandSelection);
   };
   
-  // set results
+  // Cell set/insert content
   
   Cell.prototype.setResult = function(result, setHtml) {
     var output = this.$node.find('.' + classes.output);
@@ -112,42 +112,42 @@ var arithmepad = (function(ace, $) {
     }
   };
   
-  // end of ace editor related functionality
-
-  var add = function(editor, code, result) {
-    var el = div.cell();
-    el.insertAfter(Cell.fromEditor(editor).$node);
-    insertEditorAndOutputInto(el, code, result);
-  };
-  
-  var insertEditorAndOutputInto = function(cell, code, result) {
+  Cell.prototype.insertEditorAndOutput = function(code, result) {
     var input = div.input();
-    cell.append(input);
-    cell.append(div.output().text('---'));
+    this.$node.append(input);
+    this.$node.append(div.output().text('---'));
 
     editor = ace.edit(input[0]);
-    editor.setOptions((new Cell(cell)).getAceOptions());
+    editor.setOptions(this.getAceOptions());
     setupEditor(editor);
     editor.focus();
     
     if (typeof code !== 'undefined')
       editor.setValue(code, 1);
     if (typeof result !== 'undefined')
-      Cell.fromEditor(editor).setResult(result);
-    Cell.fromEditor(editor).$node[0].scrollIntoView(false);
+      this.setResult(result);
+    this.scrollDownTo();
+  };
+  
+  // end of Cell functions
+
+  var add = function(editor, code, result) {
+    var el = div.cell();
+    el.insertAfter(Cell.fromEditor(editor).$node);
+    new Cell(el).insertEditorAndOutput(code, result);
   };
   
   var appendCodeCell = function(code, result) {
     var cell = div.cell();
     cell.appendTo($('#arithmepad-cells'));
-    insertEditorAndOutputInto(cell, code, result);
+    new Cell(cell).insertEditorAndOutput(code, result);
   };
   
   var appendMarkdownCell = function(code, result) {
     var cell = div.cell();
     cell.addClass(classes.markdown);
     cell.appendTo($('#arithmepad-cells'));
-    insertEditorAndOutputInto(cell, code, result);
+    new Cell(cell).insertEditorAndOutput(code, result);
   };
   
   var evaluate = function(editor) {
