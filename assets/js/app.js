@@ -16,7 +16,7 @@ var arithmepad = (function(ace, $) {
     };
   });
   
-  // Cell constructor
+  // Cell object creation
   
   var Cell = function(domNode) {
     if (typeof domNode === 'undefined') {
@@ -27,6 +27,12 @@ var arithmepad = (function(ace, $) {
       throw 'Cannot create cell: domNode has a length of ' + this.$node.length;
     }
   };
+  
+  Cell.fromEditor = function(editor) {
+    return new Cell($(editor.container).parent());
+  };
+  
+  // Cell components (input/output)
   
   Cell.prototype.getInput = function() {
     return this.$node.find('.' + classes.input);
@@ -46,6 +52,8 @@ var arithmepad = (function(ace, $) {
     }
     return options;
   };
+  
+  // Cell navigation (previous/next, scrolling)
   
   Cell.prototype.getPrevious = function() {
     var previous = this.$node.prevAll('.' + classes.cell);
@@ -70,6 +78,8 @@ var arithmepad = (function(ace, $) {
     this.$node[0].scrollIntoView(false);
   };
   
+  // set results
+  
   Cell.prototype.setResult = function(result, setHtml) {
     var output = this.$node.find('.' + classes.output);
     if (setHtml) {
@@ -77,10 +87,6 @@ var arithmepad = (function(ace, $) {
     } else {
       output.text(result);
     }
-  };
-  
-  Cell.fromEditor = function(editor) {
-    return new Cell($(editor.container).parent());
   };
   
   // ace editor related functionality
