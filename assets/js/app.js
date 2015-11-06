@@ -80,8 +80,13 @@ var arithmepad = (function(ace, $) {
   
   // Cell selection
   
+  Cell.emptyEditAndCommandSelection = function() {
+    $('.' + classes.editSelection).removeClass(classes.editSelection);
+    $('.' + classes.commandSelection).removeClass(classes.commandSelection);
+  };
+  
   Cell.prototype.selectInCommandMode = function() {
-    emptyEditAndCommandSelection();
+    Cell.emptyEditAndCommandSelection();
     this.$node.addClass(classes.commandSelection);
   };
   
@@ -111,11 +116,6 @@ var arithmepad = (function(ace, $) {
     if ($(selection).length > 0) {
       return $(selection)[0];
     }
-  };
-  
-  var emptyEditAndCommandSelection = function() {
-    $('.' + classes.editSelection).removeClass(classes.editSelection);
-    $('.' + classes.commandSelection).removeClass(classes.commandSelection);
   };
   
   // end of ace editor related functionality
