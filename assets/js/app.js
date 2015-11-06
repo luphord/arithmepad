@@ -61,6 +61,15 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  Cell.prototype.scrollUpTo = function() {
+    this.$node[0].scrollIntoView(true);
+    window.scrollBy(0, -90);
+  };
+  
+  Cell.prototype.scrollDownTo = function() {
+    this.$node[0].scrollIntoView(false);
+  };
+  
   Cell.prototype.setResult = function(result, setHtml) {
     var output = this.$node.find('.' + classes.output);
     if (setHtml) {
@@ -89,15 +98,6 @@ var arithmepad = (function(ace, $) {
     if ($(selection).length > 0) {
       return $(selection)[0];
     }
-  };
-  
-  var scrollUpTo = function(cell) {
-    cell.scrollIntoView(true);
-    window.scrollBy(0, -90);
-  };
-  
-  var scrollDownTo = function(cell) {
-    cell.scrollIntoView(false);
   };
   
   var emptyEditAndCommandSelection = function() {
@@ -215,7 +215,7 @@ var arithmepad = (function(ace, $) {
           if (typeof nextCell !== 'undefined') {
             nextCell.getInput().show();
             nextCell.getEditor().focus();
-            scrollDownTo(nextCell.$node[0]);
+            nextCell.scrollDownTo();
           }
         } else {
           editor.navigateDown();
@@ -231,7 +231,7 @@ var arithmepad = (function(ace, $) {
           if (typeof previousCell !== 'undefined') {
             previousCell.getInput().show();
             previousCell.getEditor().focus();
-            scrollUpTo(previousCell.$node[0]);
+            previousCell.scrollUpTo();
           }
         } else {
           editor.navigateUp();
@@ -334,7 +334,7 @@ var arithmepad = (function(ace, $) {
           var prevCell = new Cell(cmdSel[0]).getPrevious();
           if (typeof prevCell !== 'undefined') {
             selectInCommandMode(prevCell.$node[0]);
-            scrollUpTo(prevCell.$node[0]);
+            prevCell.scrollUpTo();
           }
           evt.preventDefault();
         }
@@ -345,7 +345,7 @@ var arithmepad = (function(ace, $) {
           var nextCell = new Cell(cmdSel[0]).getNext();
           if (typeof nextCell !== 'undefined') {
             selectInCommandMode(nextCell.$node[0]);
-            scrollDownTo(nextCell.$node[0]);
+            nextCell.scrollDownTo();
           }
           evt.preventDefault();
         }
@@ -380,12 +380,12 @@ var arithmepad = (function(ace, $) {
       var nextCell = new Cell(cmdSel[0]).getNext();
       if (typeof nextCell !== 'undefined') {
         selectInCommandMode(nextCell.$node[0]);
-        scrollDownTo(nextCell.$node[0]);
+        nextCell.scrollDownTo();
       } else {
         var prevCell = new Cell(cmdSel[0]).getPrevious();
         if (typeof prevCell !== 'undefined') {
           selectInCommandMode(prevCell.$node[0]);
-          scrollUpTo(prevCell.$node[0]);
+          prevCell.scrollUpTo();
         }
       }
       $(cmdSel[0]).remove();
