@@ -45,8 +45,19 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  // Cell editor options
+  
+  Cell.editorOptions = {
+    mode: "ace/mode/javascript",
+    tabSize: 2,
+    //theme: theme,
+    showGutter: false,
+    maxLines: 30,
+    autoScrollEditorIntoView: true
+  };
+  
   Cell.prototype.getAceOptions = function() {
-    var options = _.clone(editorOptions);
+    var options = _.clone(Cell.editorOptions);
     if (this.$node.hasClass(classes.markdown)) {
       options.mode = 'ace/mode/markdown';
     }
@@ -99,17 +110,6 @@ var arithmepad = (function(ace, $) {
     } else {
       output.text(result);
     }
-  };
-  
-  // ace editor related functionality
-
-  var editorOptions = {
-    mode: "ace/mode/javascript",
-    tabSize: 2,
-    //theme: theme,
-    showGutter: false,
-    maxLines: 30,
-    autoScrollEditorIntoView: true
   };
   
   // end of ace editor related functionality
@@ -272,7 +272,7 @@ var arithmepad = (function(ace, $) {
       var cellNode = div.input().text(json.cells[i].content);
       cellsNode.append(div.cell().append(cellNode).append(div.output().text('---')));
       var editor = ace.edit(cellNode[0]);
-      editor.setOptions(editorOptions);
+      editor.setOptions(Cell.editorOptions);
       setupEditor(editor);
     }
   }
