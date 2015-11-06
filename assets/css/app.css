@@ -75,3 +75,26 @@ body {
   border: 1px solid lightgreen;
   padding: 4px;
 }
+
+@media (max-width: 767px) { 
+
+  #arithmepad-cells {
+    margin-left: -15px;
+    margin-right: -25px;
+    margin-bottom: 15px;
+  }
+  
+  .arithmepad-cell {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+  
+  .arithmepad-input {
+    width: 95%;
+  }
+  
+  .arithmepad-output {
+    width: 95%;
+  }
+
+}
