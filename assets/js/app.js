@@ -78,6 +78,13 @@ var arithmepad = (function(ace, $) {
     this.$node[0].scrollIntoView(false);
   };
   
+  // Cell selection
+  
+  Cell.prototype.selectInCommandMode = function() {
+    emptyEditAndCommandSelection();
+    this.$node.addClass(classes.commandSelection);
+  };
+  
   // set results
   
   Cell.prototype.setResult = function(result, setHtml) {
@@ -109,11 +116,6 @@ var arithmepad = (function(ace, $) {
   var emptyEditAndCommandSelection = function() {
     $('.' + classes.editSelection).removeClass(classes.editSelection);
     $('.' + classes.commandSelection).removeClass(classes.commandSelection);
-  };
-  
-  var selectInCommandMode = function(cell) {
-    emptyEditAndCommandSelection();
-    $(cell).addClass(classes.commandSelection);
   };
   
   // end of ace editor related functionality
@@ -249,7 +251,7 @@ var arithmepad = (function(ace, $) {
       bindKey: {win: 'Esc'},
       exec: function(editor) {
         editor.blur();
-        selectInCommandMode(Cell.fromEditor(editor).$node);
+        Cell.fromEditor(editor).selectInCommandMode();
       }
     });
     // disable warning
@@ -339,7 +341,7 @@ var arithmepad = (function(ace, $) {
         if (cmdSel.length > 0) {
           var prevCell = new Cell(cmdSel[0]).getPrevious();
           if (typeof prevCell !== 'undefined') {
-            selectInCommandMode(prevCell.$node[0]);
+            prevCell.selectInCommandMode();
             prevCell.scrollUpTo();
           }
           evt.preventDefault();
@@ -350,7 +352,7 @@ var arithmepad = (function(ace, $) {
         if (cmdSel.length > 0) {
           var nextCell = new Cell(cmdSel[0]).getNext();
           if (typeof nextCell !== 'undefined') {
-            selectInCommandMode(nextCell.$node[0]);
+            nextCell.selectInCommandMode();
             nextCell.scrollDownTo();
           }
           evt.preventDefault();
@@ -385,12 +387,12 @@ var arithmepad = (function(ace, $) {
     if (cmdSel.length > 0) {
       var nextCell = new Cell(cmdSel[0]).getNext();
       if (typeof nextCell !== 'undefined') {
-        selectInCommandMode(nextCell.$node[0]);
+        nextCell.selectInCommandMode();
         nextCell.scrollDownTo();
       } else {
         var prevCell = new Cell(cmdSel[0]).getPrevious();
         if (typeof prevCell !== 'undefined') {
-          selectInCommandMode(prevCell.$node[0]);
+          prevCell.selectInCommandMode();
           prevCell.scrollUpTo();
         }
       }
