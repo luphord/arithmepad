@@ -105,6 +105,22 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  // Cell saving and loading
+  
+  Cell.prototype.getJSValue = function() {
+    var isMarkdownCell = this.getEditor().getOption('mode') == 'ace/mode/markdown';
+    var code = [];
+    code.push('// !arithmepad-cell');
+    var value = this.getEditor().getValue();
+    if (isMarkdownCell) {
+      value = _(value.split('\n')).map(function(line) {
+        return '// ' + line;
+      }).join('\n');
+    }
+    code.push(value);
+    return code.join('\n');
+  };
+  
   return {
     Cell: Cell,
     __: {

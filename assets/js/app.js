@@ -207,7 +207,7 @@ arithmepad = (function(ace, $, Cell, classes) {
   var saveToJSFile = function() {
     var code = [];
     $('#arithmepad-cells .' + classes.cell).each(function() {
-      code.push('// !arithmepad-cell\n' + new Cell(this).getEditor().getValue());
+      code.push(new Cell(this).getJSValue());
     });
     return code.join('\n');
   };
