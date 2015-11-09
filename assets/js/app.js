@@ -192,7 +192,11 @@ arithmepad = (function(ace, $, Cell, classes) {
       var cmd = line.trimLeft().slice(2).trimLeft();
       if (line.trimLeft().startsWith('//') && cmd.startsWith('!arithmepad-cell')) {
         if (currentCell.length > 0) {
-          appendCodeCell(currentCell.join('\n'));
+          if (_(currentCell).all(function(line) {return line.trimLeft().startsWith('// ')})) {
+            appendMarkdownCell(_(currentCell).map(function(line) {return line.trimLeft().slice(3)}).join('\n'));
+          } else {
+            appendCodeCell(currentCell.join('\n'));
+          }
         }
         currentCell = [];
       } else {
