@@ -114,6 +114,7 @@ arithmepad = (function(ace, $, Cell, classes) {
           if (typeof nextCell !== 'undefined') {
             nextCell.getInput().show();
             nextCell.getEditor().focus();
+            nextCell.getEditor().navigateFileStart();
             nextCell.scrollDownTo();
           }
         } else {
@@ -130,6 +131,7 @@ arithmepad = (function(ace, $, Cell, classes) {
           if (typeof previousCell !== 'undefined') {
             previousCell.getInput().show();
             previousCell.getEditor().focus();
+            previousCell.getEditor().navigateFileEnd();
             previousCell.scrollUpTo();
           }
         } else {
@@ -149,30 +151,13 @@ arithmepad = (function(ace, $, Cell, classes) {
     editor.$blockScrolling = Infinity;
   };
   
-  var readJSONFromDom = function() {
-    var cells = []
-    $('#arithmepad-cells .' + classes.cell).each(function() {
-      cells.push({type: 'code', content: new Cell(this).getEditor().getValue()});
-    })
-    return {cells: cells};
-  };
-  
   var updatePermalink = function() {
-    $('#arithmepad-permalink').attr('href', '#' + base64.encode(JSON.stringify(readJSONFromDom())));
+    $('#arithmepad-permalink').attr('href', '#' + base64.encode(saveToJSFile()));
   };
   
   var loadFromBase64 = function(base64string) {
-    json = JSON.parse(base64.decode(base64string));
-    var cellsNode = $('#arithmepad-cells');
-    cellsNode.empty();
-    for (var i=0; i<json.cells.length; i++) {
-      var cellNode = div.input().text(json.cells[i].content);
-      cellsNode.append(div.cell().append(cellNode).append(div.output().text('---')));
-      var editor = ace.edit(cellNode[0]);
-      editor.setOptions(Cell.editorOptions);
-      setupEditor(editor);
-    }
-  }
+    loadFromJSFile(base64.decode(base64string));
+  };
   
   var loadFromDom = function() {
     $('#arithmepad-cells .' + classes.cell).each(function() {
@@ -204,7 +189,11 @@ arithmepad = (function(ace, $, Cell, classes) {
       }
     });
     if (currentCell.length > 0) {
-      appendCodeCell(currentCell.join('\n'));
+      if (_(currentCell).all(function(line) {return line.trimLeft().startsWith('// ')})) {
+        appendMarkdownCell(_(currentCell).map(function(line) {return line.trimLeft().slice(3)}).join('\n'));
+      } else {
+        appendCodeCell(currentCell.join('\n'));
+      }
     }
   };
   
