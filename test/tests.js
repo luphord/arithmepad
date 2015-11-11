@@ -62,6 +62,12 @@ QUnit.test('insert cells', function(assert) {
   var firstEditor = ace.edit($('.ace_editor')[0]);
   assert.equal(firstEditor.getValue(), code, 'code of first editor should equal "' + code + '"');
   assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), res, 'res of first editor should equal "' + res + '"');
+  arithmepad.appendMarkdownCell('# test');
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  arithmepad.evaluateAllCells();
+  var thirdResultNode = $($($('.' + arithmepad.__.classes.output)[2]).html())[0];
+  assert.equal(thirdResultNode.nodeName.toLowerCase(), 'h1', 'Result should contain an <h1> tag');
+  assert.equal(thirdResultNode.textContent, 'test', 'Result should contain text "test"');
 });
 
 QUnit.test('navigate using arrow keys in edit mode', function(assert) {
