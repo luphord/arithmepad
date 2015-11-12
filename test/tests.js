@@ -224,6 +224,30 @@ QUnit.test('delete cells', function(assert) {
   hidePage();
 });
 
+QUnit.test('delete cells by button', function(assert) {
+  showPage(); // apparently, we need to have the page visible for the focus events to work properly
+  arithmepad.clearPad();
+  $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
+  arithmepad.loadFromDom();
+  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
+  var firstEditor = ace.edit($('.ace_editor')[0]);
+  firstEditor.focus();
+  assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
+  firstEditor.execCommand('evaluateCreateNew');
+  var secondEditor = getNextEditor(firstEditor);
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
+  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
+  $("#arithmepad-delete-cell").click();
+  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no edit selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be one command selection');
+  $("#arithmepad-delete-cell").click();
+  assert.equal($('.ace_editor').length, 0, 'no more ace editor instances should be available');
+  assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no edit selection');
+  assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
+});
+
 QUnit.test('run all cells', function(assert) {
   assert.equal($('#arithmepad-run-all-button').length, 1, 'the "Run All Cells" button should be available');
   calls = [arithmepad.evaluateAllCells, _.bind($('#arithmepad-run-all-button').click, $('#arithmepad-run-all-button'))];

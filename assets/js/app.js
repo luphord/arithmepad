@@ -324,6 +324,24 @@ arithmepad = (function(ace, $, Cell, classes) {
     $('#arithmepad-open-js-file-button').click();
     e.preventDefault();
   });
+  $('#arithmepad-delete-cell').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      var nextCell = new Cell(sel[0]).getNext();
+      if (typeof nextCell !== 'undefined') {
+        nextCell.selectInCommandMode();
+        nextCell.scrollDownTo();
+      } else {
+        var prevCell = new Cell(sel[0]).getPrevious();
+        if (typeof prevCell !== 'undefined') {
+          prevCell.selectInCommandMode();
+          prevCell.scrollUpTo();
+        }
+      }
+      $(sel[0]).remove();
+    }
+    e.preventDefault();
+  });
   
   return {
     loadFromDom: loadFromDom,
