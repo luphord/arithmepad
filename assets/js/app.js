@@ -269,18 +269,7 @@ arithmepad = (function(ace, $, Cell, classes) {
   keyHandlers[[68, 68] /*[d, d]*/] = function(evt) {
     cmdSel = $('.' + classes.commandSelection);
     if (cmdSel.length > 0) {
-      var nextCell = new Cell(cmdSel[0]).getNext();
-      if (typeof nextCell !== 'undefined') {
-        nextCell.selectInCommandMode();
-        nextCell.scrollDownTo();
-      } else {
-        var prevCell = new Cell(cmdSel[0]).getPrevious();
-        if (typeof prevCell !== 'undefined') {
-          prevCell.selectInCommandMode();
-          prevCell.scrollUpTo();
-        }
-      }
-      $(cmdSel[0]).remove();
+      new Cell(cmdSel[0]).remove();
     }
   }
   
@@ -327,18 +316,7 @@ arithmepad = (function(ace, $, Cell, classes) {
   $('#arithmepad-delete-cell').click(function(e) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
-      var nextCell = new Cell(sel[0]).getNext();
-      if (typeof nextCell !== 'undefined') {
-        nextCell.selectInCommandMode();
-        nextCell.scrollDownTo();
-      } else {
-        var prevCell = new Cell(sel[0]).getPrevious();
-        if (typeof prevCell !== 'undefined') {
-          prevCell.selectInCommandMode();
-          prevCell.scrollUpTo();
-        }
-      }
-      $(sel[0]).remove();
+      new Cell(sel[0]).remove();
     }
     e.preventDefault();
   });

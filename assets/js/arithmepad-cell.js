@@ -25,6 +25,23 @@ var arithmepad = (function(ace, $) {
     return new Cell($(editor.container).parent());
   };
   
+  // Cell deletion
+  
+  Cell.prototype.remove = function() {
+    var nextCell = this.getNext();
+    if (typeof nextCell !== 'undefined') {
+      nextCell.selectInCommandMode();
+      nextCell.scrollDownTo();
+    } else {
+      var prevCell = this.getPrevious();
+      if (typeof prevCell !== 'undefined') {
+        prevCell.selectInCommandMode();
+        prevCell.scrollUpTo();
+      }
+    }
+    this.$node.remove();
+  }
+  
   // Cell components (input/output)
   
   Cell.prototype.getInput = function() {
