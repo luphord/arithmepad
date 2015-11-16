@@ -302,3 +302,18 @@ QUnit.test('switch between javascript and markdown', function(assert) {
   assert.equal(firstEditor.getOption('mode'), 'ace/mode/javascript');
   hidePage();
 });
+
+QUnit.test('Chartist.js plots', function(assert) {
+  assert.equal(typeof Chartist, 'object', 'Chartist should be available');
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell("data = {  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],  series: [[5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8], [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4]]}; new Chartist.Line(plotId, data);");
+  arithmepad.evaluateAllCells();
+  var done = assert.async();
+  setTimeout(function() {
+    var $plot = $('.' + arithmepad.__.classes.plot);
+    assert.equal($plot.length, 1, 'there should be one plot');
+    assert.equal($plot.find('.ct-series').length, 2, 'there should be two series in the plot');
+    var $points = $plot.find('.ct-series-b .ct-point');
+    assert.equal($points.length, 12, 'there should be 12 points in the second series')
+  });
+});
