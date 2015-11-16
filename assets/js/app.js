@@ -1,4 +1,4 @@
-arithmepad = (function(ace, $, Cell, classes) {
+arithmepad = (function(ace, $, _, Cell, classes) {
   
   var div = {};
   _(classes).each(function(cls, clsName) {
@@ -11,8 +11,17 @@ arithmepad = (function(ace, $, Cell, classes) {
   
   Cell.prototype.insertEditorAndOutput = function(code, result) {
     var input = div.input();
-    this.$node.append(input);
-    this.$node.append(div.output().text('---'));
+    if (this.$node.find('.' + classes.input).length > 0) {
+      input = this.$node.find('.' + classes.input)
+    } else {
+      this.$node.append(input);
+    }
+    if (this.$node.find('.' + classes.output).length == 0) {
+      this.$node.append(div.output().text('---'));
+    }
+    if (this.$node.find('.' + classes.plot).length == 0) {
+      this.$node.append(div.plot().attr('id', 'plot' + _.uniqueId()));
+    }
 
     editor = ace.edit(input[0]);
     editor.setOptions(this.getAceOptions());
@@ -57,6 +66,7 @@ arithmepad = (function(ace, $, Cell, classes) {
         $(editor.container).hide();
         editor.blur();
       } else {
+        var plotId = '#' + Cell.fromEditor(editor).$node.find('.' + classes.plot).attr('id');
         res = eval(editor.getValue());
       }
       resultDiv.removeClass('text-danger');
@@ -161,11 +171,7 @@ arithmepad = (function(ace, $, Cell, classes) {
   
   var loadFromDom = function() {
     $('#arithmepad-cells .' + classes.cell).each(function() {
-      var editor = new Cell(this).getEditor();
-      //editor.setTheme("ace/theme/twilight");
-      editor.setOptions((new Cell(this)).getAceOptions());
-      setupEditor(editor);
-      editor.focus();
+      new Cell(this).insertEditorAndOutput();
     });
   };
   
@@ -336,4 +342,4 @@ arithmepad = (function(ace, $, Cell, classes) {
       classes: classes
     }
   }
-})(ace, jQuery, arithmepad.Cell, arithmepad.__.classes);
+})(ace, jQuery, _, arithmepad.Cell, arithmepad.__.classes);

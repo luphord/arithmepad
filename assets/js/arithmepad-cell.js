@@ -3,6 +3,7 @@ var arithmepad = (function(ace, $) {
   var classes = {
     input: 'arithmepad-input',
     output: 'arithmepad-output',
+    plot: 'arithmepad-plot',
     cell: 'arithmepad-cell',
     markdown: 'arithmepad-markdown',
     editSelection: 'arithmepad-edit-selection',
