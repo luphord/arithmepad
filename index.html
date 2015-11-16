@@ -71,7 +71,6 @@
 - defines a discount function
 - defines a npv function
 </div>
-          <div class="arithmepad-output"></div>
         </div>
         <div class="arithmepad-cell">
 <div class="arithmepad-input">// a simple continuous discount curve
@@ -87,11 +86,21 @@ npv = function(cashflow) {
   return sum(_(cashflow).map(cf => df(cf.t) * cf.v));
 };
 </div>
-          <div class="arithmepad-output"></div>
         </div>
         <div class="arithmepad-cell">
-          <div class="arithmepad-input">npv([{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}])</div>
-          <div class="arithmepad-output"></div>
+          <div class="arithmepad-input">cashflow = [{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}];
+npv(cashflow);</div>
+        </div>
+        <div class="arithmepad-cell">
+<div class="arithmepad-input">data = {labels: [], series: [[], []]};
+_(cashflow).each(function(c) {
+  data.labels.push(c.t);
+  data.series[0].push(c.v);
+  data.series[1].push(df(c.t) * c.v);
+});
+
+new Chartist.Bar(plotId, data);
+</div>
         </div>
       </div>
     </div>
