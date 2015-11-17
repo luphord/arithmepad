@@ -1,4 +1,4 @@
-arithmepad = (function(ace, $, _, Cell, classes) {
+arithmepad = (function(ace, $, _, numeric, Cell, classes) {
   
   var div = {};
   _(classes).each(function(cls, clsName) {
@@ -68,6 +68,15 @@ arithmepad = (function(ace, $, _, Cell, classes) {
       } else {
         var plotId = '#' + Cell.fromEditor(editor).$node.find('.' + classes.plot).attr('id');
         res = eval(editor.getValue());
+        if (typeof numeric !== 'undefined') {
+          resBackup = res;
+          try {
+            numeric.precision = 10;
+            res = numeric.prettyPrint(res).trim();
+          } catch(e) {
+            res = resBackup;
+          }          
+        }
       }
       resultDiv.removeClass('text-danger');
     }
@@ -342,4 +351,4 @@ arithmepad = (function(ace, $, _, Cell, classes) {
       classes: classes
     }
   }
-})(ace, jQuery, _, arithmepad.Cell, arithmepad.__.classes);
+})(ace, jQuery, _, numeric, arithmepad.Cell, arithmepad.__.classes);
