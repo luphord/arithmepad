@@ -303,6 +303,14 @@ QUnit.test('switch between javascript and markdown', function(assert) {
   hidePage();
 });
 
+QUnit.test('numeric.js', function(assert) {
+  assert.equal(typeof numeric, 'function', 'numeric should be available');
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('numeric.linspace(0,4,5).toString();');
+  arithmepad.evaluateAllCells();
+  assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), '0,1,2,3,4', 'result of third editor should equal "0,1,2,3,4"');
+});
+
 QUnit.test('Chartist.js plots', function(assert) {
   assert.equal(typeof Chartist, 'object', 'Chartist should be available');
   arithmepad.clearPad();
