@@ -2,6 +2,10 @@
   padding-top: 70px;
 }
 
+#arithmepad-toolbar {
+  padding-top: 7px;
+}
+
 body {
   background: #f0f0f0;
 }
