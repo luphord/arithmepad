@@ -262,6 +262,18 @@ QUnit.test('run all cells', function(assert) {
   }
 });
 
+QUnit.test('run cell by button', function(assert) {
+  assert.equal($('#arithmepad-run-cell').length, 1, 'the "Cell > Run" button should be available');
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('a=2;');
+  $('#arithmepad-run-cell').click();
+  var done = assert.async();
+  setTimeout(function() {
+    assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), '2', 'result of first editor should equal "2"');
+    done();
+  }, 100);
+});
+
 QUnit.test('blurring editors causes cells to be command selection', function(assert) {
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
   arithmepad.clearPad();
@@ -322,6 +334,7 @@ QUnit.test('Chartist.js plots', function(assert) {
     assert.equal($plot.length, 1, 'there should be one plot');
     assert.equal($plot.find('.ct-series').length, 2, 'there should be two series in the plot');
     var $points = $plot.find('.ct-series-b .ct-point');
-    assert.equal($points.length, 12, 'there should be 12 points in the second series')
+    assert.equal($points.length, 12, 'there should be 12 points in the second series');
+    done();
   });
 });

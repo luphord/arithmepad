@@ -328,6 +328,13 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     $('#arithmepad-open-js-file-button').click();
     e.preventDefault();
   });
+  $('#arithmepad-run-cell').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      evaluate(new Cell(sel[0]).getEditor());
+    }
+    e.preventDefault();
+  });
   $('#arithmepad-delete-cell').click(function(e) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
