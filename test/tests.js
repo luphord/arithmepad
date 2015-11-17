@@ -263,6 +263,7 @@ QUnit.test('run all cells', function(assert) {
 });
 
 QUnit.test('run cell by button', function(assert) {
+  showPage();
   assert.equal($('#arithmepad-run-cell').length, 1, 'the "Cell > Run" button should be available');
   arithmepad.clearPad();
   arithmepad.appendCodeCell('a=2;');
@@ -271,7 +272,8 @@ QUnit.test('run cell by button', function(assert) {
   setTimeout(function() {
     assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), '2', 'result of first editor should equal "2"');
     done();
-  }, 100);
+    hidePage();
+  }, 1);
 });
 
 QUnit.test('blurring editors causes cells to be command selection', function(assert) {
