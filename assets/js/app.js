@@ -302,7 +302,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     }
   });
   // setup buttons in navbar
-  $('#arithmepad-run-all-button').click(function(e) {
+  $('#arithmepad-run-all-button, #arithmepad-toolbar-run-all-cells').click(function(e) {
     evaluateAllCells();
     e.preventDefault();
   });
@@ -328,7 +328,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     $('#arithmepad-open-js-file-button').click();
     e.preventDefault();
   });
-  $('#arithmepad-run-cell').click(function(e) {
+  $('#arithmepad-run-cell, #arithmepad-toolbar-run-cell').click(function(e) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
       evaluate(new Cell(sel[0]).getEditor());

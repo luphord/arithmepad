@@ -262,12 +262,42 @@ QUnit.test('run all cells', function(assert) {
   }
 });
 
+QUnit.test('run all cells by toolbar button', function(assert) {
+  assert.equal($('#arithmepad-toolbar-run-all-cells').length, 1, 'the "Run All Cells" toolbar button should be available');
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('a=2;');
+  arithmepad.appendCodeCell('b=3;');
+  arithmepad.appendCodeCell('a+b;');
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  var done = assert.async();
+  $('#arithmepad-toolbar-run-all-cells').click();
+  setTimeout(function() {
+    assert.equal($($('.' + arithmepad.__.classes.output)[2]).text(), '5', 'result of third editor should equal "5"');
+    done();
+    hidePage();
+  }, 1);
+});
+
 QUnit.test('run cell by button', function(assert) {
   showPage();
   assert.equal($('#arithmepad-run-cell').length, 1, 'the "Cell > Run" button should be available');
   arithmepad.clearPad();
   arithmepad.appendCodeCell('a=2;');
   $('#arithmepad-run-cell').click();
+  var done = assert.async();
+  setTimeout(function() {
+    assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), '2', 'result of first editor should equal "2"');
+    done();
+    hidePage();
+  }, 1);
+});
+
+QUnit.test('run cell by toolbar button', function(assert) {
+  showPage();
+  assert.equal($('#arithmepad-toolbar-run-cell').length, 1, 'the "Run Cell" toolbar button should be available');
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('a=2;');
+  $('#arithmepad-toolbar-run-cell').click();
   var done = assert.async();
   setTimeout(function() {
     assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), '2', 'result of first editor should equal "2"');
