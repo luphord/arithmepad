@@ -98,6 +98,7 @@ var arithmepad = (function(ace, $) {
   
   Cell.prototype.scrollDownTo = function() {
     this.$node[0].scrollIntoView(false);
+    window.scrollBy(0, 75);
   };
   
   // Cell selection
