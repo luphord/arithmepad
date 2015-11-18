@@ -306,7 +306,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     evaluateAllCells();
     e.preventDefault();
   });
-  $('#arithmepad-download-js').click(function() {
+  $('#arithmepad-download-js, #arithmepad-toolbar-save-js').click(function() {
     var d = (new Date()).toISOString().replace(':', '-', 'g');
     $(this).attr('href', 'data:application/javascript;charset=utf-8,' + encodeURIComponent(saveToJSFile()));
     $(this).attr('download', 'My Pad ' + d + '.js');
@@ -324,7 +324,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
       alert('Could not open file: ' + e);
     }
   });
-  $('#arithmepad-open-js').click(function(e) {
+  $('#arithmepad-open-js, #arithmepad-toolbar-open-js').click(function(e) {
     $('#arithmepad-open-js-file-button').click();
     e.preventDefault();
   });
