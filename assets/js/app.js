@@ -40,7 +40,9 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
   var add = function(editor, code, result) {
     var el = div.cell();
     el.insertAfter(Cell.fromEditor(editor).$node);
-    new Cell(el).insertEditorAndOutput(code, result);
+    var cell = new Cell(el);
+    cell.insertEditorAndOutput(code, result);
+    return cell;
   };
   
   var appendCodeCell = function(code, result) {
@@ -106,11 +108,24 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
       exec: evaluate
     });
     editor.commands.addCommand({
-      name: 'evaluateCreateNew',
+      name: 'evaluateSelectBelowOrCreateNew',
       bindKey: {win: 'Shift-Enter'},
       exec: function(editor) {
         evaluate(editor);
-        add(editor, "// cell number: " + count++ + "\n", 'result for cell ' + count);
+        var nextCell = Cell.fromEditor(editor).getNext();
+        if (typeof nextCell === 'undefined') {
+          nextCell = add(editor);
+        }
+        nextCell.scrollDownTo();
+        nextCell.getEditor().focus();
+      }
+    });
+    editor.commands.addCommand({
+      name: 'evaluateCreateNew',
+      bindKey: {win: 'Alt-Enter'},
+      exec: function(editor) {
+        evaluate(editor);
+        add(editor);
       }
     });
     editor.on('blur', function() {
