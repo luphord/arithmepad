@@ -343,6 +343,13 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     $('#arithmepad-open-js-file-button').click();
     e.preventDefault();
   });
+  $('#arithmepad-toolbar-add-cell').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      add(new Cell(sel[0]).getEditor());
+    }
+    e.preventDefault();
+  });
   $('#arithmepad-run-cell, #arithmepad-toolbar-run-cell').click(function(e) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
