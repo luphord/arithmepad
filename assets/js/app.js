@@ -35,6 +35,25 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     this.scrollDownTo();
   };
   
+  Cell.prototype.pasteAfter = function() {
+    if (typeof Cell.clipboard !== 'undefined') {
+      var lines = Cell.clipboard.split('\n'); //todo: support \r\n
+      if (lines.length > 1) {
+        lines = lines.slice(1);
+        var el = div.cell();
+        el.insertAfter(this.$node);
+        var code = '';
+        if (_(lines).all(function(line) {return line.trimLeft().startsWith('// ')})) {
+          el.addClass(classes.markdown);
+          code = _(lines).map(function(line) {return line.trimLeft().slice(3)}).join('\n');
+        } else {
+          code = lines.join('\n');
+        }
+        new Cell(el).insertEditorAndOutput(code);
+      }
+    }
+  };
+  
   // end of Cell functions
 
   var add = function(editor, code, result) {
@@ -361,6 +380,27 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
       new Cell(sel[0]).moveDown();
+    }
+    e.preventDefault();
+  });
+  $('#arithmepad-toolbar-copy-cell').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      new Cell(sel[0]).copy();
+    }
+    e.preventDefault();
+  });
+  $('#arithmepad-toolbar-cut-cell').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      new Cell(sel[0]).cut();
+    }
+    e.preventDefault();
+  });
+  $('#arithmepad-toolbar-paste-cell').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      new Cell(sel[0]).pasteAfter();
     }
     e.preventDefault();
   });

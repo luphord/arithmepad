@@ -121,6 +121,17 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  // copy / cut
+  
+  Cell.prototype.copy = function() {
+    Cell.clipboard = this.getJSValue();
+  };
+  
+  Cell.prototype.cut = function() {
+    this.copy();
+    this.remove();
+  };
+  
   // Cell selection
   
   Cell.emptyEditAndCommandSelection = function() {
