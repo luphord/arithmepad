@@ -101,6 +101,24 @@ var arithmepad = (function(ace, $) {
     window.scrollBy(0, 75);
   };
   
+  // Cell movement
+  
+  Cell.prototype.moveUp = function() {
+    var prevCell = this.getPrevious();
+    if (typeof prevCell !== 'undefined') {
+      this.$node.remove();
+      this.$node.insertBefore(prevCell.$node);
+    }
+  };
+  
+  Cell.prototype.moveDown = function() {
+    var nextCell = this.getNext();
+    if (typeof nextCell !== 'undefined') {
+      this.$node.remove();
+      this.$node.insertAfter(nextCell.$node);
+    }
+  };
+  
   // Cell selection
   
   Cell.emptyEditAndCommandSelection = function() {

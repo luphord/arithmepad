@@ -306,6 +306,37 @@ QUnit.test('run cell by toolbar button', function(assert) {
   }, 1);
 });
 
+QUnit.test('move cells', function(assert) {
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('//1');
+  arithmepad.appendCodeCell('//2');
+  arithmepad.appendCodeCell('//3');
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal(firstEditor.getValue(), '//1', 'value of first editor should be "//1"');
+  var firstCell = arithmepad.Cell.fromEditor(firstEditor);
+  firstCell.moveDown();
+  secondEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal(secondEditor.getValue(), '//2', 'value of first visible editor should be "//2"');
+  firstCell.moveDown();
+  thirdEditor = ace.edit($('.ace_editor')[1]);
+  assert.equal(thirdEditor.getValue(), '//3', 'value of second visible editor should be "//3"');
+  firstCell.moveDown();
+  firstCell.moveDown();
+  secondEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal(secondEditor.getValue(), '//2', 'value of first visible editor should still be "//2"');
+  thirdEditor = ace.edit($('.ace_editor')[1]);
+  assert.equal(thirdEditor.getValue(), '//3', 'value of second visible editor should still be "//3"');
+  firstCell.moveUp();
+  secondEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal(secondEditor.getValue(), '//2', 'value of first visible editor should still be "//2"');
+  thirdEditor = ace.edit($('.ace_editor')[2]);
+  assert.equal(thirdEditor.getValue(), '//3', 'value of third visible editor should now be "//3"');
+  firstCell.moveUp();
+  secondEditor = ace.edit($('.ace_editor')[1]);
+  assert.equal(secondEditor.getValue(), '//2', 'value of second visible editor should now be "//2"');
+});
+
 QUnit.test('blurring editors causes cells to be command selection', function(assert) {
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
   arithmepad.clearPad();
