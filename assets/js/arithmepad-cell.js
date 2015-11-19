@@ -108,6 +108,7 @@ var arithmepad = (function(ace, $) {
     if (typeof prevCell !== 'undefined') {
       this.$node.remove();
       this.$node.insertBefore(prevCell.$node);
+      this.scrollUpTo();
     }
   };
   
@@ -116,6 +117,7 @@ var arithmepad = (function(ace, $) {
     if (typeof nextCell !== 'undefined') {
       this.$node.remove();
       this.$node.insertAfter(nextCell.$node);
+      this.scrollDownTo();
     }
   };
   

@@ -350,6 +350,20 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     }
     e.preventDefault();
   });
+  $('#arithmepad-toolbar-move-cell-up').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      new Cell(sel[0]).moveUp();
+    }
+    e.preventDefault();
+  });
+  $('#arithmepad-toolbar-move-cell-down').click(function(e) {
+    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
+    if (sel.length > 0) {
+      new Cell(sel[0]).moveDown();
+    }
+    e.preventDefault();
+  });
   $('#arithmepad-run-cell, #arithmepad-toolbar-run-cell').click(function(e) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
