@@ -383,14 +383,14 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     }
     e.preventDefault();
   });
-  $('#arithmepad-toolbar-copy-cell').click(function(e) {
+  $('#arithmepad-copy-cell, #arithmepad-toolbar-copy-cell').click(function(e) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
       new Cell(sel[0]).copy();
     }
     e.preventDefault();
   });
-  $('#arithmepad-toolbar-cut-cell').click(function(e) {
+  $('#arithmepad-cut-cell, #arithmepad-toolbar-cut-cell').click(function(e) {
     sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
     if (sel.length > 0) {
       new Cell(sel[0]).cut();
