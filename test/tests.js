@@ -248,6 +248,44 @@ QUnit.test('delete cells by button', function(assert) {
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
 });
 
+QUnit.test('copy / cut / paste cells', function(assert) {
+  // we check for the buttons, but we are not actually going to use them in the test,
+  // because the Cell methods yield simpler synchronous calls than the asynchronous button clicks
+  assert.equal($('#arithmepad-toolbar-copy-cell').length, 1, 'the "Copy cell" toolbar button should be available');
+  assert.equal($('#arithmepad-toolbar-cut-cell').length, 1, 'the "Cut cell" toolbar button should be available');
+  assert.equal($('#arithmepad-toolbar-paste-cell').length, 1, 'the "Paste cell" toolbar button should be available');
+  arithmepad.clearPad();
+  arithmepad.appendCodeCell('//1');
+  arithmepad.appendCodeCell('//2');
+  arithmepad.appendCodeCell('//3');
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  var first = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[0]));
+  var second = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[1]));
+  var third = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[2]));
+  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//1', 'value of top most editor instance should be "//1"');
+  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//2', 'value of middle editor instance should be "//2"');
+  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of last editor instance should be "//3"');
+  first.cut();
+  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should no be available');
+  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
+  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//3', 'value of second editor instance should now be "//3"');
+  second.pasteAfter();
+  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should now be available');
+  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
+  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//1', 'value of middle editor instance should now be "//1"');
+  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of last editor instance should still be "//3"');
+  third.copy();
+  // this cell was cut before and therefore the first.$node ist not in the DOM anymore
+  // we need to reassign "first" before pasting after it
+  first = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[1]));
+  first.pasteAfter();
+  assert.equal($('.ace_editor').length, 4, 'four ace editor instances should now be available');
+  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
+  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//1', 'value of middle editor instance should now be "//1"');
+  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of third editor instance should now be "//3"');
+  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of last editor instance should still be "//3"');
+});
+
 QUnit.test('run all cells', function(assert) {
   assert.equal($('#arithmepad-run-all-button').length, 1, 'the "Run All Cells" button should be available');
   calls = [arithmepad.evaluateAllCells, _.bind($('#arithmepad-run-all-button').click, $('#arithmepad-run-all-button'))];
