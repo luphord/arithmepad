@@ -363,58 +363,58 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     e.preventDefault();
   });
   $('#arithmepad-toolbar-add-cell').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      add(new Cell(sel[0]).getEditor());
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      add(sel.getEditor());
     }
     e.preventDefault();
   });
   $('#arithmepad-toolbar-move-cell-up').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      new Cell(sel[0]).moveUp();
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.moveUp();
     }
     e.preventDefault();
   });
   $('#arithmepad-toolbar-move-cell-down').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      new Cell(sel[0]).moveDown();
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.moveDown();
     }
     e.preventDefault();
   });
   $('#arithmepad-copy-cell, #arithmepad-toolbar-copy-cell').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      new Cell(sel[0]).copy();
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.copy();
     }
     e.preventDefault();
   });
   $('#arithmepad-cut-cell, #arithmepad-toolbar-cut-cell').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      new Cell(sel[0]).cut();
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.cut();
     }
     e.preventDefault();
   });
   $('#arithmepad-toolbar-paste-cell').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      new Cell(sel[0]).pasteAfter();
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.pasteAfter();
     }
     e.preventDefault();
   });
   $('#arithmepad-run-cell, #arithmepad-toolbar-run-cell').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      evaluate(new Cell(sel[0]).getEditor());
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      evaluate(sel.getEditor());
     }
     e.preventDefault();
   });
   $('#arithmepad-delete-cell').click(function(e) {
-    sel = $('.' + classes.commandSelection + ', .' + classes.editSelection);
-    if (sel.length > 0) {
-      new Cell(sel[0]).remove();
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.remove();
     }
     e.preventDefault();
   });
