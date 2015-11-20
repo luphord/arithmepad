@@ -335,6 +335,17 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
       lastKey = evt.which;
     }
   });
+  
+  $('#arithmepad-cells').on('dblclick', '.' + classes.markdown + ' .' + classes.output, function(e) {
+    var $node = $(this).parent();
+    if ($node.length > 0) {
+      var editor = new Cell($node).getEditor();
+      $(editor.container).show();
+      editor.focus();
+    }
+    e.preventDefault();
+  });
+  
   // setup buttons in navbar
   $('#arithmepad-run-all-button, #arithmepad-toolbar-run-all-cells').click(function(e) {
     evaluateAllCells();
