@@ -401,6 +401,12 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     sel = Cell.getSelected();
     if (typeof sel !== 'undefined') {
       sel.pasteAfter();
+    } else {
+      var el = div.cell();
+      el.appendTo($('#arithmepad-cells'));
+      var fakeCell = new Cell(el);
+      fakeCell.pasteAfter();
+      fakeCell.remove();
     }
     e.preventDefault();
   });

@@ -249,7 +249,7 @@ QUnit.test('delete cells by button', function(assert) {
 });
 
 QUnit.test('copy / cut / paste cells', function(assert) {
-  // we check for the buttons, but we are not actually going to use them in the test,
+  // we check for the buttons, but we are not going to use them all in the test,
   // because the Cell methods yield simpler synchronous calls than the asynchronous button clicks
   assert.equal($('#arithmepad-toolbar-copy-cell').length, 1, 'the "Copy cell" toolbar button should be available');
   assert.equal($('#arithmepad-toolbar-cut-cell').length, 1, 'the "Cut cell" toolbar button should be available');
@@ -284,6 +284,15 @@ QUnit.test('copy / cut / paste cells', function(assert) {
   assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//1', 'value of middle editor instance should now be "//1"');
   assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of third editor instance should now be "//3"');
   assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of last editor instance should still be "//3"');
+  arithmepad.clearPad();
+  assert.equal($('.ace_editor').length, 0, 'no ace editor instances should now be available');
+  var done = assert.async();
+  $('#arithmepad-toolbar-paste-cell').click();
+  setTimeout(function() {
+    assert.equal($('.ace_editor').length, 1, 'one ace editor instances should now be available');
+    assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//3', 'value of last editor instance should still be "//3"');
+    done();
+  }, 1);
 });
 
 QUnit.test('run all cells', function(assert) {
