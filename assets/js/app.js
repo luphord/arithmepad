@@ -118,8 +118,68 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
       evaluate(ace.edit(this));
     })
   };
+  
+  // editor autocomplete
+  var alphaNum = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789$';
+  var getTokens = function(session, pos) {
+    var line = session.getLine(pos.row).slice(0, pos.column);
+    var noObject = false;
+    for (var i=line.length-1; i>=0; i--) {
+      if (line[i] == '.') {
+        break;
+      } else if (alphaNum.indexOf(line[i]) < 0) {
+        noObject = true;
+        break;
+      }
+    }
+    if (noObject) {
+      return [];
+    }
+    line = line.slice(0, i);
+    tokens = [];
+    current = '';
+    var last = i+1;
+    for (var i=line.length-1; i>=0; i--) {
+      if (alphaNum.indexOf(line[i]) < 0) {
+        if (i < last) {
+          tokens.push(line.slice(i+1, last));
+          last = i;
+        }
+        if (line[i] != '.') {
+          break;
+        }
+      }
+    }
+    if (i < last) {
+      tokens.push(line.slice(i+1, last));
+      last = i;
+    }
+    return tokens;
+  };
+  
+  var getProperties = function(tokens) {
+    var obj = window;
+    while(tokens.length > 0) {
+      obj = obj[tokens.pop()];
+      if (typeof obj === 'undefined') {
+        return [];
+      }
+    }
+    return _.allKeys(obj);
+  };
 
-  var count = 1;
+  var aceLangTools = ace.require("ace/ext/language_tools");  
+  aceLangTools.addCompleter({
+    getCompletions: function(editor, session, pos, prefix, callback) {
+      var tokens = getTokens(session, pos);
+      var properties = getProperties(_.clone(tokens));
+      var obj = tokens.reverse().join('.')
+      callback(null, _(properties).map(function(token) {
+        return {name: token, value: token, score: 300, meta: obj};
+      }));
+    }
+  });
+  
   var setupEditor = function(editor) {
     editor.commands.addCommand({
       name: 'evaluate',
@@ -322,9 +382,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     }
   }
   
-  // initialize DOM
-  ace.require("ace/ext/language_tools");
-  
+  // initialize DOM  
   var lastKey = null;
   $('body').keydown(function(evt) {
     if (evt.which in keyHandlers) {
