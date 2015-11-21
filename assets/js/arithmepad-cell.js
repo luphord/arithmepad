@@ -71,7 +71,10 @@ var arithmepad = (function(ace, $) {
     //theme: theme,
     showGutter: false,
     maxLines: 10000,
-    autoScrollEditorIntoView: true
+    autoScrollEditorIntoView: true,
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    enableLiveAutocompletion: false
   };
   
   Cell.prototype.getAceOptions = function() {

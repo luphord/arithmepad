@@ -323,6 +323,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
   }
   
   // initialize DOM
+  ace.require("ace/ext/language_tools");
+  
   var lastKey = null;
   $('body').keydown(function(evt) {
     if (evt.which in keyHandlers) {
