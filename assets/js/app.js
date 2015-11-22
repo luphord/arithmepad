@@ -25,7 +25,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     if (this.$node.find('.' + classes.plot).length == 0) {
       this.$node.append(div.plot().attr('id', 'plot' + _.uniqueId()));
     }
-    this.$node.find('.' + classes.plot).addClass(classes.halfWidth);
+    this.$node.find('.' + classes.plot).addClass('col-md-5');
     
     if (this.$node.find('.' + classes.output).length == 0) {
       this.$node.append(div.output().text('---'));

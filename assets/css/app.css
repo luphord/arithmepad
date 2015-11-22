@@ -24,7 +24,6 @@ body {
 
 .ace_editor {
   position: absolute;
-  margin: auto;
 }
 
 .arithmepad-cell {
@@ -57,6 +56,13 @@ body {
 .arithmepad-edit-selection {
   border: 1px solid lightgreen;
   padding: 4px;
+}
+
+@media (min-width: 768px) {
+  .arithmepad-plot {
+    margin-left: 20px;
+    border-left: 2px dotted lightgray;
+  }
 }
 
 @media (max-width: 767px) { 
