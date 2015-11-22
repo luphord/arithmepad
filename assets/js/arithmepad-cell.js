@@ -1,6 +1,8 @@
 var arithmepad = (function(ace, $) {
 
   var classes = {
+    fullWidth: 'col-md-12',
+    halfWidth: 'col-md-6',
     input: 'arithmepad-input',
     output: 'arithmepad-output',
     plot: 'arithmepad-plot',

@@ -25,7 +25,6 @@ body {
 .ace_editor {
   position: absolute;
   margin: auto;
-  width: 100%;
 }
 
 .arithmepad-cell {
@@ -36,14 +35,10 @@ body {
 }
 
 .arithmepad-input {
-  margin: auto;
-  width: 90%;
 }
 
 .arithmepad-output {
   border: 1px solid lightgray;
-  margin: auto;
-  width: 90%;
   min-height: 23px;
   margin-top: 10px;
   font-family: "Monaco","Menlo","Ubuntu Mono","Consolas","source-code-pro","monospace";
