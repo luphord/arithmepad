@@ -426,6 +426,19 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
   });
   
   // setup buttons in navbar
+  $('#arithmepad-title').click(function(e) {
+    var $this = $(this);
+    bootbox.prompt({
+      title: "Pad Title",
+      value: $this.text(),
+      callback: function(result) {
+        if (result !== null) {
+          $this.text(result);
+        }
+      }
+    });
+    e.preventDefault();
+  });
   $('#arithmepad-run-all-button, #arithmepad-toolbar-run-all-cells').click(function(e) {
     evaluateAllCells();
     e.preventDefault();
