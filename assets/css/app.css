@@ -65,6 +65,12 @@ body {
   }
 }
 
+@media (max-width: 991px) {
+  .arithmepad-plot {
+    margin-top: 10px;
+  }
+}
+
 @media (max-width: 767px) { 
 
   #arithmepad-cells {
