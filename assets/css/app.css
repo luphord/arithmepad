@@ -58,7 +58,7 @@ body {
   padding: 4px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .arithmepad-plot {
     margin-left: 20px;
     border-left: 2px dotted lightgray;
