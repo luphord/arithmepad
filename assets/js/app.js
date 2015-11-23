@@ -426,6 +426,12 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
   });
   
   // setup buttons in navbar
+  var setTitle = function(title) {
+    $('#arithmepad-title').text(title);
+    document.title = 'arithmepad - ' + title;
+  };
+  setTitle($('#arithmepad-title').text());
+  
   $('#arithmepad-title').click(function(e) {
     var $this = $(this);
     bootbox.prompt({
@@ -433,7 +439,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
       value: $this.text(),
       callback: function(result) {
         if (result !== null) {
-          $this.text(result);
+          setTitle(result);
         }
       }
     });
@@ -446,7 +452,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
   $('#arithmepad-download-js, #arithmepad-toolbar-save-js').click(function() {
     var d = (new Date()).toISOString().replace(':', '-', 'g');
     $(this).attr('href', 'data:application/javascript;charset=utf-8,' + encodeURIComponent(saveToJSFile()));
-    $(this).attr('download', 'My Pad ' + d + '.js');
+    $(this).attr('download', $('#arithmepad-title').text() + '__' + d + '.js');
   });
   
   $('#arithmepad-open-js-file-button').on('change', function(evt) {
@@ -457,6 +463,11 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
         loadFromJSFile(l.target.result);
       };
       r.readAsText(f);
+      var title = f.name.split('__')[0];
+      if (title.length >= f.name.length) { // did not contain a '__'
+        title = f.name.split('.js')[0];
+      }
+      setTitle(title);
     } catch (e) {
       alert('Could not open file: ' + e);
     }
