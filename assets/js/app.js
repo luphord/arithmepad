@@ -98,7 +98,6 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
         $(editor.container).removeClass(classes.halfWidth).addClass(classes.fullWidth);
       }
     }, 1);
-    updatePermalink();
   };
   
   var evaluateAllCells = function() {
@@ -252,10 +251,6 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     editor.$blockScrolling = Infinity;
   };
   
-  var updatePermalink = function() {
-    $('#arithmepad-permalink').attr('href', '#' + base64.encode(saveToJSFile()));
-  };
-  
   var loadFromBase64 = function(base64string) {
     loadFromJSFile(base64.decode(base64string));
   };
@@ -393,6 +388,10 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
       editor.focus();
     }
     e.preventDefault();
+  });
+  
+  $('#arithmepad-permalink').click(function() {
+    $(this).attr('href', '#' + base64.encode(saveToJSFile()));
   });
   
   // setup buttons in navbar
