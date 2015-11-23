@@ -159,7 +159,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   aceLangTools.addCompleter({
     getCompletions: function(editor, session, pos, prefix, callback) {
       var tokens = getTokens(session, pos);
-      var properties = getProperties(_.clone(tokens));
+      var properties = getProperties(_.clone(tokens)).sort();
       var obj = tokens.reverse().join('.')
       callback(null, _(properties).map(function(token) {
         return {name: token, value: token, score: 300, meta: obj};
