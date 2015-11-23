@@ -12,6 +12,17 @@ var arithmepad = (function(ace, $) {
     commandSelection: 'arithmepad-command-selection'
   };
   
+  var div = {};
+  _(classes).each(function(cls, clsName) {
+    div[clsName] = function() {
+      return $('<div>').attr('class', cls);
+    };
+  });
+  
+  div.cell = function() {
+    return $('<div>').addClass(classes.cell).addClass('row');
+  };
+  
   // Cell object creation
   
   var Cell = function(domNode) {
@@ -133,7 +144,7 @@ var arithmepad = (function(ace, $) {
     }
   };
   
-  // copy / cut
+  // copy / cut / paste
   
   Cell.prototype.copy = function() {
     Cell.clipboard = this.getJSValue();
@@ -142,6 +153,25 @@ var arithmepad = (function(ace, $) {
   Cell.prototype.cut = function() {
     this.copy();
     this.remove();
+  };
+  
+  Cell.prototype.pasteAfter = function() {
+    if (typeof Cell.clipboard !== 'undefined') {
+      var lines = Cell.clipboard.split('\n'); //todo: support \r\n
+      if (lines.length > 1) {
+        lines = lines.slice(1);
+        var el = div.cell();
+        el.insertAfter(this.$node);
+        var code = '';
+        if (_(lines).all(function(line) {return line.trimLeft().startsWith('// ')})) {
+          el.addClass(classes.markdown);
+          code = _(lines).map(function(line) {return line.trimLeft().slice(3)}).join('\n');
+        } else {
+          code = lines.join('\n');
+        }
+        new Cell(el).insertEditorAndOutput(code);
+      }
+    }
   };
   
   // Cell selection
@@ -186,7 +216,8 @@ var arithmepad = (function(ace, $) {
   return {
     Cell: Cell,
     __: {
-      classes: classes
+      classes: classes,
+      div: div
     }
   };
 })(ace, jQuery);

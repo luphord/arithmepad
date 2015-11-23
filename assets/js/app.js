@@ -1,15 +1,4 @@
-arithmepad = (function(ace, $, _, numeric, Cell, classes) {
-  
-  var div = {};
-  _(classes).each(function(cls, clsName) {
-    div[clsName] = function() {
-      return $('<div>').attr('class', cls);
-    };
-  });
-  
-  div.cell = function() {
-    return $('<div>').addClass(classes.cell).addClass('row');
-  }
+arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   
   // Cell functions
   
@@ -42,25 +31,6 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
     if (typeof result !== 'undefined')
       this.setResult(result);
     this.scrollDownTo();
-  };
-  
-  Cell.prototype.pasteAfter = function() {
-    if (typeof Cell.clipboard !== 'undefined') {
-      var lines = Cell.clipboard.split('\n'); //todo: support \r\n
-      if (lines.length > 1) {
-        lines = lines.slice(1);
-        var el = div.cell();
-        el.insertAfter(this.$node);
-        var code = '';
-        if (_(lines).all(function(line) {return line.trimLeft().startsWith('// ')})) {
-          el.addClass(classes.markdown);
-          code = _(lines).map(function(line) {return line.trimLeft().slice(3)}).join('\n');
-        } else {
-          code = lines.join('\n');
-        }
-        new Cell(el).insertEditorAndOutput(code);
-      }
-    }
   };
   
   // end of Cell functions
@@ -554,4 +524,4 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes) {
       classes: classes
     }
   }
-})(ace, jQuery, _, numeric, arithmepad.Cell, arithmepad.__.classes);
+})(ace, jQuery, _, numeric, arithmepad.Cell, arithmepad.__.classes, arithmepad.__.div);
