@@ -265,6 +265,13 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   var loadFromJSFile = function(code) {
     clearPad();
     var lines = code.split('\n'); //todo: support \r\n
+    if (lines.length > 0) {
+      var cmd = lines[0].trimLeft().slice(2).trimLeft();
+      if (lines[0].trimLeft().startsWith('//') && cmd.startsWith('!arithmepad-properties')) {
+        setPadProperties(JSON.parse(cmd.slice(23)));
+        lines.shift();
+      }
+    }
     var currentCell = [];
     _(lines).each(function(line) {
       var cmd = line.trimLeft().slice(2).trimLeft();
@@ -290,8 +297,21 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     }
   };
   
+  var getPadProperties = function() {
+    return {
+      title: $('#arithmepad-title').text()
+    }
+  };
+  
+  var setPadProperties = function(properties) {
+    if (typeof properties.title !== 'undefined') {
+      setTitle(properties.title);
+    }
+  };
+  
   var saveToJSFile = function() {
     var code = [];
+    code.push('// !arithmepad-properties ' + JSON.stringify(getPadProperties()));
     $('#arithmepad-cells .' + classes.cell).each(function() {
       code.push(new Cell(this).getJSValue());
     });
@@ -517,6 +537,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     clearPad: clearPad,
     loadFromJSFile: loadFromJSFile,
     saveToJSFile: saveToJSFile,
+    getPadProperties: getPadProperties,
     evaluateAllCells: evaluateAllCells,
     __: {
       getCell: function(editor){return Cell.fromEditor(editor).$node;},

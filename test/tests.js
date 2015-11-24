@@ -36,13 +36,15 @@ QUnit.test('load cells from DOM', function(assert) {
 
 QUnit.test('load cells from base64 encoded string', function(assert) {
   arithmepad.clearPad();
-  arithmepad.loadFromBase64('Ly8gIWFyaXRobWVwYWQtY2VsbAovLyAjIERpc2NvdW50aW5nIGV4YW1wbGUKLy8gLSBkZWZpbmVzIGFuIGludGVyZXN0IHJhdGUgY3VydmUKLy8gLSBkZWZpbmVzIGEgZGlzY291bnQgZnVuY3Rpb24KLy8gLSBkZWZpbmVzIGEgbnB2IGZ1bmN0aW9uCi8vICFhcml0aG1lcGFkLWNlbGwKLy8gY2VsbCBudW1iZXI6IDEKMisyCi8vICFhcml0aG1lcGFkLWNlbGwKLy8gYSBzaW1wbGUgY29udGludW91cyBkaXNjb3VudCBjdXJ2ZQpyID0gdCA9PiAwLjAxICsgMC4wMDIgKiB0OwovLyBkaXNjb3VudCBmYWN0b3IgZnJvbSByYXRlcwpkZiA9IHQgPT4gTWF0aC5leHAoLXIodCkqdCk7Ci8vIGhlbHBlciBmdW5jdGlvbgpzdW0gPSBmdW5jdGlvbih2YWx1ZXMpIHsKICByZXR1cm4gXyh2YWx1ZXMpLnJlZHVjZSgoeCwgeSkgPT4geCArIHksIDApOwp9OwovLyBleHBlY3RpbmcgYW55IGNhc2hmbG93IGVsZW1lbnQgb2YgdGhlIGZvcm0ge3Q6ICwgdjogfQpucHYgPSBmdW5jdGlvbihjYXNoZmxvdykgewogIHJldHVybiBzdW0oXyhjYXNoZmxvdykubWFwKGNmID0+IGRmKGNmLnQpICogY2YudikpOwp9OwoKMisyCgovLyAhYXJpdGhtZXBhZC1jZWxsCm5wdihbe3Q6IDAuNSwgdjogMTAwfSwge3Q6IDEsIHY6IDEwMH0sIHt0OiAxLjUsIHY6IDEwMH0sIHt0OiAyLCB2OiAxMDEwMH1dKQovLyAhYXJpdGhtZXBhZC1jZWxsCi8vIGNlbGwgbnVtYmVyOiAyCm5wdihbe3Q6IDAuNSwgdjogMTAwfSwge3Q6IDEsIHY6IDEwMH0sIHt0OiAxLjUsIHY6IDEwMH0sIHt0OiAyLCB2OiAxMDEwMH1dKQ==');
+  arithmepad.loadFromBase64('Ly8gIWFyaXRobWVwYWQtcHJvcGVydGllcyB7InRpdGxlIjoidGVzdC1wYWQifQovLyAhYXJpdGhtZXBhZC1jZWxsCi8vICMgRGlzY291bnRpbmcgZXhhbXBsZQovLyAtIGRlZmluZXMgYW4gaW50ZXJlc3QgcmF0ZSBjdXJ2ZQovLyAtIGRlZmluZXMgYSBkaXNjb3VudCBmdW5jdGlvbgovLyAtIGRlZmluZXMgYSBucHYgZnVuY3Rpb24KLy8gIWFyaXRobWVwYWQtY2VsbAovLyBjZWxsIG51bWJlcjogMQoyKzIKLy8gIWFyaXRobWVwYWQtY2VsbAovLyBhIHNpbXBsZSBjb250aW51b3VzIGRpc2NvdW50IGN1cnZlCnIgPSB0ID0+IDAuMDEgKyAwLjAwMiAqIHQ7Ci8vIGRpc2NvdW50IGZhY3RvciBmcm9tIHJhdGVzCmRmID0gdCA9PiBNYXRoLmV4cCgtcih0KSp0KTsKLy8gaGVscGVyIGZ1bmN0aW9uCnN1bSA9IGZ1bmN0aW9uKHZhbHVlcykgewogIHJldHVybiBfKHZhbHVlcykucmVkdWNlKCh4LCB5KSA9PiB4ICsgeSwgMCk7Cn07Ci8vIGV4cGVjdGluZyBhbnkgY2FzaGZsb3cgZWxlbWVudCBvZiB0aGUgZm9ybSB7dDogLCB2OiB9Cm5wdiA9IGZ1bmN0aW9uKGNhc2hmbG93KSB7CiAgcmV0dXJuIHN1bShfKGNhc2hmbG93KS5tYXAoY2YgPT4gZGYoY2YudCkgKiBjZi52KSk7Cn07CgoyKzIKCi8vICFhcml0aG1lcGFkLWNlbGwKbnB2KFt7dDogMC41LCB2OiAxMDB9LCB7dDogMSwgdjogMTAwfSwge3Q6IDEuNSwgdjogMTAwfSwge3Q6IDIsIHY6IDEwMTAwfV0pCi8vICFhcml0aG1lcGFkLWNlbGwKLy8gY2VsbCBudW1iZXI6IDIKbnB2KFt7dDogMC41LCB2OiAxMDB9LCB7dDogMSwgdjogMTAwfSwge3Q6IDEuNSwgdjogMTAwfSwge3Q6IDIsIHY6IDEwMTAwfV0p');
   assert.equal($('.ace_editor').length, 5, 'five ace editor instances should be available');
+  assert.equal($('#arithmepad-title').text(), 'test-pad', 'pad title should be "test-pad"');
+  assert.equal(arithmepad.getPadProperties().title, 'test-pad', 'padProperties.title should be "test-pad"');
 });
 
 QUnit.test('load/save cells from/to JavaScript file', function(assert) {
   arithmepad.clearPad();
-  var s = '// !arithmepad-cell\n// a simple continuous discount curve\nr = t => 0.01 + 0.002 * t;\n// discount factor from rates\ndf = t => Math.exp(-r(t)*t);\n// helper function\nsum = function(values) {\n  return _(values).reduce((x, y) => x + y, 0);\n};\n// expecting any cashflow element of the form {t: , v: }\nnpv = function(cashflow) {\n  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));\n};\n\n// !arithmepad-cell\nnpv([{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}])';
+  var s = '// !arithmepad-properties {"title":"test-pad"}\n// !arithmepad-cell\n// a simple continuous discount curve\nr = t => 0.01 + 0.002 * t;\n// discount factor from rates\ndf = t => Math.exp(-r(t)*t);\n// helper function\nsum = function(values) {\n  return _(values).reduce((x, y) => x + y, 0);\n};\n// expecting any cashflow element of the form {t: , v: }\nnpv = function(cashflow) {\n  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));\n};\n\n// !arithmepad-cell\nnpv([{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}])';
   arithmepad.loadFromJSFile(s);
   assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
   var f = arithmepad.saveToJSFile();
@@ -50,6 +52,8 @@ QUnit.test('load/save cells from/to JavaScript file', function(assert) {
   assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
   arithmepad.evaluateAllCells();
   assert.equal(Math.round(Number($($('.' + arithmepad.__.classes.output)[1]).text())), 10117, 'result of third editor should equal 10117');
+  assert.equal($('#arithmepad-title').text(), 'test-pad', 'pad title should be "test-pad"');
+  assert.equal(arithmepad.getPadProperties().title, 'test-pad', 'padProperties.title should be "test-pad"');
 });
 
 QUnit.test('insert cells', function(assert) {
