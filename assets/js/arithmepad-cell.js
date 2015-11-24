@@ -1,8 +1,10 @@
 var arithmepad = (function(ace, $) {
 
   var classes = {
-    fullWidth: 'col-md-12',
-    halfWidth: 'col-md-6',
+    fullWidth: 'col-md-11',
+    halfWidth: 'col-md-5',
+    inMarker: 'arithmepad-in-marker',
+    outMarker: 'arithmepad-out-marker',
     input: 'arithmepad-input',
     output: 'arithmepad-output',
     plot: 'arithmepad-plot',
@@ -21,6 +23,14 @@ var arithmepad = (function(ace, $) {
   
   div.cell = function() {
     return $('<div>').addClass(classes.cell).addClass('row');
+  };
+  
+  div.inMarker = function() {
+    return $('<div>').addClass(classes.inMarker).addClass('col-md-1');
+  };
+  
+  div.outMarker = function() {
+    return $('<div>').addClass(classes.outMarker).addClass('col-md-1');
   };
   
   // Cell object creation

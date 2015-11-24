@@ -3,6 +3,14 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   // Cell functions
   
   Cell.prototype.insertEditorAndOutput = function(code, result) {
+    var inMarker = div.inMarker();
+    if (this.$node.find('.' + classes.inMarker).length > 0) {
+      inMarker = this.$node.find('.' + classes.inMarker)
+    } else {
+      inMarker.prependTo(this.$node);
+    }
+    inMarker.text('In []');
+    
     var input = div.input();
     if (this.$node.find('.' + classes.input).length > 0) {
       input = this.$node.find('.' + classes.input)
@@ -11,10 +19,20 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     }
     input.addClass(classes.fullWidth);
     
-    if (this.$node.find('.' + classes.plot).length == 0) {
-      this.$node.append(div.plot().attr('id', 'plot' + _.uniqueId()));
+    var plot = this.$node.append(div.plot().attr('id', 'plot' + _.uniqueId()));
+    if (this.$node.find('.' + classes.plot).length > 0) {
+      plot = this.$node.find('.' + classes.plot);
     }
-    this.$node.find('.' + classes.plot).addClass('col-md-5');
+    plot.addClass('col-md-5');
+    plot.hide();
+    
+    var outMarker = div.outMarker();
+    if (this.$node.find('.' + classes.outMarker).length > 0) {
+      outMarker = this.$node.find('.' + classes.outMarker)
+    } else {
+      outMarker.insertAfter(plot);
+    }
+    outMarker.text('Out []');
     
     if (this.$node.find('.' + classes.output).length == 0) {
       this.$node.append(div.output().text('---'));
@@ -56,6 +74,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     new Cell(cell).insertEditorAndOutput(code, result);
   };
   
+  var evalCounter = 0;
   var evaluate = function(editor) {
     try {
       var isMarkdownCell = editor.getOption('mode') == 'ace/mode/markdown';
@@ -63,12 +82,22 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
       var resultDiv = Cell.fromEditor(editor).$node.find('.' + classes.output);
       var plotDiv = Cell.fromEditor(editor).$node.find('.' + classes.plot);
       plotDiv.empty();
+      plotDiv.show();
       if (isMarkdownCell) {
         res = marked(editor.getValue());
         $(editor.container).hide();
         editor.blur();
+        Cell.fromEditor(editor).$node.find('.' + classes.inMarker + ', .' + classes.outMarker).hide();
+        resultDiv.removeClass(classes.fullWidth).addClass('col-md-12');
+        $(editor.container).removeClass(classes.fullWidth).addClass('col-md-12');
       } else {
         var plotId = '#' + plotDiv.attr('id');
+        resultDiv.removeClass('col-md-12').addClass(classes.fullWidth);
+        $(editor.container).removeClass('col-md-12').addClass(classes.fullWidth);
+        Cell.fromEditor(editor).$node.find('.' + classes.inMarker + ', .' + classes.outMarker).show();
+        Cell.fromEditor(editor).$node.find('.' + classes.inMarker).text('In [' + evalCounter + ']');
+        Cell.fromEditor(editor).$node.find('.' + classes.outMarker).text('Out [' + evalCounter + ']');
+        evalCounter++;
         res = eval(editor.getValue());
         if (typeof numeric !== 'undefined') {
           resBackup = res;
@@ -93,8 +122,10 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     resultDiv.show();
     setTimeout(function() {
       if (plotDiv.find('svg').length > 0) {
+        plotDiv.show();
         $(editor.container).removeClass(classes.fullWidth).addClass(classes.halfWidth);
       } else {
+        plotDiv.hide();
         $(editor.container).removeClass(classes.halfWidth).addClass(classes.fullWidth);
       }
     }, 1);
