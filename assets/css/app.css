@@ -48,6 +48,10 @@ body {
   padding-right: 5px;
 }
 
+.arithmepad-markdown > .arithmepad-in-marker, .arithmepad-markdown > .arithmepad-out-marker {
+  display: none;
+}
+
 .arithmepad-command-selection {
   border: 1px solid lightgray;
   padding: 4px;

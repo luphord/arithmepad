@@ -87,14 +87,12 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
         res = marked(editor.getValue());
         $(editor.container).hide();
         editor.blur();
-        Cell.fromEditor(editor).$node.find('.' + classes.inMarker + ', .' + classes.outMarker).hide();
         resultDiv.removeClass(classes.fullWidth).addClass('col-md-12');
         $(editor.container).removeClass(classes.fullWidth).addClass('col-md-12');
       } else {
         var plotId = '#' + plotDiv.attr('id');
         resultDiv.removeClass('col-md-12').addClass(classes.fullWidth);
         $(editor.container).removeClass('col-md-12').addClass(classes.fullWidth);
-        Cell.fromEditor(editor).$node.find('.' + classes.inMarker + ', .' + classes.outMarker).show();
         Cell.fromEditor(editor).$node.find('.' + classes.inMarker).text('In [' + evalCounter + ']');
         Cell.fromEditor(editor).$node.find('.' + classes.outMarker).text('Out [' + evalCounter + ']');
         evalCounter++;
