@@ -34,15 +34,21 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     }
     outMarker.text('Out []');
     
-    if (this.$node.find('.' + classes.output).length == 0) {
+    var output = this.$node.find('.' + classes.output);
+    if (output.length == 0) {
       this.$node.append(div.output().text('---'));
+      output = this.$node.find('.' + classes.output);
     }
-    this.$node.find('.' + classes.output).addClass('col-md-11');
+    output.addClass('col-md-11');
 
     editor = ace.edit(input[0]);
     editor.setOptions(this.getAceOptions());
     setupEditor(editor);
     editor.focus();
+    if (this.isMarkdownCell()) {
+      input.addClass('col-md-offset-1');
+      output.addClass('col-md-offset-1');
+    }
     
     if (typeof code !== 'undefined')
       editor.setValue(code, 1);
@@ -68,25 +74,17 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   };
   
   var appendMarkdownCell = function(code, result) {
-    var cell = div.cell();
-    cell.addClass(classes.markdown);
-    cell.appendTo($('#arithmepad-cells'));
-    new Cell(cell).insertEditorAndOutput(code, result);
+    var cellDiv = div.cell();
+    cellDiv.addClass(classes.markdown);
+    cellDiv.appendTo($('#arithmepad-cells'));
+    new Cell(cellDiv).insertEditorAndOutput(code, result);
   };
   
-  _([[11,12], [12,11], [5,11], [11,5]]).each(function(pair) {
+  _([[5,11], [11,5]]).each(function(pair) {
     $.fn['col_md_'+pair[0]+'_to_'+pair[1]] = function() {
       return this.removeClass('col-md-'+pair[0]).addClass('col-md-'+pair[1]);
     };
   });
-  
-  $.fn.col_md_12_to_11 = function() {
-    return this.removeClass('col-md-12').addClass('col-md-11');
-  };
-  
-  $.fn.col_md_11_to_12 = function() {
-    return this.removeClass('col-md-11').addClass('col-md-12');
-  };
   
   var evalCounter = 0;
   var evaluate = function(editor) {
@@ -99,16 +97,15 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
       plotDiv.show();
       if (isMarkdownCell) {
         res = marked(editor.getValue());
-        $(editor.container).hide();
+        $(editor.container).addClass('col-md-offset-1').hide();
+        resultDiv.addClass('col-md-offset-1');
         editor.blur();
-        resultDiv.col_md_11_to_12();
-        $(editor.container).col_md_11_to_12();
       } else {
         var plotId = '#' + plotDiv.attr('id');
-        resultDiv.col_md_12_to_11();
-        $(editor.container).col_md_12_to_11();
         Cell.fromEditor(editor).$node.find('.' + classes.inMarker).text('In [' + evalCounter + ']');
         Cell.fromEditor(editor).$node.find('.' + classes.outMarker).text('Out [' + evalCounter + ']');
+        $(editor.container).removeClass('col-md-offset-1');
+        resultDiv.removeClass('col-md-offset-1');
         evalCounter++;
         res = eval(editor.getValue());
         if (typeof numeric !== 'undefined') {

@@ -106,6 +106,10 @@ var arithmepad = (function(ace, $) {
     return options;
   };
   
+  Cell.prototype.isMarkdownCell = function() {
+    return this.getEditor().getOption('mode') == 'ace/mode/markdown';
+  };
+  
   // Cell navigation (previous/next, scrolling)
   
   Cell.prototype.getPrevious = function() {
