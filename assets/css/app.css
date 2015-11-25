@@ -69,9 +69,6 @@ body {
   .arithmepad-plot {
     margin-top: 10px;
   }
-  .arithmepad-in-marker, .arithmepad-out-marker {
-    display: none;
-  }
 }
 
 @media (max-width: 767px) { 

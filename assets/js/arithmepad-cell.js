@@ -26,11 +26,11 @@ var arithmepad = (function(ace, $) {
   };
   
   div.inMarker = function() {
-    return $('<div>').addClass(classes.inMarker).addClass('col-md-1');
+    return $('<div>').addClass(classes.inMarker).addClass('col-md-1').addClass('hidden-xs').addClass('hidden-sm');
   };
   
   div.outMarker = function() {
-    return $('<div>').addClass(classes.outMarker).addClass('col-md-1');
+    return $('<div>').addClass(classes.outMarker).addClass('col-md-1').addClass('hidden-xs').addClass('hidden-sm');
   };
   
   // Cell object creation
