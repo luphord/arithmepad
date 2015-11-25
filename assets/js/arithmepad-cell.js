@@ -1,8 +1,6 @@
 var arithmepad = (function(ace, $) {
 
   var classes = {
-    fullWidth: 'col-md-11',
-    halfWidth: 'col-md-5',
     inMarker: 'arithmepad-in-marker',
     outMarker: 'arithmepad-out-marker',
     input: 'arithmepad-input',

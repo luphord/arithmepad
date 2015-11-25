@@ -17,7 +17,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     } else {
       this.$node.append(input);
     }
-    input.addClass(classes.fullWidth);
+    input.addClass('col-md-11');
     
     var plot = this.$node.append(div.plot().attr('id', 'plot' + _.uniqueId()));
     if (this.$node.find('.' + classes.plot).length > 0) {
@@ -37,7 +37,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     if (this.$node.find('.' + classes.output).length == 0) {
       this.$node.append(div.output().text('---'));
     }
-    this.$node.find('.' + classes.output).addClass(classes.fullWidth);
+    this.$node.find('.' + classes.output).addClass('col-md-11');
 
     editor = ace.edit(input[0]);
     editor.setOptions(this.getAceOptions());
@@ -74,6 +74,20 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     new Cell(cell).insertEditorAndOutput(code, result);
   };
   
+  _([[11,12], [12,11], [5,11], [11,5]]).each(function(pair) {
+    $.fn['col_md_'+pair[0]+'_to_'+pair[1]] = function() {
+      return this.removeClass('col-md-'+pair[0]).addClass('col-md-'+pair[1]);
+    };
+  });
+  
+  $.fn.col_md_12_to_11 = function() {
+    return this.removeClass('col-md-12').addClass('col-md-11');
+  };
+  
+  $.fn.col_md_11_to_12 = function() {
+    return this.removeClass('col-md-11').addClass('col-md-12');
+  };
+  
   var evalCounter = 0;
   var evaluate = function(editor) {
     try {
@@ -87,12 +101,12 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
         res = marked(editor.getValue());
         $(editor.container).hide();
         editor.blur();
-        resultDiv.removeClass(classes.fullWidth).addClass('col-md-12');
-        $(editor.container).removeClass(classes.fullWidth).addClass('col-md-12');
+        resultDiv.col_md_11_to_12();
+        $(editor.container).col_md_11_to_12();
       } else {
         var plotId = '#' + plotDiv.attr('id');
-        resultDiv.removeClass('col-md-12').addClass(classes.fullWidth);
-        $(editor.container).removeClass('col-md-12').addClass(classes.fullWidth);
+        resultDiv.col_md_12_to_11();
+        $(editor.container).col_md_12_to_11();
         Cell.fromEditor(editor).$node.find('.' + classes.inMarker).text('In [' + evalCounter + ']');
         Cell.fromEditor(editor).$node.find('.' + classes.outMarker).text('Out [' + evalCounter + ']');
         evalCounter++;
@@ -121,10 +135,10 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     setTimeout(function() {
       if (plotDiv.find('svg').length > 0) {
         plotDiv.show();
-        $(editor.container).removeClass(classes.fullWidth).addClass(classes.halfWidth);
+        $(editor.container).col_md_11_to_5();
       } else {
         plotDiv.hide();
-        $(editor.container).removeClass(classes.halfWidth).addClass(classes.fullWidth);
+        $(editor.container).col_md_5_to_11();
       }
     }, 1);
   };
