@@ -4,16 +4,16 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   
   Cell.prototype.insertEditorAndOutput = function(code, result) {
     var inMarker = div.inMarker();
-    if (this.$node.find('.' + classes.inMarker).length > 0) {
-      inMarker = this.$node.find('.' + classes.inMarker)
+    if (this.getInMarker().length > 0) {
+      inMarker = this.getInMarker();
     } else {
       inMarker.prependTo(this.$node);
     }
     inMarker.text('In []');
     
     var input = div.input();
-    if (this.$node.find('.' + classes.input).length > 0) {
-      input = this.$node.find('.' + classes.input)
+    if (this.getInput().length > 0) {
+      input = this.getInput();
     } else {
       this.$node.append(input);
     }
@@ -27,17 +27,17 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     plot.hide();
     
     var outMarker = div.outMarker();
-    if (this.$node.find('.' + classes.outMarker).length > 0) {
-      outMarker = this.$node.find('.' + classes.outMarker)
+    if (this.getOutMarker().length > 0) {
+      outMarker = this.getOutMarker();
     } else {
       outMarker.insertAfter(plot);
     }
     outMarker.text('Out []');
     
-    var output = this.$node.find('.' + classes.output);
+    var output = this.getOutput();
     if (output.length == 0) {
       this.$node.append(div.output().text('---'));
-      output = this.$node.find('.' + classes.output);
+      output = this.getOutput();
     }
     output.addClass('col-md-11');
 
@@ -91,8 +91,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     try {
       var isMarkdownCell = editor.getOption('mode') == 'ace/mode/markdown';
       var res = '';
-      var resultDiv = Cell.fromEditor(editor).$node.find('.' + classes.output);
-      var plotDiv = Cell.fromEditor(editor).$node.find('.' + classes.plot);
+      var resultDiv = Cell.fromEditor(editor).getOutput();
+      var plotDiv = Cell.fromEditor(editor).getPlot();
       plotDiv.empty();
       plotDiv.show();
       if (isMarkdownCell) {
@@ -102,8 +102,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
         editor.blur();
       } else {
         var plotId = '#' + plotDiv.attr('id');
-        Cell.fromEditor(editor).$node.find('.' + classes.inMarker).text('In [' + evalCounter + ']');
-        Cell.fromEditor(editor).$node.find('.' + classes.outMarker).text('Out [' + evalCounter + ']');
+        Cell.fromEditor(editor).getInMarker().text('In [' + evalCounter + ']');
+        Cell.fromEditor(editor).getOutMarker().text('Out [' + evalCounter + ']');
         $(editor.container).removeClass('col-md-offset-1');
         resultDiv.removeClass('col-md-offset-1');
         evalCounter++;

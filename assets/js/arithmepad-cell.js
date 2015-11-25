@@ -77,11 +77,27 @@ var arithmepad = (function(ace, $) {
     return this.$node.find('.' + classes.input);
   };
   
+  Cell.prototype.getOutput = function() {
+    return this.$node.find('.' + classes.output);
+  };
+  
+  Cell.prototype.getPlot = function() {
+    return this.$node.find('.' + classes.plot);
+  };
+  
   Cell.prototype.getEditor = function() {
     var sel = this.$node.find('.' + classes.input);
     if (sel.length > 0) {
       return ace.edit(sel[0]);
     }
+  };
+
+  Cell.prototype.getInMarker = function() {
+    return this.$node.find('.' + classes.inMarker);
+  };
+  
+  Cell.prototype.getOutMarker = function() {
+    return this.$node.find('.' + classes.outMarker);
   };
   
   // Cell editor options
