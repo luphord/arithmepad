@@ -46,8 +46,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     setupEditor(editor);
     editor.focus();
     if (this.isMarkdownCell()) {
-      input.addClass('col-md-offset-1');
-      output.addClass('col-md-offset-1');
+      inMarker.text('');
+      outMarker.text('');
     }
     
     if (typeof code !== 'undefined')
@@ -94,18 +94,17 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
       var resultDiv = Cell.fromEditor(editor).getOutput();
       var plotDiv = Cell.fromEditor(editor).getPlot();
       plotDiv.empty();
-      plotDiv.show();
       if (isMarkdownCell) {
         res = marked(editor.getValue());
-        $(editor.container).addClass('col-md-offset-1').hide();
-        resultDiv.addClass('col-md-offset-1');
+        $(editor.container).hide();
+        Cell.fromEditor(editor).getInMarker().text('');
+        Cell.fromEditor(editor).getOutMarker().text('');
         editor.blur();
       } else {
+        plotDiv.show();
         var plotId = '#' + plotDiv.attr('id');
         Cell.fromEditor(editor).getInMarker().text('In [' + evalCounter + ']');
         Cell.fromEditor(editor).getOutMarker().text('Out [' + evalCounter + ']');
-        $(editor.container).removeClass('col-md-offset-1');
-        resultDiv.removeClass('col-md-offset-1');
         evalCounter++;
         res = eval(editor.getValue());
         if (typeof numeric !== 'undefined') {

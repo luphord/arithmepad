@@ -65,7 +65,7 @@ body {
   color: DarkRed;
 }
 
-.arithmepad-markdown > .arithmepad-in-marker, .arithmepad-markdown > .arithmepad-out-marker {
+.arithmepad-markdown > .arithmepad-out-marker {
   display: none;
 }
 
