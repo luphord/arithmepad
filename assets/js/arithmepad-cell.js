@@ -107,6 +107,7 @@ var arithmepad = (function(ace, $) {
     tabSize: 2,
     //theme: theme,
     showGutter: false,
+    minLines: 2,
     maxLines: 10000,
     autoScrollEditorIntoView: true,
     enableBasicAutocompletion: true,
