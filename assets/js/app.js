@@ -20,8 +20,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     input.addClass('col-md-11');
     
     var plot = this.$node.append(div.plot().attr('id', 'plot' + _.uniqueId()));
-    if (this.$node.find('.' + classes.plot).length > 0) {
-      plot = this.$node.find('.' + classes.plot);
+    if (this.getPlot().length > 0) {
+      plot = this.getPlot();
     }
     plot.addClass('col-md-5');
     plot.hide();
@@ -241,7 +241,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
       Cell.fromEditor(editor).$node.addClass(classes.editSelection);
       $('.' + classes.commandSelection).removeClass(classes.commandSelection);
       if (editor.getOption('mode') == 'ace/mode/markdown') {
-        Cell.fromEditor(editor).$node.find('.' + classes.output).hide();
+        Cell.fromEditor(editor).getOutput().hide();
       }
     });
     editor.commands.addCommand({
