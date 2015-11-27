@@ -140,7 +140,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   };
   
   var evaluateAllCells = function() {
-    $('.ace_editor').each(function() {
+    $('.ace_editor.' + classes.input).each(function() {
       evaluate(ace.edit(this));
     })
   };
