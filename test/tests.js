@@ -21,6 +21,8 @@ var getNextEditor = function(editor) {
   }
 };
 
+var classEditorAndInput = '.ace_editor.' + arithmepad.__.classes.input;
+
 QUnit.test('arithmepad available', function(assert) {
   assert.ok( typeof arithmepad === typeof {}, "arithmepad object should be available" );
   assert.ok( typeof _.map === typeof function(){}, "underscore map function should be available" );
@@ -31,13 +33,13 @@ QUnit.test('load cells from DOM', function(assert) {
   arithmepad.clearPad();
   $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a second dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a third dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a fourth dom node for a cell</div><div class="arithmepad-output">123</div></div><div class="arithmepad-cell"><div class="arithmepad-input">// a fifth dom node for a cell</div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
-  assert.equal($('.ace_editor').length, 5, 'five ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 5, 'five ace editor instances should be available');
 });
 
 QUnit.test('load cells from base64 encoded string', function(assert) {
   arithmepad.clearPad();
   arithmepad.loadFromBase64('Ly8gIWFyaXRobWVwYWQtcHJvcGVydGllcyB7InRpdGxlIjoidGVzdC1wYWQifQovLyAhYXJpdGhtZXBhZC1jZWxsCi8vICMgRGlzY291bnRpbmcgZXhhbXBsZQovLyAtIGRlZmluZXMgYW4gaW50ZXJlc3QgcmF0ZSBjdXJ2ZQovLyAtIGRlZmluZXMgYSBkaXNjb3VudCBmdW5jdGlvbgovLyAtIGRlZmluZXMgYSBucHYgZnVuY3Rpb24KLy8gIWFyaXRobWVwYWQtY2VsbAovLyBjZWxsIG51bWJlcjogMQoyKzIKLy8gIWFyaXRobWVwYWQtY2VsbAovLyBhIHNpbXBsZSBjb250aW51b3VzIGRpc2NvdW50IGN1cnZlCnIgPSB0ID0+IDAuMDEgKyAwLjAwMiAqIHQ7Ci8vIGRpc2NvdW50IGZhY3RvciBmcm9tIHJhdGVzCmRmID0gdCA9PiBNYXRoLmV4cCgtcih0KSp0KTsKLy8gaGVscGVyIGZ1bmN0aW9uCnN1bSA9IGZ1bmN0aW9uKHZhbHVlcykgewogIHJldHVybiBfKHZhbHVlcykucmVkdWNlKCh4LCB5KSA9PiB4ICsgeSwgMCk7Cn07Ci8vIGV4cGVjdGluZyBhbnkgY2FzaGZsb3cgZWxlbWVudCBvZiB0aGUgZm9ybSB7dDogLCB2OiB9Cm5wdiA9IGZ1bmN0aW9uKGNhc2hmbG93KSB7CiAgcmV0dXJuIHN1bShfKGNhc2hmbG93KS5tYXAoY2YgPT4gZGYoY2YudCkgKiBjZi52KSk7Cn07CgoyKzIKCi8vICFhcml0aG1lcGFkLWNlbGwKbnB2KFt7dDogMC41LCB2OiAxMDB9LCB7dDogMSwgdjogMTAwfSwge3Q6IDEuNSwgdjogMTAwfSwge3Q6IDIsIHY6IDEwMTAwfV0pCi8vICFhcml0aG1lcGFkLWNlbGwKLy8gY2VsbCBudW1iZXI6IDIKbnB2KFt7dDogMC41LCB2OiAxMDB9LCB7dDogMSwgdjogMTAwfSwge3Q6IDEuNSwgdjogMTAwfSwge3Q6IDIsIHY6IDEwMTAwfV0p');
-  assert.equal($('.ace_editor').length, 5, 'five ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 5, 'five ace editor instances should be available');
   assert.equal($('#arithmepad-title').text(), 'test-pad', 'pad title should be "test-pad"');
   assert.equal(arithmepad.getPadProperties().title, 'test-pad', 'padProperties.title should be "test-pad"');
 });
@@ -46,10 +48,10 @@ QUnit.test('load/save cells from/to JavaScript file', function(assert) {
   arithmepad.clearPad();
   var s = '// !arithmepad-properties {"title":"test-pad"}\n// !arithmepad-cell\n// a simple continuous discount curve\nr = t => 0.01 + 0.002 * t;\n// discount factor from rates\ndf = t => Math.exp(-r(t)*t);\n// helper function\nsum = function(values) {\n  return _(values).reduce((x, y) => x + y, 0);\n};\n// expecting any cashflow element of the form {t: , v: }\nnpv = function(cashflow) {\n  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));\n};\n\n// !arithmepad-cell\nnpv([{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}])';
   arithmepad.loadFromJSFile(s);
-  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 2, 'two ace editor instances should be available');
   var f = arithmepad.saveToJSFile();
   arithmepad.loadFromJSFile(f);
-  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 2, 'two ace editor instances should be available');
   arithmepad.evaluateAllCells();
   assert.equal(Math.round(Number($($('.' + arithmepad.__.classes.output)[1]).text())), 10117, 'result of third editor should equal 10117');
   assert.equal($('#arithmepad-title').text(), 'test-pad', 'pad title should be "test-pad"');
@@ -62,12 +64,12 @@ QUnit.test('insert cells', function(assert) {
   var res = 'res';
   arithmepad.appendCodeCell(code, res);
   arithmepad.appendCodeCell();
-  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 2, 'two ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   assert.equal(firstEditor.getValue(), code, 'code of first editor should equal "' + code + '"');
   assert.equal($($('.' + arithmepad.__.classes.output)[0]).text(), res, 'res of first editor should equal "' + res + '"');
   arithmepad.appendMarkdownCell('# test');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
   arithmepad.evaluateAllCells();
   var thirdResultNode = $($($('.' + arithmepad.__.classes.output)[2]).html())[0];
   assert.equal(thirdResultNode.nodeName.toLowerCase(), 'h1', 'Result should contain an <h1> tag');
@@ -77,8 +79,8 @@ QUnit.test('insert cells', function(assert) {
 QUnit.test('navigate using arrow keys in edit mode', function(assert) {
   arithmepad.clearPad();
   arithmepad.loadFromBase64('Ly8gIWFyaXRobWVwYWQtY2VsbApmID0gZnVuY3Rpb24oeCkgewogIHZhciB5ID0geCArIDE7CiAgdmFyIHogPSB5IC8geDsKICByZXR1cm4gTWF0aC5leHAoeik7Cn0KCmYoMSk7Ci8vICFhcml0aG1lcGFkLWNlbGwKLy8gYSBzZWNvbmQgZG9tIG5vZGUgZm9yIGEgY2VsbAoKLy8gdGhpcmQgbGluZQovLyAhYXJpdGhtZXBhZC1jZWxsCi8vIGEgdGhpcmQgY2VsbAo=');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   assert.equal(firstEditor.getSession().getDocument().getLength(), 7, 'there should be 7 code lines in the first editor');
   
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
@@ -129,8 +131,8 @@ QUnit.test('Ctrl/Shift + Enter', function(assert) {
   arithmepad.clearPad();
   $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
-  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 1, 'one ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   firstEditor.setValue('2+3');
   firstEditor.execCommand('evaluate');
   assert.equal($('.' + arithmepad.__.classes.output).length, 1, 'there should be exactly one cell output');
@@ -150,8 +152,8 @@ QUnit.test('command mode', function(assert) {
   arithmepad.clearPad();
   $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
-  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 1, 'one ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   firstEditor.focus();
   assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
@@ -197,8 +199,8 @@ QUnit.test('delete cells', function(assert) {
   arithmepad.clearPad();
   $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
-  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 1, 'one ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   firstEditor.focus();
   assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
@@ -210,7 +212,7 @@ QUnit.test('delete cells', function(assert) {
   thirdEditor.execCommand('commandMode');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no more edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be exactly one command selection');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
   var arrowKeyUp = $.Event('keydown');
   arrowKeyUp.which = 38;
   $('#arithmepad-cells').trigger(arrowKeyUp);
@@ -224,7 +226,7 @@ QUnit.test('delete cells', function(assert) {
   assert.ok(isCommandSelection(thirdEditor), 'the third editor should still be the command selection');
   $('#arithmepad-cells').trigger(dKey);
   assert.ok(isCommandSelection(firstEditor), 'the first editor should now be the command selection');
-  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 1, 'one ace editor instances should be available');
   hidePage();
 });
 
@@ -233,21 +235,21 @@ QUnit.test('delete cells by button', function(assert) {
   arithmepad.clearPad();
   $('#arithmepad-cells').html('<div class="arithmepad-cell"><div class="arithmepad-input"></div><div class="arithmepad-output">123</div></div>');
   arithmepad.loadFromDom();
-  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 1, 'one ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   firstEditor.focus();
   assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
   firstEditor.execCommand('evaluateCreateNew');
   var secondEditor = getNextEditor(firstEditor);
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 1, 'there should be exactly one edit selection');
-  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 2, 'two ace editor instances should be available');
   $("#arithmepad-delete-cell").click();
-  assert.equal($('.ace_editor').length, 1, 'one ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 1, 'one ace editor instances should be available');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 1, 'there should be one command selection');
   $("#arithmepad-delete-cell").click();
-  assert.equal($('.ace_editor').length, 0, 'no more ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 0, 'no more ace editor instances should be available');
   assert.equal($('.' + arithmepad.__.classes.editSelection).length, 0, 'there should be no edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
 });
@@ -262,39 +264,39 @@ QUnit.test('copy / cut / paste cells', function(assert) {
   arithmepad.appendCodeCell('//1');
   arithmepad.appendCodeCell('//2');
   arithmepad.appendCodeCell('//3');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
-  var first = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[0]));
-  var second = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[1]));
-  var third = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[2]));
-  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//1', 'value of top most editor instance should be "//1"');
-  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//2', 'value of middle editor instance should be "//2"');
-  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of last editor instance should be "//3"');
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
+  var first = arithmepad.Cell.fromEditor(ace.edit($(classEditorAndInput)[0]));
+  var second = arithmepad.Cell.fromEditor(ace.edit($(classEditorAndInput)[1]));
+  var third = arithmepad.Cell.fromEditor(ace.edit($(classEditorAndInput)[2]));
+  assert.equal(ace.edit($(classEditorAndInput)[0]).getValue(), '//1', 'value of top most editor instance should be "//1"');
+  assert.equal(ace.edit($(classEditorAndInput)[1]).getValue(), '//2', 'value of middle editor instance should be "//2"');
+  assert.equal(ace.edit($(classEditorAndInput)[2]).getValue(), '//3', 'value of last editor instance should be "//3"');
   first.cut();
-  assert.equal($('.ace_editor').length, 2, 'two ace editor instances should no be available');
-  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
-  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//3', 'value of second editor instance should now be "//3"');
+  assert.equal($(classEditorAndInput).length, 2, 'two ace editor instances should no be available');
+  assert.equal(ace.edit($(classEditorAndInput)[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
+  assert.equal(ace.edit($(classEditorAndInput)[1]).getValue(), '//3', 'value of second editor instance should now be "//3"');
   second.pasteAfter();
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should now be available');
-  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
-  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//1', 'value of middle editor instance should now be "//1"');
-  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of last editor instance should still be "//3"');
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should now be available');
+  assert.equal(ace.edit($(classEditorAndInput)[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
+  assert.equal(ace.edit($(classEditorAndInput)[1]).getValue(), '//1', 'value of middle editor instance should now be "//1"');
+  assert.equal(ace.edit($(classEditorAndInput)[2]).getValue(), '//3', 'value of last editor instance should still be "//3"');
   third.copy();
   // this cell was cut before and therefore the first.$node ist not in the DOM anymore
   // we need to reassign "first" before pasting after it
-  first = arithmepad.Cell.fromEditor(ace.edit($('.ace_editor')[1]));
+  first = arithmepad.Cell.fromEditor(ace.edit($(classEditorAndInput)[1]));
   first.pasteAfter();
-  assert.equal($('.ace_editor').length, 4, 'four ace editor instances should now be available');
-  assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
-  assert.equal(ace.edit($('.ace_editor')[1]).getValue(), '//1', 'value of middle editor instance should now be "//1"');
-  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of third editor instance should now be "//3"');
-  assert.equal(ace.edit($('.ace_editor')[2]).getValue(), '//3', 'value of last editor instance should still be "//3"');
+  assert.equal($(classEditorAndInput).length, 4, 'four ace editor instances should now be available');
+  assert.equal(ace.edit($(classEditorAndInput)[0]).getValue(), '//2', 'value of top most editor instance should now be "//2"');
+  assert.equal(ace.edit($(classEditorAndInput)[1]).getValue(), '//1', 'value of middle editor instance should now be "//1"');
+  assert.equal(ace.edit($(classEditorAndInput)[2]).getValue(), '//3', 'value of third editor instance should now be "//3"');
+  assert.equal(ace.edit($(classEditorAndInput)[2]).getValue(), '//3', 'value of last editor instance should still be "//3"');
   arithmepad.clearPad();
-  assert.equal($('.ace_editor').length, 0, 'no ace editor instances should now be available');
+  assert.equal($(classEditorAndInput).length, 0, 'no ace editor instances should now be available');
   var done = assert.async();
   $('#arithmepad-toolbar-paste-cell').click();
   setTimeout(function() {
-    assert.equal($('.ace_editor').length, 1, 'one ace editor instances should now be available');
-    assert.equal(ace.edit($('.ace_editor')[0]).getValue(), '//3', 'value of last editor instance should still be "//3"');
+    assert.equal($(classEditorAndInput).length, 1, 'one ace editor instances should now be available');
+    assert.equal(ace.edit($(classEditorAndInput)[0]).getValue(), '//3', 'value of last editor instance should still be "//3"');
     done();
   }, 1);
 });
@@ -307,7 +309,7 @@ QUnit.test('run all cells', function(assert) {
     arithmepad.appendCodeCell('a=2;');
     arithmepad.appendCodeCell('b=3;');
     arithmepad.appendCodeCell('a+b;');
-    assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+    assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
     calls[i]();
     assert.equal($($('.' + arithmepad.__.classes.output)[2]).text(), '5', 'result of third editor should equal "5"');
   }
@@ -319,7 +321,7 @@ QUnit.test('run all cells by toolbar button', function(assert) {
   arithmepad.appendCodeCell('a=2;');
   arithmepad.appendCodeCell('b=3;');
   arithmepad.appendCodeCell('a+b;');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
   var done = assert.async();
   $('#arithmepad-toolbar-run-all-cells').click();
   setTimeout(function() {
@@ -362,29 +364,29 @@ QUnit.test('move cells', function(assert) {
   arithmepad.appendCodeCell('//1');
   arithmepad.appendCodeCell('//2');
   arithmepad.appendCodeCell('//3');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   assert.equal(firstEditor.getValue(), '//1', 'value of first editor should be "//1"');
   var firstCell = arithmepad.Cell.fromEditor(firstEditor);
   firstCell.moveDown();
-  secondEditor = ace.edit($('.ace_editor')[0]);
+  secondEditor = ace.edit($(classEditorAndInput)[0]);
   assert.equal(secondEditor.getValue(), '//2', 'value of first visible editor should be "//2"');
   firstCell.moveDown();
-  thirdEditor = ace.edit($('.ace_editor')[1]);
+  thirdEditor = ace.edit($(classEditorAndInput)[1]);
   assert.equal(thirdEditor.getValue(), '//3', 'value of second visible editor should be "//3"');
   firstCell.moveDown();
   firstCell.moveDown();
-  secondEditor = ace.edit($('.ace_editor')[0]);
+  secondEditor = ace.edit($(classEditorAndInput)[0]);
   assert.equal(secondEditor.getValue(), '//2', 'value of first visible editor should still be "//2"');
-  thirdEditor = ace.edit($('.ace_editor')[1]);
+  thirdEditor = ace.edit($(classEditorAndInput)[1]);
   assert.equal(thirdEditor.getValue(), '//3', 'value of second visible editor should still be "//3"');
   firstCell.moveUp();
-  secondEditor = ace.edit($('.ace_editor')[0]);
+  secondEditor = ace.edit($(classEditorAndInput)[0]);
   assert.equal(secondEditor.getValue(), '//2', 'value of first visible editor should still be "//2"');
-  thirdEditor = ace.edit($('.ace_editor')[2]);
+  thirdEditor = ace.edit($(classEditorAndInput)[2]);
   assert.equal(thirdEditor.getValue(), '//3', 'value of third visible editor should now be "//3"');
   firstCell.moveUp();
-  secondEditor = ace.edit($('.ace_editor')[1]);
+  secondEditor = ace.edit($(classEditorAndInput)[1]);
   assert.equal(secondEditor.getValue(), '//2', 'value of second visible editor should now be "//2"');
 });
 
@@ -394,8 +396,8 @@ QUnit.test('blurring editors causes cells to be command selection', function(ass
   arithmepad.appendCodeCell('// 1');
   arithmepad.appendCodeCell('// 2');
   arithmepad.appendCodeCell('// 3');
-  assert.equal($('.ace_editor').length, 3, 'three ace editor instances should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 3, 'three ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   firstEditor.focus();
   assert.ok(isEditSelection(firstEditor), 'the first editor should be the edit selection');
   assert.equal($('.' + arithmepad.__.classes.commandSelection).length, 0, 'there should be no command selection');
@@ -409,8 +411,8 @@ QUnit.test('switch between javascript and markdown', function(assert) {
   showPage(); // apparently, we need to have the page visible for the focus events to work properly
   arithmepad.clearPad();
   arithmepad.appendCodeCell('// 1');
-  assert.equal($('.ace_editor').length, 1, 'one ace editor instance should be available');
-  var firstEditor = ace.edit($('.ace_editor')[0]);
+  assert.equal($(classEditorAndInput).length, 1, 'one ace editor instance should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
   firstEditor.focus();
   firstEditor.blur();
   assert.ok(isCommandSelection(firstEditor), 'the first editor should be the command selection');
