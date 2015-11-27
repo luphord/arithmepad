@@ -431,6 +431,36 @@ QUnit.test('switch between javascript and markdown', function(assert) {
   hidePage();
 });
 
+QUnit.test('In/Out markers', function(assert) {
+  arithmepad.clearPad();
+  arithmepad.__.resetEvalCounter();
+  var f = "// !arithmepad-properties {\"title\":\"Example Pad\"}\n// !arithmepad-cell\n// # Discounting example\n// - defines an interest rate curve\n// - defines a discount function\n// - defines a npv function\n// \n// !arithmepad-cell\n// a simple continuous discount curve\nr = t => 0.01 + 0.002 * t;\n// discount factor from rates\ndf = t => Math.exp(-r(t)*t);\n// helper function\nsum = function(values) {\n  return _(values).reduce((x, y) => x + y, 0);\n};\n// expecting any cashflow element of the form {t: , v: }\nnpv = function(cashflow) {\n  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));\n};\n\n// !arithmepad-cell\ncashflow = [{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}];\nnpv(cashflow);\n// !arithmepad-cell\ndata = {labels: [], series: [[], []]};\n_(cashflow).each(function(c) {\n  data.labels.push(c.t);\n  data.series[0].push(c.v);\n  data.series[1].push(df(c.t) * c.v);\n});\n\nnew Chartist.Bar(plotId, data);\n";
+  arithmepad.loadFromJSFile(f);
+  assert.equal($(classEditorAndInput).length, 4, 'four ace editor instances should be available');
+  assert.equal($('.' + arithmepad.__.classes.inMarker).length, 4, 'four In Markers should be available');
+  assert.equal($('.' + arithmepad.__.classes.outMarker).length, 4, 'four Out Markers should be available');
+  arithmepad.evaluateAllCells();
+  assert.equal($('.' + arithmepad.__.classes.inMarker).length, 4, 'four In Markers should be available');
+  assert.equal($('.' + arithmepad.__.classes.outMarker).length, 4, 'four Out Markers should be available');
+  showPage();
+  if ($(window).width() > 991) { // 991 is media query breakpoint for bootstrap sm, below all markers are hidden
+    assert.equal($('.' + arithmepad.__.classes.inMarker + ':visible').length, 4, 'four In Markers should be visible'); // first one visible, but empty
+    assert.equal($('.' + arithmepad.__.classes.outMarker + ':visible').length, 3, 'three Out Markers should be visible'); // first one hidden
+  } else {
+    assert.equal($('.' + arithmepad.__.classes.inMarker + ':visible').length, 0, 'no In Markers should be visible');
+    assert.equal($('.' + arithmepad.__.classes.outMarker + ':visible').length, 0, 'no Out Markers should be visible');
+  }
+  hidePage();
+  for (var i=0; i<3; i++) {
+    assert.equal($($('.' + arithmepad.__.classes.inMarker)[i+1]).text(), 'In [' + i + ']', 'In Marker ' + (i+1) + ' should equal "In [' + i + ']"');
+    assert.equal($($('.' + arithmepad.__.classes.outMarker)[i+1]).text(), 'Out [' + i + ']', 'Out Marker ' + (i+1) + ' should equal "Out [' + i + ']"');
+  }
+  var secondEditor = ace.edit($(classEditorAndInput)[1]);
+  arithmepad.__.evaluate(secondEditor);
+  assert.equal($($('.' + arithmepad.__.classes.inMarker)[1]).text(), 'In [3]', 'In Marker 1 should now equal "In [3]"');
+  assert.equal($($('.' + arithmepad.__.classes.outMarker)[1]).text(), 'Out [3]', 'Out Marker 1 should equal "Out [3]"');
+});
+
 QUnit.test('numeric.js', function(assert) {
   assert.equal(typeof numeric, 'function', 'numeric should be available');
   arithmepad.clearPad();

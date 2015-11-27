@@ -580,7 +580,9 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     evaluateAllCells: evaluateAllCells,
     __: {
       getCell: function(editor){return Cell.fromEditor(editor).$node;},
-      classes: classes
+      classes: classes,
+      evaluate: evaluate,
+      resetEvalCounter: function() {evalCounter = 0;}
     }
   }
 })(ace, jQuery, _, numeric, arithmepad.Cell, arithmepad.__.classes, arithmepad.__.div);
