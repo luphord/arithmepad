@@ -144,13 +144,19 @@ var arithmepad = (function(ace, $) {
   };
   
   Cell.prototype.scrollUpTo = function() {
-    this.$node[0].scrollIntoView(true);
-    window.scrollBy(0, -90);
+    var bbox = this.$node[0].getBoundingClientRect();
+    if (bbox.top < 60 || bbox.bottom > window.innerHeight-60) {
+      this.$node[0].scrollIntoView(true);
+      window.scrollBy(0, -90);
+    }
   };
   
   Cell.prototype.scrollDownTo = function() {
-    this.$node[0].scrollIntoView(false);
-    window.scrollBy(0, 75);
+    var bbox = this.$node[0].getBoundingClientRect();
+    if (bbox.top < 60 || bbox.bottom > window.innerHeight-60) {
+      this.$node[0].scrollIntoView(false);
+      window.scrollBy(0, 75);
+    }
   };
   
   // Cell movement
