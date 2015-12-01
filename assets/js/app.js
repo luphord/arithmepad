@@ -508,6 +508,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     sel = Cell.getSelected();
     if (typeof sel !== 'undefined') {
       add(sel.getEditor());
+    } else {
+      appendCodeCell();
     }
     e.preventDefault();
   });
