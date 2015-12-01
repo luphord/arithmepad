@@ -473,6 +473,14 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     });
     e.preventDefault();
   });
+  $('#arithmepad-close-pad').click(function(e) {
+    bootbox.confirm('Do you really want to close the current pad?', function(ok) {
+      if (ok) {
+        $('#arithmepad-cells').empty();
+      }
+    });
+    e.preventDefault();
+  });
   $('#arithmepad-run-all-button, #arithmepad-toolbar-run-all-cells').click(function(e) {
     evaluateAllCells();
     e.preventDefault();
