@@ -477,6 +477,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     bootbox.confirm('Do you really want to close the current pad?', function(ok) {
       if (ok) {
         $('#arithmepad-cells').empty();
+        setTitle('Untitled');
       }
     });
     e.preventDefault();
