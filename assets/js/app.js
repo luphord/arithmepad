@@ -473,6 +473,9 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     });
     e.preventDefault();
   });
+  $('#arithmepad-new-pad').click(function(e) {
+    $(this).attr('href', window.location);
+  });
   $('#arithmepad-close-pad').click(function(e) {
     bootbox.confirm('Do you really want to close the current pad?', function(ok) {
       if (ok) {
