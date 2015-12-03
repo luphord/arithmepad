@@ -489,6 +489,22 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     evaluateAllCells();
     e.preventDefault();
   });
+  $('#arithmepad-to-markdown').click(function(e) {
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.getEditor().setOption('mode', 'ace/mode/markdown');
+      sel.$node.addClass(classes.markdown);
+    }
+    e.preventDefault();
+  });
+  $('#arithmepad-to-code').click(function(e) {
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      sel.getEditor().setOption('mode', 'ace/mode/javascript');
+      sel.$node.removeClass(classes.markdown);
+    }
+    e.preventDefault();
+  });
   $('#arithmepad-download-js, #arithmepad-toolbar-save-js').click(function() {
     var d = (new Date()).toISOString().replace(':', '-', 'g');
     $(this).attr('href', 'data:application/javascript;charset=utf-8,' + encodeURIComponent(saveToJSFile()));
