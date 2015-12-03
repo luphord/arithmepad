@@ -553,7 +553,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     }
     e.preventDefault();
   });
-  $('#arithmepad-toolbar-paste-cell').click(function(e) {
+  $('#arithmepad-paste-cell, #arithmepad-toolbar-paste-cell').click(function(e) {
     sel = Cell.getSelected();
     if (typeof sel !== 'undefined') {
       sel.pasteAfter();
