@@ -34,10 +34,10 @@ body {
 }
 
 .arithmepad-input {
+  border: 1px solid lightgray;
 }
 
 .arithmepad-output {
-  border: 1px solid lightgray;
   min-height: 23px;
   margin-top: 10px;
   font-size: 12px;
@@ -45,6 +45,19 @@ body {
   padding-bottom: 2px;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.ace_content {
+  background: #f7f7f7;
+}
+
+:not(.arithmepad-markdown) > .arithmepad-output {
+  border: 1px solid lightgray;
+  background: #f7f7f7;
+}
+
+.arithmepad-markdown > .arithmepad-output {
+  background: white;
 }
 
 .arithmepad-output, .arithmepad-in-marker, .arithmepad-out-marker {
