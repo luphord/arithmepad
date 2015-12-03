@@ -127,6 +127,18 @@ var arithmepad = (function(ace, $) {
     return this.getEditor().getOption('mode') == 'ace/mode/markdown';
   };
   
+  // Cell types (markdown/code)
+  
+  Cell.prototype.toMarkdown = function() {
+    this.getEditor().setOption('mode', 'ace/mode/markdown');
+    this.$node.addClass(classes.markdown);
+  };
+  
+  Cell.prototype.toCode = function() {
+    this.getEditor().setOption('mode', 'ace/mode/javascript');
+    this.$node.removeClass(classes.markdown);
+  };
+  
   // Cell navigation (previous/next, scrolling)
   
   Cell.prototype.getPrevious = function() {

@@ -404,17 +404,13 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     77: /* m */function(evt) {
         cmdSel = $('.' + classes.commandSelection);
         if (cmdSel.length > 0) {
-          var editor = new Cell(cmdSel[0]).getEditor();
-          editor.setOption('mode', 'ace/mode/markdown');
-          cmdSel.addClass(classes.markdown);
+          new Cell(cmdSel[0]).toMarkdown();
         }
       },
     89: /* y */function(evt) {
         cmdSel = $('.' + classes.commandSelection);
         if (cmdSel.length > 0) {
-          var editor = new Cell(cmdSel[0]).getEditor();
-          editor.setOption('mode', 'ace/mode/javascript');
-          cmdSel.removeClass(classes.markdown);
+          new Cell(cmdSel[0]).toCode();
         }
       }
   };
@@ -492,16 +488,14 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   $('#arithmepad-to-markdown').click(function(e) {
     sel = Cell.getSelected();
     if (typeof sel !== 'undefined') {
-      sel.getEditor().setOption('mode', 'ace/mode/markdown');
-      sel.$node.addClass(classes.markdown);
+      sel.toMarkdown();
     }
     e.preventDefault();
   });
   $('#arithmepad-to-code').click(function(e) {
     sel = Cell.getSelected();
     if (typeof sel !== 'undefined') {
-      sel.getEditor().setOption('mode', 'ace/mode/javascript');
-      sel.$node.removeClass(classes.markdown);
+      sel.toCode();
     }
     e.preventDefault();
   });
