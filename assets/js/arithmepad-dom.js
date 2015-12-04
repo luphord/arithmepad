@@ -39,6 +39,7 @@ var arithmepadInitializeDom = function(ace, $, Cell, classes, evaluate, evaluate
       if (ok) {
         $('#arithmepad-cells').empty();
         setTitle('Untitled');
+        window.location.hash = '';
       }
     });
     e.preventDefault();
