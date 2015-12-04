@@ -486,17 +486,11 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     e.preventDefault();
   });
   $('#arithmepad-to-markdown').click(function(e) {
-    sel = Cell.getSelected();
-    if (typeof sel !== 'undefined') {
-      sel.toMarkdown();
-    }
+    Cell.getSelectedOrNoOp().toMarkdown();
     e.preventDefault();
   });
   $('#arithmepad-to-code').click(function(e) {
-    sel = Cell.getSelected();
-    if (typeof sel !== 'undefined') {
-      sel.toCode();
-    }
+    Cell.getSelectedOrNoOp().toCode();
     e.preventDefault();
   });
   $('#arithmepad-download-js, #arithmepad-toolbar-save-js').click(function() {
@@ -536,31 +530,19 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     e.preventDefault();
   });
   $('#arithmepad-toolbar-move-cell-up').click(function(e) {
-    sel = Cell.getSelected();
-    if (typeof sel !== 'undefined') {
-      sel.moveUp();
-    }
+    Cell.getSelectedOrNoOp().moveUp();
     e.preventDefault();
   });
   $('#arithmepad-toolbar-move-cell-down').click(function(e) {
-    sel = Cell.getSelected();
-    if (typeof sel !== 'undefined') {
-      sel.moveDown();
-    }
+    Cell.getSelectedOrNoOp().moveDown();
     e.preventDefault();
   });
   $('#arithmepad-copy-cell, #arithmepad-toolbar-copy-cell').click(function(e) {
-    sel = Cell.getSelected();
-    if (typeof sel !== 'undefined') {
-      sel.copy();
-    }
+    Cell.getSelectedOrNoOp().copy();
     e.preventDefault();
   });
   $('#arithmepad-cut-cell, #arithmepad-toolbar-cut-cell').click(function(e) {
-    sel = Cell.getSelected();
-    if (typeof sel !== 'undefined') {
-      sel.cut();
-    }
+    Cell.getSelectedOrNoOp().cut();
     e.preventDefault();
   });
   $('#arithmepad-paste-cell, #arithmepad-toolbar-paste-cell').click(function(e) {
@@ -584,10 +566,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     e.preventDefault();
   });
   $('#arithmepad-delete-cell').click(function(e) {
-    sel = Cell.getSelected();
-    if (typeof sel !== 'undefined') {
-      sel.remove();
-    }
+    Cell.getSelectedOrNoOp().remove();
     e.preventDefault();
   });
   

@@ -54,6 +54,14 @@ var arithmepad = (function(ace, $) {
     }
   };
   
+  Cell.getSelectedOrNoOp = function() {
+    sel = Cell.getSelected();
+    if (typeof sel !== 'undefined') {
+      return sel;
+    }
+    return Cell.noOp;
+  };
+  
   // Cell deletion
   
   Cell.prototype.remove = function() {
@@ -258,6 +266,17 @@ var arithmepad = (function(ace, $) {
     }
     code.push(value);
     return code.join('\n');
+  };
+  
+  // no-op cell
+  
+  Cell.noOp = new Cell($('<div>'));
+  Cell.noOp.getEditor = function() {
+    return {
+      getValue: function(){return ''},
+      getOption: function(){return ''},
+      setOption: function(){return ''}
+    };
   };
   
   return {
