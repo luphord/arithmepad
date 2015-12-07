@@ -286,6 +286,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
         Cell.fromEditor(editor).selectInCommandMode();
       }
     });
+    editor.renderer.setScrollMargin(0, 3, 0, 0);
     // disable warning
     editor.$blockScrolling = Infinity;
   };
