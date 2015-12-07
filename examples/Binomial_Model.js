@@ -3,7 +3,10 @@
 u = 1.2
 d = 0.8
 r = 0.01
+S0 = 100
+K = 100
 T = 10
+ns = _.range(T+1)
 // !arithmepad-cell
 fac = function(n) {
   var res = 1;
@@ -14,10 +17,19 @@ fac = function(n) {
 choose = (n, k) => fac(n) / (fac(k) * fac(n-k))
 
 // !arithmepad-cell
+S = (t, n) => S0 * Math.pow(u, n) * Math.pow(d, t-n)
+
+data = {labels: ns, series: [_(ns).map(n => S(T, n))]};
+new Chartist.Line(plotId, data);
+// !arithmepad-cell
 q = (1 + r - d) / (u - d)
 Q = (t, n) => choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n)
 
-ns = _.range(T+1)
 data = {labels: ns, series: [_(ns).map(n => Q(T, n))]};
 
 new Chartist.Bar(plotId, data);
+// !arithmepad-cell
+payoff = (s) => Math.max(s, K)
+
+data = {labels: ns, series: [_(ns).map(n => payoff(S(T, n)))]};
+new Chartist.Line(plotId, data);
