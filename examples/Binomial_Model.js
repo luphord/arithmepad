@@ -25,11 +25,15 @@ new Chartist.Line(plotId, data);
 q = (1 + r - d) / (u - d)
 Q = (t, n) => choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n)
 
-data = {labels: ns, series: [_(ns).map(n => Q(T, n))]};
-
-new Chartist.Bar(plotId, data);
+new Chartist.Bar(plotId, {
+  labels: _(ns).map(n => Math.round(S(T, n))),
+  series: [_(ns).map(n => ({x: S(T, n), y: Q(T, n)}))]
+});
 // !arithmepad-cell
 payoff = (s) => Math.max(s, K)
 
 data = {labels: ns, series: [_(ns).map(n => payoff(S(T, n)))]};
-new Chartist.Line(plotId, data);
+new Chartist.Line(plotId, {
+  labels: _(ns).map(n => Math.round(S(T, n))),
+  series: [_(ns).map(n => ({x: S(T, n), y: payoff(S(T, n))}))]
+});
