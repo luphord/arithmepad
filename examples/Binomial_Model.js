@@ -21,7 +21,7 @@ S = (t, n) => S0 * Math.pow(u, n) * Math.pow(d, t-n);
 new Chartist.Line(plotId, {
   labels: ns,
   series: [_(ns).map(n => S(T, n))]
-});
+}, {height: 300});
 // !arithmepad-cell
 q = (1 + r - d) / (u - d);
 Q = (t, n) => choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
@@ -29,15 +29,20 @@ Q = (t, n) => choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
 new Chartist.Bar(plotId, {
   labels: _(ns).map(n => Math.round(S(T, n))),
   series: [_(ns).map(n => ({x: S(T, n), y: Q(T, n)}))]
-}, {axisX: {type: Chartist.AutoScaleAxis}});
+}, {
+  axisX: {type: Chartist.AutoScaleAxis},
+  height: 300
+});
 // !arithmepad-cell
 payoff = (s) => Math.max(s, K);
 
-data = {labels: ns, series: [_(ns).map(n => payoff(S(T, n)))]};
 new Chartist.Line(plotId, {
   labels: _(ns).map(n => Math.round(S(T, n))),
   series: [_(ns).map(n => ({x: S(T, n), y: payoff(S(T, n))}))]
-}, {axisX: {type: Chartist.AutoScaleAxis}});
+}, {
+  axisX: {type: Chartist.AutoScaleAxis},
+  height: 300
+});
 // !arithmepad-cell
 var last_values = [S0];
 series = [];
@@ -53,5 +58,21 @@ for (var t=0; t<=T; t++) {
 }
 new Chartist.Line(plotId, {
   labels: ns,
-  series: series
-}, {axisX: {type: Chartist.AutoScaleAxis}});
+  series: series,
+  colors: ['blue']
+}, {
+  axisX: {type: Chartist.AutoScaleAxis},
+  height: 300
+})
+.on('draw', function(context) {
+  if (context.type === 'line') {
+    context.element.attr({
+      style: 'stroke: blue; stroke-width: 1px'
+    });
+  }
+  if (context.type === 'point') {
+    context.element.attr({
+      style: 'stroke: blue; stroke-width: 4px'
+    });
+  }
+});
