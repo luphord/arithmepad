@@ -78,6 +78,11 @@ body {
   color: DarkRed;
 }
 
+.arithmepad-plot {
+  margin-top: 10px;
+}
+
+
 .arithmepad-markdown > .arithmepad-in-marker {
   color: transparent;
 }
@@ -94,19 +99,6 @@ body {
 .arithmepad-edit-selection {
   border: 1px solid lightgreen;
   padding: 4px;
-}
-
-@media (min-width: 992px) {
-  .arithmepad-plot {
-    margin-left: 20px;
-    border-left: 2px dotted lightgray;
-  }
-}
-
-@media (max-width: 991px) {
-  .arithmepad-plot {
-    margin-top: 10px;
-  }
 }
 
 @media (max-width: 767px) { 

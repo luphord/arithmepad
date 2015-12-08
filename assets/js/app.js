@@ -23,7 +23,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     if (this.getPlot().length > 0) {
       plot = this.getPlot();
     }
-    plot.addClass('col-md-5');
+    plot.addClass('col-md-11');
+    plot.addClass('col-md-offset-1');
     plot.hide();
     
     var outMarker = div.outMarker();
@@ -80,12 +81,6 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     new Cell(cellDiv).insertEditorAndOutput(code, result);
   };
   
-  _([[5,11], [11,5]]).each(function(pair) {
-    $.fn['col_md_'+pair[0]+'_to_'+pair[1]] = function() {
-      return this.removeClass('col-md-'+pair[0]).addClass('col-md-'+pair[1]);
-    };
-  });
-  
   var evalCounter = 0;
   var evaluate = function(editor) {
     try {
@@ -131,10 +126,8 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     setTimeout(function() {
       if (plotDiv.find('svg').length > 0) {
         plotDiv.show();
-        $(editor.container).col_md_11_to_5();
       } else {
         plotDiv.hide();
-        $(editor.container).col_md_5_to_11();
       }
     }, 1);
   };
