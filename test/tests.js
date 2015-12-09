@@ -58,6 +58,22 @@ QUnit.test('load/save cells from/to JavaScript file', function(assert) {
   assert.equal(arithmepad.getPadProperties().title, 'test-pad', 'padProperties.title should be "test-pad"');
 });
 
+QUnit.test('Cell properties', function(assert) {
+  arithmepad.clearPad();
+  var s = '// !arithmepad-properties {"title":"test-pad"}\n// !arithmepad-cell\n// a simple continuous discount curve\nr = t => 0.01 + 0.002 * t;\n// discount factor from rates\ndf = t => Math.exp(-r(t)*t);\n// helper function\nsum = function(values) {\n  return _(values).reduce((x, y) => x + y, 0);\n};\n// expecting any cashflow element of the form {t: , v: }\nnpv = function(cashflow) {\n  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));\n};\n\n// !arithmepad-cell\nnpv([{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}])';
+  arithmepad.loadFromJSFile(s);
+  assert.equal($(classEditorAndInput).length, 2, 'two ace editor instances should be available');
+  var firstEditor = ace.edit($(classEditorAndInput)[0]);
+  var firstCell = arithmepad.Cell.fromEditor(firstEditor);
+  firstEditor.focus();
+  firstEditor.execCommand('commandMode');
+  var l = $.Event('keydown');
+  l.which = 76;
+  $('#arithmepad-cells').trigger(l);
+  assert.equal(firstCell.getCellProperties().showLineNumbers, true, 'first cell should show line numbers');
+  assert.equal(firstCell.getNext().getCellProperties().showLineNumbers, false, 'second cell should not show line numbers');
+});
+
 QUnit.test('insert cells', function(assert) {
   arithmepad.clearPad();
   var code = '//test';

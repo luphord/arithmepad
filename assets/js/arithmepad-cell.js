@@ -268,6 +268,12 @@ var arithmepad = (function(ace, $) {
     return code.join('\n');
   };
   
+  Cell.prototype.getCellProperties = function() {
+    return {
+      showLineNumbers: this.getEditor().renderer.getShowGutter()
+    };
+  };
+  
   // no-op cell
   
   Cell.noOp = new Cell($('<div>'));
