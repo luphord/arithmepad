@@ -270,6 +270,7 @@ var arithmepad = (function(ace, $) {
   
   Cell.prototype.getCellProperties = function() {
     return {
+      cellType: this.isMarkdownCell() ? 'markdown' : 'js',
       showLineNumbers: this.getEditor().renderer.getShowGutter()
     };
   };

@@ -71,7 +71,11 @@ QUnit.test('Cell properties', function(assert) {
   l.which = 76;
   $('#arithmepad-cells').trigger(l);
   assert.equal(firstCell.getCellProperties().showLineNumbers, true, 'first cell should show line numbers');
-  assert.equal(firstCell.getNext().getCellProperties().showLineNumbers, false, 'second cell should not show line numbers');
+  assert.equal(firstCell.getCellProperties().cellType, 'js', 'first cell should show line numbers');
+  var secondCell = firstCell.getNext();
+  secondCell.toMarkdown();
+  assert.equal(secondCell.getCellProperties().cellType, 'markdown', 'second cell should not show line numbers');
+  assert.equal(secondCell.getCellProperties().showLineNumbers, false, 'second cell should not show line numbers');
 });
 
 QUnit.test('insert cells', function(assert) {
