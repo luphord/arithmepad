@@ -1,5 +1,9 @@
 // !arithmepad-properties {"title":"Binomial Model"}
 // !arithmepad-cell
+// # The Binomial Model
+// !arithmepad-cell
+// Setting up some parameters.
+// !arithmepad-cell
 u = 1.2;
 d = 0.8;
 r = 0.01;
@@ -34,15 +38,18 @@ new Chartist.Bar(plotId, {
   height: 300
 });
 // !arithmepad-cell
-payoff = (s) => Math.max(s, K);
+payoff = (s) => Math.max(s - K, 0);
 
 new Chartist.Line(plotId, {
   labels: _(ns).map(n => Math.round(S(T, n))),
   series: [_(ns).map(n => ({x: S(T, n), y: payoff(S(T, n))}))]
 }, {
   axisX: {type: Chartist.AutoScaleAxis},
+  lineSmooth: false,
   height: 300
 });
+// !arithmepad-cell
+npv = Math.pow(1+r, -T) * numeric.sum( _(ns).map(n => payoff(S(T, n)) * Q(T,n)) );
 // !arithmepad-cell
 var last_values = [S0];
 series = [];
