@@ -69,16 +69,20 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
   };
   
   var appendCodeCell = function(code, result) {
-    var cell = div.cell();
-    cell.appendTo($('#arithmepad-cells'));
-    new Cell(cell).insertEditorAndOutput(code, result);
+    var cellDiv = div.cell();
+    cellDiv.appendTo($('#arithmepad-cells'));
+    var cell = new Cell(cellDiv);
+    cell.insertEditorAndOutput(code, result);
+    return cell;
   };
   
   var appendMarkdownCell = function(code, result) {
     var cellDiv = div.cell();
     cellDiv.addClass(classes.markdown);
     cellDiv.appendTo($('#arithmepad-cells'));
-    new Cell(cellDiv).insertEditorAndOutput(code, result);
+    var cell = new Cell(cellDiv)
+    cell.insertEditorAndOutput(code, result);
+    return cell;
   };
   
   var evalCounter = 0;
@@ -305,16 +309,27 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
         lines.shift();
       }
     }
+    var lastCell = undefined;
+    var cellProperties = {};
     var currentCell = [];
     _(lines).each(function(line) {
       var cmd = line.trimLeft().slice(2).trimLeft();
       if (line.trimLeft().startsWith('//') && cmd.startsWith('!arithmepad-cell')) {
         if (currentCell.length > 0) {
           if (_(currentCell).all(function(line) {return line.trimLeft().startsWith('// ')})) {
-            appendMarkdownCell(_(currentCell).map(function(line) {return line.trimLeft().slice(3)}).join('\n'));
+            lastCell = appendMarkdownCell(_(currentCell).map(function(line) {return line.trimLeft().slice(3)}).join('\n'));
           } else {
-            appendCodeCell(currentCell.join('\n'));
+            lastCell = appendCodeCell(currentCell.join('\n'));
           }
+          if (typeof lastCell !== 'undefined') {
+            lastCell.applyProperties(cellProperties);
+          }
+        }
+        // prepare cellProperties for the next cell; not for the one that was just created!
+        try {
+          cellProperties = JSON.parse(cmd.slice(16));
+        } catch (e) {
+          cellProperties = {};
         }
         currentCell = [];
       } else {
@@ -323,10 +338,13 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     });
     if (currentCell.length > 0) {
       if (_(currentCell).all(function(line) {return line.trimLeft().startsWith('// ')})) {
-        appendMarkdownCell(_(currentCell).map(function(line) {return line.trimLeft().slice(3)}).join('\n'));
+        lastCell = appendMarkdownCell(_(currentCell).map(function(line) {return line.trimLeft().slice(3)}).join('\n'));
       } else {
-        appendCodeCell(currentCell.join('\n'));
+        lastCell = appendCodeCell(currentCell.join('\n'));
       }
+    }
+    if (typeof lastCell !== 'undefined') {
+      lastCell.applyProperties(cellProperties);
     }
   };
   

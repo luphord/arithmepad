@@ -70,12 +70,20 @@ QUnit.test('Cell properties', function(assert) {
   var l = $.Event('keydown');
   l.which = 76;
   $('#arithmepad-cells').trigger(l);
-  assert.equal(firstCell.getCellProperties().showLineNumbers, true, 'first cell should show line numbers');
-  assert.equal(firstCell.getCellProperties().cellType, 'js', 'first cell should show line numbers');
   var secondCell = firstCell.getNext();
   secondCell.toMarkdown();
-  assert.equal(secondCell.getCellProperties().cellType, 'markdown', 'second cell should not show line numbers');
-  assert.equal(secondCell.getCellProperties().showLineNumbers, false, 'second cell should not show line numbers');
+  var assertCellProperties = function(firstCell, secondCell) {
+    assert.equal(firstCell.getCellProperties().cellType, 'js', 'first cell should be of type js');
+    assert.equal(firstCell.getCellProperties().showLineNumbers, true, 'first cell should show line numbers');
+    assert.equal(secondCell.getCellProperties().cellType, 'markdown', 'second cell should be of type markdown');
+    assert.equal(secondCell.getCellProperties().showLineNumbers, false, 'second cell should not show line numbers');
+  }
+  assertCellProperties(firstCell, secondCell);
+  var f = arithmepad.saveToJSFile();
+  arithmepad.clearPad();
+  arithmepad.loadFromJSFile(f);
+  firstCell = arithmepad.Cell.fromEditor(ace.edit($(classEditorAndInput)[0]));
+  assertCellProperties(firstCell, firstCell.getNext());
 });
 
 QUnit.test('insert cells', function(assert) {

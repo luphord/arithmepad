@@ -257,7 +257,7 @@ var arithmepad = (function(ace, $) {
   Cell.prototype.getJSValue = function() {
     var isMarkdownCell = this.getEditor().getOption('mode') == 'ace/mode/markdown';
     var code = [];
-    code.push('// !arithmepad-cell');
+    code.push('// !arithmepad-cell ' + JSON.stringify(this.getCellProperties()));
     var value = this.getEditor().getValue();
     if (isMarkdownCell) {
       value = _(value.split('\n')).map(function(line) {
@@ -273,6 +273,17 @@ var arithmepad = (function(ace, $) {
       cellType: this.isMarkdownCell() ? 'markdown' : 'js',
       showLineNumbers: this.getEditor().renderer.getShowGutter()
     };
+  };
+  
+  Cell.prototype.applyProperties = function(cellProperties) {
+    if (cellProperties.cellType === 'js') {
+      this.toCode();
+    } else if (cellProperties.cellType == 'markdown') {
+      this.toMarkdown();
+    }
+    if (cellProperties.showLineNumbers === true || cellProperties.showLineNumbers === false) {
+      this.getEditor().renderer.setShowGutter(cellProperties.showLineNumbers);
+    }
   };
   
   // no-op cell
