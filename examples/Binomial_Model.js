@@ -1,9 +1,9 @@
 // !arithmepad-properties {"title":"Binomial Model"}
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"markdown","showLineNumbers":false}
 // # The Binomial Model
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"markdown","showLineNumbers":false}
 // Setting up some parameters.
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 u = 1.2;
 d = 0.8;
 r = 0.01;
@@ -11,7 +11,7 @@ S0 = 100;
 K = 120;
 T = 10;
 ns = _.range(T+1);
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 fac = function(n) {
   var res = 1;
   for (var i=2; i<=n; i++)
@@ -19,14 +19,14 @@ fac = function(n) {
   return res;
 };
 choose = (n, k) => fac(n) / (fac(k) * fac(n-k));
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 S = (t, n) => S0 * Math.pow(u, n) * Math.pow(d, t-n);
 
 new Chartist.Line(plotId, {
   labels: ns,
   series: [_(ns).map(n => S(T, n))]
 }, {height: 300});
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 q = (1 + r - d) / (u - d);
 Q = (t, n) => choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
 
@@ -37,7 +37,7 @@ new Chartist.Bar(plotId, {
   axisX: {type: Chartist.AutoScaleAxis},
   height: 300
 });
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 payoff = (s) => Math.max(s - K, 0);
 
 new Chartist.Line(plotId, {
@@ -48,9 +48,9 @@ new Chartist.Line(plotId, {
   lineSmooth: false,
   height: 300
 });
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 npv = Math.pow(1+r, -T) * numeric.sum( _(ns).map(n => payoff(S(T, n)) * Q(T,n)) );
-// !arithmepad-cell
+// !arithmepad-cell {"cellType":"js","showLineNumbers":false}
 var last_values = [S0];
 series = [];
 for (var t=0; t<=T; t++) {
