@@ -19,8 +19,28 @@ fac = function(n) {
   return res;
 };
 choose = (n, k) => fac(n) / (fac(k) * fac(n-k));
+// !arithmepad-cell {"cellType":"js","showLineNumbers":false}
+// set up tree
+nEntries = (T+1)*(T+2)/2
+tree = {
+  S: Float64Array(nEntries),
+  Q: Float64Array(nEntries),
+};
+idx = function(t, n) {
+  if (n > t) {
+    throw ('n=' + n + ' > ' + t + '=t: n cannot be larger than t!');
+  }
+  return (t+1)*t/2+n;
+};
+for (var t=0; t<=T; t++) {
+  for (var n=0; n<=t; n++) {
+    tree.S[idx(t,n)] = S0 * Math.pow(u, n) * Math.pow(d, t-n);
+    tree.Q[idx(t,n)] = choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
+  }
+}
+nEntries
 // !arithmepad-cell {"cellType":"js","showLineNumbers":true}
-S = (t, n) => S0 * Math.pow(u, n) * Math.pow(d, t-n);
+S = (t, n) => tree.S[idx(t, n)];//S0 * Math.pow(u, n) * Math.pow(d, t-n);
 
 new Chartist.Line(plotId, {
   labels: ns,
@@ -28,7 +48,7 @@ new Chartist.Line(plotId, {
 }, {height: 300});
 // !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 q = (1 + r - d) / (u - d);
-Q = (t, n) => choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
+Q = (t, n) => tree.Q[idx(t, n)];//choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
 
 new Chartist.Bar(plotId, {
   labels: _(ns).map(n => Math.round(S(T, n))),
