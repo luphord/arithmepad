@@ -23,8 +23,8 @@ choose = (n, k) => fac(n) / (fac(k) * fac(n-k));
 // set up tree
 nEntries = (T+1)*(T+2)/2
 tree = {
-  S: Float64Array(nEntries),
-  Q: Float64Array(nEntries),
+  S: new Float64Array(nEntries),
+  Q: new Float64Array(nEntries),
 };
 idx = function(t, n) {
   if (n > t) {
