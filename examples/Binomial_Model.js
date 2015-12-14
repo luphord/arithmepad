@@ -21,7 +21,8 @@ fac = function(n) {
 choose = (n, k) => fac(n) / (fac(k) * fac(n-k));
 // !arithmepad-cell {"cellType":"js","showLineNumbers":false}
 // set up tree
-nEntries = (T+1)*(T+2)/2
+q = (1 + r - d) / (u - d);
+nEntries = (T+1)*(T+2)/2;
 tree = {
   S: new Float64Array(nEntries),
   Q: new Float64Array(nEntries),
@@ -47,7 +48,6 @@ new Chartist.Line(plotId, {
   series: [_(ns).map(n => S(T, n))]
 }, {height: 300});
 // !arithmepad-cell {"cellType":"js","showLineNumbers":true}
-q = (1 + r - d) / (u - d);
 Q = (t, n) => tree.Q[idx(t, n)];//choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
 
 new Chartist.Bar(plotId, {
