@@ -36,7 +36,7 @@ idx = function(t, n) {
 for (var t=0; t<=T; t++) {
   for (var n=0; n<=t; n++) {
     tree.S[idx(t,n)] = S0 * Math.pow(u, n) * Math.pow(d, t-n);
-    tree.Q[idx(t,n)] = choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
+    tree.Q[idx(t,n)] = choose(t, n) * Math.pow(q, n) * Math.pow(1-q, t-n);
   }
 }
 nEntries
@@ -73,7 +73,7 @@ npv = Math.pow(1+r, -T) * numeric.sum( _(ns).map(n => payoff(S(T, n)) * Q(T,n)) 
 // !arithmepad-cell {"cellType":"js","showLineNumbers":false}
 var last_values = [S0];
 series = [];
-for (var t=0; t<=T; t++) {
+for (var t=0; t<T; t++) {
   new_values = [];
   for (var n=0; n<last_values.length; n++) {
     new_values.push(last_values[n]*u);
