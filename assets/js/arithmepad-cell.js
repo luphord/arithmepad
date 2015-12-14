@@ -124,10 +124,20 @@ var arithmepad = (function(ace, $) {
   };
   
   Cell.prototype.getAceOptions = function() {
+    return this.$node.hasClass(classes.markdown)
+      ? Cell.getMarkdownOptions()
+      : Cell.getJSOptions();
+  };
+  
+  Cell.getJSOptions = function() {
+    return _.clone(Cell.editorOptions);
+  };
+  
+  Cell.getMarkdownOptions = function() {
     var options = _.clone(Cell.editorOptions);
-    if (this.$node.hasClass(classes.markdown)) {
-      options.mode = 'ace/mode/markdown';
-    }
+    options.mode = 'ace/mode/markdown';
+    options.enableBasicAutocompletion = false;
+    options.enableLiveAutocompletion = false;
     return options;
   };
   
@@ -139,11 +149,13 @@ var arithmepad = (function(ace, $) {
   
   Cell.prototype.toMarkdown = function() {
     this.getEditor().setOption('mode', 'ace/mode/markdown');
+    this.getEditor().setOptions(Cell.getMarkdownOptions());
     this.$node.addClass(classes.markdown);
   };
   
   Cell.prototype.toCode = function() {
     this.getEditor().setOption('mode', 'ace/mode/javascript');
+    this.getEditor().setOptions(Cell.getJSOptions());
     this.$node.removeClass(classes.markdown);
   };
   
