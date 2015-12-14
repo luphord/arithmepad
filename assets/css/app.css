@@ -24,6 +24,7 @@ body {
 
 .ace_editor {
   position: absolute;
+  min-height: 10px;
 }
 
 .arithmepad-cell {
