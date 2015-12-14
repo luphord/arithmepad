@@ -19,7 +19,7 @@ fac = function(n) {
   return res;
 };
 choose = (n, k) => fac(n) / (fac(k) * fac(n-k));
-// !arithmepad-cell {"cellType":"js","showLineNumbers":false}
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
 // set up tree
 q = (1 + r - d) / (u - d);
 nEntries = (T+1)*(T+2)/2;
@@ -41,36 +41,7 @@ for (var t=0; t<=T; t++) {
 }
 nEntries
 // !arithmepad-cell {"cellType":"js","showLineNumbers":true}
-S = (t, n) => tree.S[idx(t, n)];//S0 * Math.pow(u, n) * Math.pow(d, t-n);
-
-new Chartist.Line(plotId, {
-  labels: ns,
-  series: [_(ns).map(n => S(T, n))]
-}, {height: 300});
-// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
-Q = (t, n) => tree.Q[idx(t, n)];//choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
-
-new Chartist.Bar(plotId, {
-  labels: _(ns).map(n => Math.round(S(T, n))),
-  series: [_(ns).map(n => ({x: S(T, n), y: Q(T, n)}))]
-}, {
-  axisX: {type: Chartist.AutoScaleAxis},
-  height: 300
-});
-// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
-payoff = (s) => Math.max(s - K, 0);
-
-new Chartist.Line(plotId, {
-  labels: _(ns).map(n => Math.round(S(T, n))),
-  series: [_(ns).map(n => ({x: S(T, n), y: payoff(S(T, n))}))]
-}, {
-  axisX: {type: Chartist.AutoScaleAxis},
-  lineSmooth: false,
-  height: 300
-});
-// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
-npv = Math.pow(1+r, -T) * numeric.sum( _(ns).map(n => payoff(S(T, n)) * Q(T,n)) );
-// !arithmepad-cell {"cellType":"js","showLineNumbers":false}
+// plot the tree
 var last_values = [S0];
 series = [];
 for (var t=0; t<T; t++) {
@@ -103,3 +74,36 @@ new Chartist.Line(plotId, {
     });
   }
 });
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
+// plot the terminal values of the underlying
+S = (t, n) => tree.S[idx(t, n)];//S0 * Math.pow(u, n) * Math.pow(d, t-n);
+
+new Chartist.Line(plotId, {
+  labels: ns,
+  series: [_(ns).map(n => S(T, n))]
+}, {height: 300});
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
+// plot the terminal distribution of the risk neutral measure
+Q = (t, n) => tree.Q[idx(t, n)];//choose(t, n) * Math.pow(q, n) * Math.pow(q, t-n);
+
+new Chartist.Bar(plotId, {
+  labels: _(ns).map(n => Math.round(S(T, n))),
+  series: [_(ns).map(n => ({x: S(T, n), y: Q(T, n)}))]
+}, {
+  axisX: {type: Chartist.AutoScaleAxis},
+  height: 300
+});
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
+// plot the terminal values of the underlying
+payoff = (s) => Math.max(s - K, 0);
+
+new Chartist.Line(plotId, {
+  labels: _(ns).map(n => Math.round(S(T, n))),
+  series: [_(ns).map(n => ({x: S(T, n), y: payoff(S(T, n))}))]
+}, {
+  axisX: {type: Chartist.AutoScaleAxis},
+  lineSmooth: false,
+  height: 300
+});
+// !arithmepad-cell {"cellType":"js","showLineNumbers":true}
+npv = Math.pow(1+r, -T) * numeric.sum( _(ns).map(n => payoff(S(T, n)) * Q(T,n)) );
