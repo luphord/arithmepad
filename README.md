@@ -14,8 +14,8 @@ behaviour has been heavily inspired and shamelessly copied from
 
 ## Screenshots
 
-![Rename current pad](screenshots/screenshot1 "Rename current pad")
+![Rename current pad](screenshots/screenshot1.jpg "Rename current pad")
 
-![Using menus and buttons](screenshots/screenshot2 "Using menus and buttons")
+![Using menus and buttons](screenshots/screenshot2.jpg "Using menus and buttons")
 
-![Plot example](screenshots/screenshot3 "Plot example")
+![Plot example](screenshots/screenshot3.jpg "Plot example")
