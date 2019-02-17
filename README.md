@@ -6,8 +6,16 @@ is actively maintained and of far better quality than arithmepad ever was.
 I am leaving the code available for public inspection hoping that someone
 might find it useful.
 
-## arithmepad
+# arithmepad
 arithmepad is a JavaScript based web notebook than runs entirely in the
 browser. There is no server side component. Look and feel as well as
 behaviour has been heavily inspired and shamelessly copied from
 [Jupyter Notebooks](https://jupyter.org/).
+
+## Screenshots
+
+![Rename current pad](screenshots/screenshot1?raw=true "Rename current pad")
+
+![Using menus and buttons](screenshots/screenshot2?raw=true "Using menus and buttons")
+
+![Plot example](screenshots/screenshot3?raw=true "Plot example")
