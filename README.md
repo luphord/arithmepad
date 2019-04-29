@@ -10,7 +10,7 @@ might find it useful.
 arithmepad is a JavaScript based web notebook than runs entirely in the
 browser. There is no server side component. Look and feel as well as
 behaviour has been heavily inspired and shamelessly copied from
-[Jupyter Notebooks](https://jupyter.org/).
+[Jupyter Notebooks](https://jupyter.org/). Feel free to check out the [demo](https://rawcdn.githack.com/luphord/arithmepad/b201276b882f332c798611ef9e7a64275641bc50/index.html).
 
 ## Screenshots
 
