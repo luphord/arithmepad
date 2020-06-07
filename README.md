@@ -17,11 +17,14 @@ behaviour has been heavily inspired and shamelessly copied from
 
 ## Install / Usage
 
-Simply put the content of this repo (at least `index.html` and the `assets` folder) on a static web server and open the page in your browser. There is no server-side code required, everything runs inside the browser.
+Simply put the content of this repo (at least `index.html` and the `assets` + `vendor` folder) on a static web server and open the page in your browser. There is no server-side code required, everything runs inside the browser.
 
 Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some example pads, see the `examples` folder.
 
 ## History
+
+## v0.1.1 (2020-06-07)
+* Move all vendored dependencies to the `vendor` folder
 
 ## v0.1.0 (2020-06-07)
 * Release of the code mostly as imported from fossil 2015
