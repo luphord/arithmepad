@@ -28,10 +28,10 @@ Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some e
 
 ## Restart in 2020
 In need of a simple way to give potential users a tool to experiment with [gaussian-analytics.js](https://github.com/luphord/gaussian-analytics)
-I was looking for JavaScript web notebook. As [Iodide](https://github.com/iodide-project/iodide) was still in alpha
-and there seemed to be no easy way to self-host it on a static server. arithmepad in contrast gave
-me all the features I required but loading JavaScript examples by URL. So I decided to restart
-the project in June 2020.
+I was looking for JavaScript web notebook. [Iodide](https://github.com/iodide-project/iodide) was still in alpha
+and there seemed to be no easy way to self-host it on a static server. Also, I could not find any
+other promising alternatives. arithmepad in contrast gave me all the features I required
+but loading JavaScript examples by URL. So I decided to restart the project in June 2020.
 
 ## Deprecation in 2019
 Not having worked on arithmepad for more than three years, I decided to deprecate
@@ -40,6 +40,6 @@ as an alternative, which was actively maintained and of far better quality than 
 ever could be.
 
 ## Development in 2015
-arithmepad was developed to have web based JavaScript notebook for the browser.
+arithmepad was developed to have a web based JavaScript notebook for the browser.
 It was meant to be simple, both in usage as well as in hosting (no requirements
 but a static web server) at the expense of more advanced features.
