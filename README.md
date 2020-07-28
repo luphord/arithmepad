@@ -2,7 +2,7 @@
 arithmepad is a JavaScript based web notebook than runs entirely in the
 browser. There is no server side component. Look and feel as well as
 behaviour has been heavily inspired and shamelessly copied from
-[Jupyter Notebooks](https://jupyter.org/). Feel free to check out the [demo](https://arithmepad.vercel.app/).
+[Jupyter Notebooks](https://jupyter.org/). Feel free to check out the [demo](https://arithmepad.org).
 
 ## Screenshots
 
