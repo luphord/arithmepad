@@ -78,42 +78,27 @@
   <div class="row">
     <div class="col-xs-12 col-md-12">
       <div id="arithmepad-cells">
-        <div class="arithmepad-cell arithmepad-markdown">
-          <div class="arithmepad-input"># Discounting example
-- defines an interest rate curve
-- defines a discount function
-- defines a npv function
-</div>
-        </div>
-        <div class="arithmepad-cell">
-<div class="arithmepad-input">// a simple continuous discount curve
-r = t => 0.01 + 0.002 * t;
-// discount factor from rates
-df = t => Math.exp(-r(t)*t);
-// helper function
-sum = function(values) {
-  return _(values).reduce((x, y) => x + y, 0);
-};
-// expecting any cashflow element of the form {t: <time-in-years>, v: <value-in-currency>}
-npv = function(cashflow) {
-  return sum(_(cashflow).map(cf => df(cf.t) * cf.v));
-};
-</div>
-        </div>
-        <div class="arithmepad-cell">
-          <div class="arithmepad-input">cashflow = [{t: 0.5, v: 100}, {t: 1, v: 100}, {t: 1.5, v: 100}, {t: 2, v: 10100}];
-npv(cashflow);</div>
-        </div>
-        <div class="arithmepad-cell">
-<div class="arithmepad-input">data = {labels: [], series: [[], []]};
-_(cashflow).each(function(c) {
-  data.labels.push(c.t);
-  data.series[0].push(c.v);
-  data.series[1].push(df(c.t) * c.v);
-});
 
-new Chartist.Bar(plotId, data);
+        <div class="arithmepad-cell arithmepad-markdown">
+          <div class="arithmepad-input"># Welcome to arithmepad
+- This is a Markdown cell
+- Cells can contain JavaScript or Markdown content
+- Use `Esc` to exit, `Enter` to start cell editing
+- `Arrow Up`, `Arrow Down` to navigate cells
+- `m` to convert a cell to Markdown, `y` to convert a cell to code
+- `l` to toggle line numbers
+- `d`, `d` to delete a cell
 </div>
+        </div>
+        <div class="arithmepad-cell">
+<div class="arithmepad-input">// this is a JavaScript code cell
+let f = x => 1.23 + Math.log(4.56 * x);
+let x = [0.1, 0.2, 0.5, 1, 2, 3, 4];
+new Chartist.Line(plotId, {labels: x, series: [x.map(f)]});
+x.map(f)
+</div>
+        </div>
+        
         </div>
       </div>
     </div>
