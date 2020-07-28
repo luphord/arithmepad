@@ -2,7 +2,7 @@
 arithmepad is a JavaScript based web notebook than runs entirely in the
 browser. There is no server side component. Look and feel as well as
 behaviour has been heavily inspired and shamelessly copied from
-[Jupyter Notebooks](https://jupyter.org/). Feel free to check out the [hosted version](https://arithmepad.org)
+[Jupyter Notebooks](https://jupyter.org/). Feel free to check out the hosted version on [arithmepad.org](https://arithmepad.org)
 or one of these examples:
 
 * [Geometric Brownian Motion](https://arithmepad.org/#Ly8gIWFyaXRobWVwYWQtcHJvcGVydGllcyB7InRpdGxlIjoiR2VvbWV0cmljIEJyb3duaWFuIE1vdGlvbiBFeGFtcGxlIn0KLy8gIWFyaXRobWVwYWQtY2VsbCB7ImNlbGxUeXBlIjoibWFya2Rvd24iLCJzaG93TGluZU51bWJlcnMiOmZhbHNlfQovLyAjIEdlb21ldHJpYyBCcm93bmlhbiBNb3Rpb24gRXhhbXBsZQovLyAtIGRlZmluZXMgcGFyYW1ldGVycyBtdSBhbmQgc2lnbWEKLy8gLSBzaW11bGF0ZXMgYSBHZW9tZXRyaWMgQnJvd25pYW4gTW90aW9uIChHQk0pIHVzaW5nIHRoZXNlIHBhcmFtZXRlcnMKLy8gLSBwbG90cyBhbGwgc2ltdWxhdGVkIHBhdGhzCi8vIAovLyAhYXJpdGhtZXBhZC1jZWxsIHsiY2VsbFR5cGUiOiJqcyIsInNob3dMaW5lTnVtYmVycyI6ZmFsc2V9Cm11ID0gMC4wODsKc2lnbWEgPSAwLjI7Ci8vICFhcml0aG1lcGFkLWNlbGwgeyJjZWxsVHlwZSI6ImpzIiwic2hvd0xpbmVOdW1iZXJzIjpmYWxzZX0Kbj0zOwpUPTIwOwoKeCA9IF8oXy5yYW5nZShuKSkubWFwKCgpID0+IG5ldyBBcnJheShUKSk7Cgpmb3IgKHZhciBpPTA7IGk8bjsgaSsrKSB7CiAgZm9yICh2YXIgdD0wOyB0PFQ7IHQrKykgewogICAgeFtpXVt0XSA9IE1hdGgucmFuZG9tKCk7CiAgfQp9Ci8vICFhcml0aG1lcGFkLWNlbGwgeyJjZWxsVHlwZSI6ImpzIiwic2hvd0xpbmVOdW1iZXJzIjpmYWxzZX0KZGF0YSA9IHtsYWJlbHM6IF8ucmFuZ2UoVCksIHNlcmllczogeH07Cm5ldyBDaGFydGlzdC5MaW5lKHBsb3RJZCwgZGF0YSk7)
@@ -26,6 +26,11 @@ Simply put the content of this repo (at least `index.html` and the `assets` + `v
 Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some example pads, see the `examples` folder.
 
 ## History
+
+### v0.1.2 (2020-07-28)
+* Improve initial example content
+* Add link to GitHub project (in `About` menu)
+* Host on [arithmepad.org](https://arithmepad.org)
 
 ### v0.1.1 (2020-06-07)
 * Move all vendored dependencies to the `vendor` folder
