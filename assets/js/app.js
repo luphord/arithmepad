@@ -452,7 +452,7 @@ arithmepad = (function(ace, $, _, numeric, Cell, classes, div) {
     }
   });
   
-  arithmepadInitializeDom(ace, $, Cell, classes, evaluate, evaluateAllCells, setTitle, div, loadFromJSFile, saveToJSFile, add);
+  arithmepadInitializeDom(ace, $, Cell, classes, evaluate, evaluateAllCells, setTitle, div, loadFromJSFile, saveToJSFile, add, appendCodeCell);
   
   return {
     loadFromDom: loadFromDom,

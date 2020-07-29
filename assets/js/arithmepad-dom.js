@@ -1,4 +1,4 @@
-var arithmepadInitializeDom = function(ace, $, Cell, classes, evaluate, evaluateAllCells, setTitle, div, loadFromJSFile, saveToJSFile, add) {
+var arithmepadInitializeDom = function(ace, $, Cell, classes, evaluate, evaluateAllCells, setTitle, div, loadFromJSFile, saveToJSFile, add, appendCodeCell) {
   // initialize DOM event handlers
   
   $('#arithmepad-cells').on('dblclick', '.' + classes.markdown + ' .' + classes.output, function(e) {
