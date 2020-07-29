@@ -27,6 +27,9 @@ Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some e
 
 ## History
 
+### v0.1.3 (not yet)
+* Fix adding cells on clear pad (button did not work)
+
 ### v0.1.2 (2020-07-28)
 * Improve initial example content
 * Add link to GitHub project (in `About` menu)
