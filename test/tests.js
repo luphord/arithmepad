@@ -110,6 +110,13 @@ QUnit.test('insert cells', function(assert) {
   assert.equal(thirdResultNode.textContent, 'test', 'Result should contain text "test"');
 });
 
+QUnit.test('insert cells by button on empty pad', function(assert) {
+  arithmepad.clearPad();
+  $("#arithmepad-toolbar-add-cell").click();
+  $("#arithmepad-toolbar-add-cell").click();
+  assert.equal($(classEditorAndInput).length, 2, 'two ace editor instances should be available');
+});
+
 QUnit.test('navigate using arrow keys in edit mode', function(assert) {
   arithmepad.clearPad();
   arithmepad.loadFromBase64('Ly8gIWFyaXRobWVwYWQtY2VsbApmID0gZnVuY3Rpb24oeCkgewogIHZhciB5ID0geCArIDE7CiAgdmFyIHogPSB5IC8geDsKICByZXR1cm4gTWF0aC5leHAoeik7Cn0KCmYoMSk7Ci8vICFhcml0aG1lcGFkLWNlbGwKLy8gYSBzZWNvbmQgZG9tIG5vZGUgZm9yIGEgY2VsbAoKLy8gdGhpcmQgbGluZQovLyAhYXJpdGhtZXBhZC1jZWxsCi8vIGEgdGhpcmQgY2VsbAo=');
