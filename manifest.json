@@ -1,0 +1,16 @@
+{
+    "name": "arithmepad",
+    "icons": [
+        {
+            "src": "assets/img/arithmepad512.png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "assets/img/arithmepad192.png",
+            "sizes": "192x192"
+        }
+    ],
+    "background_color": "#f0f0f0",
+    "theme_color": "#f0f0f0",
+    "display": "minimal-ui"
+}
