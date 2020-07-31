@@ -1,4 +1,7 @@
 # arithmepad
+
+[![Build status](https://img.shields.io/travis/luphord/arithmepad)](https://travis-ci.org/luphord/arithmepad)
+
 arithmepad is a JavaScript based web notebook than runs entirely in the
 browser. There is no server side component. Look and feel as well as
 behaviour has been heavily inspired and shamelessly copied from
