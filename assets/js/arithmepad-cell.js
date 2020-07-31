@@ -119,7 +119,7 @@ var arithmepad = (function(ace, $) {
     maxLines: 10000,
     autoScrollEditorIntoView: true,
     enableBasicAutocompletion: true,
-    enableSnippets: true,
+    enableSnippets: false,
     enableLiveAutocompletion: true
   };
   
