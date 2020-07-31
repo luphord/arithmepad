@@ -27,8 +27,12 @@ Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some e
 
 ## History
 
-### v0.1.3 (not yet)
+### v0.1.3 (2020-07-31)
 * Fix adding cells on clear pad (button did not work)
+* Run continuous tests with [Travis CI](https://travis-ci.org/github/luphord/arithmepad)
+* Disable worker (which cannot be run from file://)
+* Disable Ace snippets (which are not included anyway)
+* Remove source maps to prevent warnings
 
 ### v0.1.2 (2020-07-28)
 * Improve initial example content
