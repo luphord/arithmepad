@@ -1,11 +1,8 @@
-dist: xenial
+dist: trusty
+sudo: required
 language: node_js
 node_js:
   - 14
-addons:
-  chrome: stable
-before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 script:
   - npm install -g qunit-puppeteer
   - qunit-puppeteer test/test.html
