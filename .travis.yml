@@ -4,5 +4,6 @@ language: node_js
 node_js:
   - 14
 script:
-  - npm install -g qunit-puppeteer
-  - qunit-puppeteer test/test.html
+  - npm install -g qunit-puppeteer http-server
+  - http-server -a localhost -p 8080 &
+  - qunit-puppeteer http://localhost:8080/test/test.html
