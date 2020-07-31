@@ -2,6 +2,8 @@ dist: xenial
 language: node_js
 node_js:
   - 14
+addons:
+  chrome: stable
 before_install:
   - npm install -g qunit-puppeteer
   #- google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 test/test.html &
