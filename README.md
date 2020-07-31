@@ -30,6 +30,10 @@ Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some e
 
 ## History
 
+### v0.1.4 (not yet)
+* Add favicon
+* Add web app manifest (first steps towards PWA)
+
 ### v0.1.3 (2020-07-31)
 * Fix adding cells on clear pad (button did not work)
 * Run continuous tests with [Travis CI](https://travis-ci.org/github/luphord/arithmepad)
