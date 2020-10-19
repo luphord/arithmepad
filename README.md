@@ -1,6 +1,6 @@
 # arithmepad
 
-[![Build status](https://img.shields.io/travis/luphord/arithmepad)](https://travis-ci.org/luphord/arithmepad)
+[![Build status](https://img.shields.io/travis/luphord/arithmepad)](https://travis-ci.com/luphord/arithmepad)
 
 arithmepad is a JavaScript based web notebook than runs entirely in the
 browser. There is no server side component. Look and feel as well as
@@ -36,7 +36,7 @@ Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some e
 
 ### v0.1.3 (2020-07-31)
 * Fix adding cells on clear pad (button did not work)
-* Run continuous tests with [Travis CI](https://travis-ci.org/github/luphord/arithmepad)
+* Run continuous tests with [Travis CI](https://travis-ci.com/github/luphord/arithmepad)
 * Disable worker (which cannot be run from file://)
 * Disable Ace snippets (which are not included anyway)
 * Remove source maps to prevent warnings
