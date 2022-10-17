@@ -1,6 +1,9 @@
-# arithmepad
+# DEPRECATION NOTICE
+As of 2022, there is [JupyterLite](https://jupyterlite.readthedocs.io/en/latest/) and [Pyodide](https://github.com/pyodide/pyodide),
+which give you a fully browser-based, backend-free scientific computing environment with tons of great packages available.
+There is no more need for lowtech **arithmepad**, hence it is now **deprecated**.
 
-[![Build status](https://img.shields.io/travis/luphord/arithmepad)](https://travis-ci.com/luphord/arithmepad)
+# arithmepad
 
 arithmepad is a JavaScript based web notebook than runs entirely in the
 browser. There is no server side component. Look and feel as well as
@@ -29,6 +32,12 @@ Simply put the content of this repo (at least `index.html` and the `assets` + `v
 Pads (i.e. notebooks) can be downloaded to files (and uploaded back). For some example pads, see the `examples` folder.
 
 ## History
+
+### Deprecation in 2022
+Like a phoenix from the ashes of [Iodide](https://github.com/iodide-project/iodide), the [Pyodide](https://github.com/pyodide/pyodide) project has risen.
+Combined with [JupyterLite](https://jupyterlite.readthedocs.io/en/latest/) this finally gives a fully browser-based, backend-free scientific computing environment
+with tons of great packages available.
+This makes arithmepad superfluous to me, hence it is now deprecated.
 
 ### v0.1.4 (not yet)
 * Add favicon
